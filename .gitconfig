@@ -1,0 +1,13 @@
+[user]
+	name = Elliot Hatch
+	email = elliot.hatch@gmail.com
+[alias]
+	st = status -s -b
+	lg = log --oneline
+
+[push]
+	default = simple
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
