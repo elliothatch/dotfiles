@@ -10,8 +10,6 @@ execute pathogen#infect()
 
 "let mapleader="\"
 
-set omnifunc=syntaxcomplete#Complete
-
 " EDITOR SETTINGS
 set hidden
 set nowrap
@@ -27,48 +25,64 @@ set undolevels=1000 " large undo history
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
 set laststatus=2
+set textwidth=0 " disable automatic word wrap
+
+" OMNICOMPLETE SETTINGS
+set omnifunc=syntaxcomplete#Complete
+set completeopt=longest,menuone
 
 " BINDINGS
 " use space as mapleader (silent off)
 map <space> <leader>
 map <space><space> <leader><leader>
 " Map ctrl-movement keys to window switching
-map <C-k> <C-w><Up>
-map <C-j> <C-w><Down>
-map <C-l> <C-w><Right>
-map <C-h> <C-w><Left>
+noremap <C-k> <C-w><Up>
+noremap <C-j> <C-w><Down>
+noremap <C-l> <C-w><Right>
+noremap <C-h> <C-w><Left>
 
 " don't exit visual mode when indenting
 vnoremap > >gv
 vnoremap < <gv
 
 " clear search highlight with ,/
-nmap <silent> ,/ :nohlsearch<CR>
+nnoremap <silent> ,/ :nohlsearch<CR>
 
 " save
-nmap <leader>w :w<cr>
+nnoremap <leader>w :w<cr>
 
 " buffer bindings
 
-nmap <leader>l :bnext<cr>
-nmap <leader>h :bprevious<cr>
-nmap <leader>q :bp<bar>sp<bar>bn<bar>bd<cr>
-nmap <leader>n :enew<cr>
+nnoremap <leader>l :bnext<cr>
+nnoremap <leader>h :bprevious<cr>
+nnoremap <leader>q :bp<bar>sp<bar>bn<bar>bd<cr>
+nnoremap <leader>n :enew<cr>
 
-" omnicomplete binding
-inoremap <C-Space> <C-x><C-o>
-inoremap <C-@> <C-x><C-o>
+" wrap word in quotes
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+
+" omnicomplete bindings
+" automatically select first omnicomplete option
+inoremap <expr> <C-x><C-o> pumvisible() ? '<C-x><C-o>' :
+  \ '<C-x><C-o><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+imap <C-Space> <C-x><C-o>
+imap <C-@> <C-x><C-o>
+
+" NERD Commenter bindings
+nmap <leader>/ <leader>c<Space>
+vmap <leader>/ <leader>c<Space>
 
 " easymotion bindings
-nmap <leader>s <Plug>(easymotion-bd-w)
-nmap <leader>d <Plug>(easymotion-sn)
+nmap <leader>d <Plug>(easymotion-bd-w)
+nmap <leader>s <Plug>(easymotion-s2)
 
-" syntastic bindins
-nmap <leader>[ :lprevious<cr>
-nmap <leader>] :lnext<cr>
+" syntastic bindings
+nnoremap <leader>[ :lprevious<cr>
+nnoremap <leader>] :lnext<cr>
 
 " reopen readonly file with sudo using ;w!!
-cmap w!! w !sudo tee % >/dev/null
+cnoremap w!! w !sudo tee % >/dev/null
 
 " SYNTASTIC SETTINGS
 let g:syntastic_always_populate_loc_list = 1
@@ -92,6 +106,10 @@ autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd p | endif
 if &t_Co >= 256 || has("gui_running")
     colorscheme mustang
 endif
+
+" vertical line at 80 characters
+set colorcolumn=81
+highlight ColorColumn ctermbg=235
 
 " Statusline settings
 
