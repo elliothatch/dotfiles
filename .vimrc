@@ -105,6 +105,7 @@ autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd p | endif
 " VISUAL SETTINGS
 if &t_Co >= 256 || has("gui_running")
     colorscheme mustang
+    set guifont=Lucida_Console:h11
 endif
 
 " vertical line at 80 characters
@@ -115,8 +116,8 @@ highlight ColorColumn ctermbg=235
 
 " change statusline color based on mode
 if version >= 700
-  au InsertEnter * hi StatusLine ctermfg=103 ctermbg=236 cterm=italic
-  au InsertLeave * hi StatusLine ctermfg=253 ctermbg=238 cterm=italic
+  au InsertEnter * hi StatusLine guifg=#7e8aa2 guibg=#2d2d2d gui=italic ctermfg=103 ctermbg=236 cterm=italic
+  au InsertLeave * hi StatusLine guifg=#e2e2e5 guibg=#444444 gui=italic ctermfg=253 ctermbg=238 cterm=italic
 endif
 
 "green = 148
@@ -125,10 +126,10 @@ endif
 "very light grey = 253
 "darker grey = 238
 "dark grey = 234
-hi User2 ctermfg=236 ctermbg=208 cterm=bold
-hi User3 ctermfg=236 ctermbg=103
-hi User7 ctermfg=236 ctermbg=253 cterm=bold
-hi User4 ctermfg=236 ctermbg=103 cterm=bold
+hi User2 guifg=#2d2d2d guibg=#ff9800 gui=bold ctermfg=236 ctermbg=208 cterm=bold
+hi User3 guifg=#2d2d2d guibg=#7e8aa2 gui=none ctermfg=236 ctermbg=103
+hi User7 guifg=#2d2d2d guibg=#e2e2e5 gui=bold ctermfg=236 ctermbg=253 cterm=bold
+hi User4 guifg=#2d2d2d guibg=#7e8aa2 gui=bold ctermfg=236 ctermbg=103 cterm=bold
 
 set statusline=
 set statusline+=%7*\[%n]                                  "buffernr
