@@ -1,12 +1,9 @@
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 
+set nocompatible
 filetype plugin indent on
 syntax on
 set backspace=indent,eol,start
-
-set nocompatible
-
-execute pathogen#infect()
 
 "let mapleader="\"
 
@@ -15,21 +12,62 @@ set hidden
 set nowrap
 set shiftwidth=4
 set tabstop=4
-set copyindent " carry indentation on newline
-set number     " show line numbers
-set showmatch  " show matching parentheses
-set hlsearch   " highlight seach
-set incsearch  " search as you type
-set history=1000 " large command history
-set undolevels=1000 " large undo history
+set copyindent                  " carry indentation on newline
+set number                      " show line numbers
+set showmatch                   " show matching parentheses
+set matchtime=2                 " ms to show matching parens in showmatch
+set hlsearch                    " highlight seach
+set incsearch                   " search as you type
+set history=1000                " large command history
+set undolevels=1000             " large undo history
+set undodir=~/.vim/undo         " persistent undo
+set undofile
 set list
-set listchars=tab:>.,trail:.,extends:#,nbsp:.
+set listchars=tab:>-,trail:.,extends:#,nbsp:.
 set laststatus=2
-set textwidth=0 " disable automatic word wrap
+set textwidth=0                 " disable automatic word wrap
+set showcmd                     " display incomplete commands
+set cursorline                  " hilight current line
+set ignorecase                  " ignore case in search
+set smartcase                   " case sensitive when using capital letters
+set scrolloff=3                 " scroll before cursor is at edge of screen
+
+" tab completion
+set wildmenu                    " show a menu of completions
+set wildmode=full               " complete longest common prefix first
+
+" PLUGINS
+" Load pathogen
+execute pathogen#infect()
 
 " OMNICOMPLETE SETTINGS
 set omnifunc=syntaxcomplete#Complete
 set completeopt=longest,menuone
+
+" SYNTASTIC SETTINGS
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" C++ SETTINGS
+let g:syntastic_cpp_compiler_options = "-Wall -Wextra -pedantic"
+
+" HTML TIDY SETTINGS
+let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+
+" NERDTREE SETTINGS
+"autostart nerdtree
+"autocmd vimenter * NERDTree
+" autocmd BufNew * wincmd 1
+"autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd p | endif
+
+" CTRL-P SETTINGS
+let g:ctrlp_custom_ignore = { 'dir': '\v[\/](build|[.]git)$' }
+let g:ctrlp_max_files = 50000
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_lazy_update = 100
 
 " BINDINGS
 " use space as mapleader (silent off)
@@ -83,25 +121,6 @@ nnoremap <leader>] :lnext<cr>
 
 " reopen readonly file with sudo using ;w!!
 cnoremap w!! w !sudo tee % >/dev/null
-
-" SYNTASTIC SETTINGS
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-" C++ SETTINGS
-let g:syntastic_cpp_compiler_options = "-Wall -Wextra -pedantic"
-
-" HTML TINY SETTINGS
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
-
-" NERDTREE SETTINGS
-"autostart nerdtree
-autocmd vimenter * NERDTree
-" autocmd BufNew * wincmd 1
-autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd p | endif
-
 " VISUAL SETTINGS
 if &t_Co >= 256 || has("gui_running")
     colorscheme mustang
