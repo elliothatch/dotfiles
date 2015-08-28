@@ -36,6 +36,9 @@ set scrolloff=3                 " scroll before cursor is at edge of screen
 set wildmenu                    " show a menu of completions
 set wildmode=full               " complete longest common prefix first
 
+" set default register to use system clipboard
+set clipboard=unnamed
+
 " PLUGINS
 " Load pathogen
 execute pathogen#infect()
@@ -96,6 +99,18 @@ nnoremap <leader>h :bprevious<cr>
 nnoremap <leader>q :bp<bar>sp<bar>bn<bar>bd<cr>
 nnoremap <leader>n :enew<cr>
 
+" font size change bindings
+nnoremap + :silent! set guifont=Source_Code_Pro:h11:cANSI<CR>
+nnoremap = :silent! let &guifont = substitute(
+ \ &guifont,
+ \ ':h\zs\d\+',
+ \ '\=eval(submatch(0)+1)',
+ \ '')<CR>
+nnoremap - :silent! let &guifont = substitute(
+ \ &guifont,
+ \ ':h\zs\d\+',
+ \ '\=eval(submatch(0)-1)',
+ \ '')<CR>
 " wrap word in quotes
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
@@ -124,12 +139,13 @@ cnoremap w!! w !sudo tee % >/dev/null
 " VISUAL SETTINGS
 if &t_Co >= 256 || has("gui_running")
     colorscheme mustang
-    set guifont=Lucida_Console:h11
+    "set guifont=Lucida_Console:h11
+    set guifont=Source_Code_Pro:h11:cANSI
 endif
 
 " vertical line at 80 characters
 set colorcolumn=81
-highlight ColorColumn ctermbg=235
+highlight ColorColumn guibg=#303030 ctermbg=235
 
 " Statusline settings
 
