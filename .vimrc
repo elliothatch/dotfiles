@@ -1,3 +1,4 @@
+set runtimepath^=~/.vim  "Use instead of "vimfiles" on windows
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 
 set nocompatible
@@ -31,6 +32,8 @@ set cursorline                  " hilight current line
 set ignorecase                  " ignore case in search
 set smartcase                   " case sensitive when using capital letters
 set scrolloff=3                 " scroll before cursor is at edge of screen
+set backupdir=~/.vim/tmp
+set directory=~/.vim/tmp,.
 
 " tab completion
 set wildmenu                    " show a menu of completions
@@ -141,6 +144,7 @@ if &t_Co >= 256 || has("gui_running")
     colorscheme mustang
     "set guifont=Lucida_Console:h11
     set guifont=Source_Code_Pro:h11:cANSI
+    set guioptions-=T " remove toolbar
 endif
 
 " vertical line at 80 characters
