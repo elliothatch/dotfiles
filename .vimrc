@@ -69,11 +69,14 @@ let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 "autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd p | endif
 
 " CTRL-P SETTINGS
-let g:ctrlp_custom_ignore = { 'dir': '\v[\/](build|[.]git)$' }
+let g:ctrlp_custom_ignore = { 'dir': '\v[\/](build|[.]git|node_modules)$' }
 let g:ctrlp_max_files = 50000
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_lazy_update = 100
+
+" gitgutter options
+let g:gitgutter_sign_column_always = 1
 
 " BINDINGS
 " use space as mapleader (silent off)
@@ -137,6 +140,8 @@ nmap <leader>s <Plug>(easymotion-s2)
 nnoremap <leader>[ :lprevious<cr>
 nnoremap <leader>] :lnext<cr>
 
+" undotree bindings
+nnoremap <leader>u :UndotreeToggle<cr>
 " reopen readonly file with sudo using ;w!!
 cnoremap w!! w !sudo tee % >/dev/null
 " VISUAL SETTINGS
