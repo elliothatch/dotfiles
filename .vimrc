@@ -89,8 +89,8 @@ noremap <C-h> <C-w><Left>
 vnoremap > >gv
 vnoremap < <gv
 
-" clear search highlight with ,/
-nnoremap <silent> ,/ :nohlsearch<CR>
+" clear search highlight
+nnoremap <silent> <leader>, :nohlsearch<CR>
 
 " save
 nnoremap <leader>w :w<cr>
