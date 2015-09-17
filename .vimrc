@@ -106,17 +106,17 @@ nnoremap <leader>q :bp<bar>sp<bar>bn<bar>bd<cr>
 nnoremap <leader>n :enew<cr>
 
 " font size change bindings
-nnoremap + :silent! set guifont=Source_Code_Pro:h11:cANSI<CR>
-nnoremap = :silent! let &guifont = substitute(
- \ &guifont,
- \ ':h\zs\d\+',
- \ '\=eval(submatch(0)+1)',
- \ '')<CR>
-nnoremap - :silent! let &guifont = substitute(
- \ &guifont,
- \ ':h\zs\d\+',
- \ '\=eval(submatch(0)-1)',
- \ '')<CR>
+"nnoremap + :silent! set guifont=Source_Code_Pro:h11:cANSI<CR>
+"nnoremap = :silent! let &guifont = substitute(
+ "\ &guifont,
+ "\ ':h\zs\d\+',
+ "\ '\=eval(submatch(0)+1)',
+ "\ '')<CR>
+"nnoremap - :silent! let &guifont = substitute(
+ "\ &guifont,
+ "\ ':h\zs\d\+',
+ "\ '\=eval(submatch(0)-1)',
+ "\ '')<CR>
 " wrap word in quotes
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
@@ -142,8 +142,15 @@ nnoremap <leader>] :lnext<cr>
 
 " undotree bindings
 nnoremap <leader>u :UndotreeToggle<cr>
+
+" git-gutter bindings (change <leader>h)
+nmap <leader>Hs <Plug>GitGutterStageHunk
+nmap <leader>Hr <Plug>GitGutterRevertHunk
+nmap <leader>Hp <Plug>GitGutterPreviewHunk
+
 " reopen readonly file with sudo using ;w!!
 cnoremap w!! w !sudo tee % >/dev/null
+
 " VISUAL SETTINGS
 if &t_Co >= 256 || has("gui_running")
     colorscheme mustang
