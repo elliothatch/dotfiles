@@ -42,7 +42,11 @@ set wildmode=full               " complete longest common prefix first
 " set default register to use system clipboard
 set clipboard=unnamed
 
+" automatically add the current extension to 'gf' paths
+autocmd BufNewFile,BufRead * execute 'setl suffixesadd+=.' . expand('%:e')
+
 " PLUGINS
+let g:pathogen_disabled = ['vim-gitgutter'] " vim-gitgutter: SLOW ON bn
 " Load pathogen
 execute pathogen#infect()
 
@@ -69,7 +73,7 @@ let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 "autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd p | endif
 
 " CTRL-P SETTINGS
-let g:ctrlp_custom_ignore = { 'dir': '\v[\/](build|[.]git|node_modules)$' }
+let g:ctrlp_custom_ignore = { 'dir': '\v[\/](build|[.]git|node_modules|bower_components)$' }
 let g:ctrlp_max_files = 50000
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_show_hidden = 1
