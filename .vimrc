@@ -13,6 +13,8 @@ set hidden
 set nowrap
 set shiftwidth=4
 set tabstop=4
+set softtabstop=-4
+set autoindent                  " carry indentation on newline
 set copyindent                  " carry indentation on newline
 set number                      " show line numbers
 set showmatch                   " show matching parentheses
@@ -34,6 +36,7 @@ set smartcase                   " case sensitive when using capital letters
 set scrolloff=3                 " scroll before cursor is at edge of screen
 set backupdir=~/.vim/tmp
 set directory=~/.vim/tmp,.
+set wrap
 
 " tab completion
 set wildmenu                    " show a menu of completions
@@ -51,8 +54,8 @@ let g:pathogen_disabled = ['vim-gitgutter'] " vim-gitgutter: SLOW ON bn
 execute pathogen#infect()
 
 " OMNICOMPLETE SETTINGS
-set omnifunc=syntaxcomplete#Complete
-set completeopt=longest,menuone
+"set omnifunc=syntaxcomplete#Complete
+"set completeopt=longest,menuone
 
 " SYNTASTIC SETTINGS
 let g:syntastic_always_populate_loc_list = 1
@@ -73,7 +76,7 @@ let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 "autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd p | endif
 
 " CTRL-P SETTINGS
-let g:ctrlp_custom_ignore = { 'dir': '\v[\/](build|[.]git|node_modules|bower_components)$' }
+let g:ctrlp_custom_ignore = { 'dir': '\v[\/](build|[.]git|node_modules|bower_components|dist|.sass-cache)$' }
 let g:ctrlp_max_files = 50000
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_show_hidden = 1
@@ -86,6 +89,7 @@ let g:gitgutter_sign_column_always = 1
 " use space as mapleader (silent off)
 map <space> <leader>
 map <space><space> <leader><leader>
+
 " Map ctrl-movement keys to window switching
 noremap <C-k> <C-w><Up>
 noremap <C-j> <C-w><Down>
@@ -123,11 +127,6 @@ nnoremap <leader>n :enew<cr>
  "\ '')<CR>
 " wrap word in quotes
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
-
-" omnicomplete bindings
-" automatically select first omnicomplete option
-inoremap <expr> <C-x><C-o> pumvisible() ? '<C-x><C-o>' :
-  \ '<C-x><C-o><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
 imap <C-Space> <C-x><C-o>
 imap <C-@> <C-x><C-o>
