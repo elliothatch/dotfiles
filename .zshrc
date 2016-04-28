@@ -50,18 +50,23 @@ RPROMPT=$RPROMPT_code$RPROMPT_jobs$RPROMPT_time
 LSOPTS=''
 LLOPTS='-lAvF --si'  # long mode, show all, natural sort, type squiggles, friendly sizes
 case $(uname -s) in
-    FreeBSD)
-        LSOPTS="${LSOPTS} -G"
-        ;;
-    Linux)
-        eval "$(dircolors -b)"
-        LSOPTS="$LSOPTS --color=auto"
-        LLOPTS="$LLOPTS --color=always"  # so | less is colored
+	FreeBSD)
+		LSOPTS="${LSOPTS} -G"
+		;;
+	Linux)
+		eval "$(dircolors -b)"
+		LSOPTS="$LSOPTS --color=auto"
+		LLOPTS="$LLOPTS --color=always"  # so | less is colored
 
-        # Just loaded new ls colors via dircolors, so change completion colors
-        # to match
-        zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-        ;;
+		# Just loaded new ls colors via dircolors, so change completion colors
+		# to match
+		zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+		;;
 esac
+
+# unalias in case ll is already aliased, causing infinite loop
+unalias ls
+unalias ll
+
 alias ls="ls $LSOPTS"
 ll() { ls ${=LLOPTS} $@ | less -rFX }
