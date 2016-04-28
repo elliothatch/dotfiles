@@ -65,8 +65,8 @@ case $(uname -s) in
 esac
 
 # unalias in case ll is already aliased, causing infinite loop
-unalias ls
-unalias ll
+unalias ls 2>/dev/null
+unalias ll 2>/dev/null
 
 alias ls="ls $LSOPTS"
 ll() { ls ${=LLOPTS} $@ | less -rFX }
