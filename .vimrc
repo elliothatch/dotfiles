@@ -5,6 +5,7 @@ set nocompatible
 filetype plugin indent on
 syntax on
 set backspace=indent,eol,start
+set mouse=a
 
 "let mapleader="\"
 
