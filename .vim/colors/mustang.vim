@@ -34,11 +34,12 @@ hi Title		guifg=#f6f3e8 guibg=NONE	gui=bold ctermfg=254 cterm=bold
 hi Visual		guifg=#faf4c6 guibg=#3c414c gui=none ctermfg=254 ctermbg=4
 hi SpecialKey	guifg=#444444 guibg=#202020 gui=none ctermfg=238 ctermbg=234
 
+
 " Diff highlighting
-hi DiffAdd                     guibg=#D0F4D0 gui=none ctermfg=231 ctermbg=22
-hi DiffChange                  guibg=#DCDCEE gui=none ctermfg=0 ctermbg=227
-hi DiffDelete    guifg=#EE6969 guibg=#EEC0C0 gui=none ctermfg=196 ctermbg=88
-hi DiffText                    guibg=#C6C6D6 gui=none ctermfg=16  ctermbg=214
+hi DiffAdd                     guibg=#147514 gui=none ctermfg=231 ctermbg=22
+hi DiffChange                  guibg=#3737DB gui=none ctermfg=0 ctermbg=227
+hi DiffDelete    guifg=#EE6969 guibg=#A32626 gui=none ctermfg=196 ctermbg=88
+hi DiffText                    guibg=#5959DE gui=none ctermfg=16  ctermbg=214
 
 " Syntax highlighting
 hi Comment 		guifg=#808080 gui=italic ctermfg=244
