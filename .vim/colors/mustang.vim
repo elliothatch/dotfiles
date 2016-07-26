@@ -34,6 +34,7 @@ hi Title		guifg=#f6f3e8 guibg=NONE	gui=bold ctermfg=254 cterm=bold
 hi Visual		guifg=#faf4c6 guibg=#3c414c gui=none ctermfg=254 ctermbg=4
 hi SpecialKey	guifg=#444444 guibg=#202020 gui=none ctermfg=238 ctermbg=234
 
+
 " Diff highlighting
 hi DiffAdd                     guibg=#056905 gui=none ctermfg=231 ctermbg=22
 hi DiffChange                  guibg=#3F3F9E gui=none ctermfg=0 ctermbg=227
