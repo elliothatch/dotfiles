@@ -5,6 +5,7 @@ SAVEHIST=1000
 setopt beep extendedglob nomatch
 unsetopt appendhistory autocd notify
 bindkey -v
+bindkey "^?" backward-delete-char
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/ellioth/.zshrc'
@@ -48,9 +49,12 @@ RPROMPT_time="%{$fg_bold[black]%}%*%{$reset_color%}"
 RPROMPT=$RPROMPT_code$RPROMPT_jobs$RPROMPT_time
 
 LSOPTS=''
-LLOPTS='-lAvF --si'  # long mode, show all, natural sort, type squiggles, friendly sizes
+LLOPTS='-lAvFh'  # long mode, show all, natural sort, type squiggles, friendly sizes
 case $(uname -s) in
 	FreeBSD)
+		LSOPTS="${LSOPTS} -G"
+		;;
+	Darwin)
 		LSOPTS="${LSOPTS} -G"
 		;;
 	Linux)
@@ -69,4 +73,4 @@ unalias ls 2>/dev/null
 unalias ll 2>/dev/null
 
 alias ls="ls $LSOPTS"
-ll() { ls ${=LLOPTS} $@ | less -rFX }
+ll() { CLICOLOR_FORCE=1 ls ${=LLOPTS} $@ | less -rFX }

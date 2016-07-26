@@ -77,7 +77,9 @@ let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 "autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd p | endif
 
 " CTRL-P SETTINGS
-let g:ctrlp_custom_ignore = { 'dir': '\v[\/](build|[.]git|node_modules|bower_components|dist|.sass-cache)$' }
+let g:ctrlp_custom_ignore = {
+\ 'dir': '\v[\/](build|[.]git|node_modules|bower_components|dist|.sass-cache|Godeps)$',
+\ 'file': '\v\.(DS_Store)$' }
 let g:ctrlp_max_files = 50000
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_show_hidden = 1
@@ -106,6 +108,9 @@ nnoremap <silent> <leader>, :nohlsearch<CR>
 
 " save
 nnoremap <leader>w :w<cr>
+
+" open file explorer
+nnoremap <leader>f :NERDTreeToggle<cr>
 
 " buffer bindings
 
