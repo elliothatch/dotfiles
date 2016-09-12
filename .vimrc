@@ -132,10 +132,21 @@ nnoremap <leader>n :enew<cr>
  "\ '\=eval(submatch(0)-1)',
  "\ '')<CR>
 " wrap word in quotes
+
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
 imap <C-Space> <C-x><C-o>
 imap <C-@> <C-x><C-o>
+
+" bind 'make', automatically open the quickfix window
+nnoremap <leader>b :call MakeAndShowErrors()<cr>
+
+function! MakeAndShowErrors()
+	make
+	if v:shell_error
+		copen
+	endif
+endfunction
 
 " NERD Commenter bindings
 nmap <leader>/ <leader>c<Space>
@@ -153,12 +164,38 @@ nnoremap <leader>] :lnext<cr>
 nnoremap <leader>u :UndotreeToggle<cr>
 
 " git-gutter bindings (change <leader>h)
-nmap <leader>Hs <Plug>GitGutterStageHunk
-nmap <leader>Hr <Plug>GitGutterRevertHunk
-nmap <leader>Hp <Plug>GitGutterPreviewHunk
+"nmap <leader>Hs <Plug>GitGutterStageHunk
+"nmap <leader>Hr <Plug>GitGutterRevertHunk
+"nmap <leader>Hp <Plug>GitGutterPreviewHunk
 
 " reopen readonly file with sudo using ;w!!
 cnoremap w!! w !sudo tee % >/dev/null
+
+" MAKE COMMAND SETTINGS
+autocmd FileType tex setlocal makeprg=texfot\ pdflatex\ --shell-escape\ -interaction=nonstopmode\ %
+
+
+" toggle quickfix window
+let g:jah_Quickfix_Win_Height=10
+
+command! -bang -nargs=? QFix call QFixToggle(<bang>0)
+function! QFixToggle(forced)
+  if exists("g:qfix_win") && a:forced == 0
+    cclose
+  else
+    execute "copen " . g:jah_Quickfix_Win_Height
+  endif
+endfunction
+
+" used to track the quickfix window
+augroup QFixToggle
+ autocmd!
+ autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
+ autocmd BufWinLeave * if exists("g:qfix_win") && expand("<abuf>") == g:qfix_win | unlet! g:qfix_win | endif
+augroup END
+
+nnoremap <silent> <leader>f :QFix<cr>
+
 
 " VISUAL SETTINGS
 if &t_Co >= 256 || has("gui_running")
