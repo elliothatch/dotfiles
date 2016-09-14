@@ -106,6 +106,9 @@ vnoremap < <gv
 " clear search highlight
 nnoremap <silent> <leader>, :nohlsearch<CR>
 
+" toggle paste mode
+set pastetoggle=<leader>p
+
 " save
 nnoremap <leader>w :w<cr>
 
@@ -208,6 +211,10 @@ endif
 " vertical line at 80 characters
 set colorcolumn=81
 highlight ColorColumn guibg=#303030 ctermbg=235
+
+" change cursorline color when in insert mode
+autocmd InsertEnter * hi CursorLine guibg=#2C3038 ctermbg=236 cterm=none
+autocmd InsertLeave * hi CursorLine guibg=#2d2d2d ctermbg=236 cterm=none
 
 " Statusline settings
 
