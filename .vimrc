@@ -58,11 +58,55 @@ execute pathogen#infect()
 "set omnifunc=syntaxcomplete#Complete
 "set completeopt=longest,menuone
 
+" AUTOCOMPLPOP SETTINGS
+let g:acp_behaviorTypescriptOmniLength = 0
+function! AcpMeetsForTypescriptOmni(context)
+  return g:acp_behaviorPythonOmniLength >= 0 &&
+        \ a:context =~ '\k\.\k\{' . g:acp_behaviorTypescriptOmniLength . ',}$'
+endfunction
+
+let behavs = {
+	\'typescript': [{
+		\'command': "\<C-x>\<C-o>",
+		\'meets': 'AcpMeetsForTypescriptOmni',
+		\'repeat': 1
+	\}]
+\}
+
+" add keyword and file autocomplete to all custom behaviors
+"<C-n> below is the default value for g:acp_behaviorKeywordCommand
+for key in keys(behavs)
+	call add(behavs[key], {
+	\   'command' : "\<C-n>",
+	\   'meets'   : 'acp#meetsForKeyword',
+	\   'repeat'  : 0,
+	\ })
+endfor
+"---------------------------------------------------------------------------
+for key in keys(behavs)
+	call add(behavs[key], {
+	\   'command' : "\<C-x>\<C-f>",
+	\   'meets'   : 'acp#meetsForFile',
+	\   'repeat'  : 1,
+	\ })
+endfor
+
+if !exists("g:acp_behavior")
+	let g:acp_behavior = {}
+endif
+
+call extend(g:acp_behavior, behavs, "force")
+
 " SYNTASTIC SETTINGS
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+" tsuquyomi settings
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+let g:tsuquyomi_completion_detail = 1 "may cause slowdown
 
 " C++ SETTINGS
 let g:syntastic_cpp_compiler_options = "-Wall -Wextra -pedantic"
@@ -177,6 +221,8 @@ cnoremap w!! w !sudo tee % >/dev/null
 " MAKE COMMAND SETTINGS
 autocmd FileType tex setlocal makeprg=texfot\ pdflatex\ --shell-escape\ -interaction=nonstopmode\ %
 
+" TYPESCRIPT SPECIFIC COMMANDS
+autocmd FileType typescript map <buffer> <leader>i :TsuImport<cr>
 
 " toggle quickfix window
 let g:jah_Quickfix_Win_Height=10
