@@ -124,6 +124,8 @@ let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 let g:ctrlp_custom_ignore = {
 \ 'dir': '\v[\/](build|[.]git|node_modules|bower_components|dist|.sass-cache|Godeps)$',
 \ 'file': '\v\.(DS_Store)$' }
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+
 let g:ctrlp_max_files = 50000
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_show_hidden = 1
