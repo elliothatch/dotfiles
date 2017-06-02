@@ -107,6 +107,7 @@ let g:syntastic_check_on_wq = 0
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 let g:tsuquyomi_completion_detail = 1 "may cause slowdown
+let g:tsuquyomi_shortest_import_path = 1
 
 " C++ SETTINGS
 let g:syntastic_cpp_compiler_options = "-Wall -Wextra -pedantic"
