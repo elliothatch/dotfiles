@@ -1,0 +1,46 @@
+#in .zshenv
+export TERMCMD=sh
+
+#enable trackpad palm detection
+xinput list-props
+#look for id of touchpad
+xinput set-prop "{id}" "Synaptics Palm Detection" 1
+xinput set-prop "{id}" "Synaptics Palm Dimensions" 5, 5
+
+#trackpad scroll sensitivity
+xinput set-prop 13 "Synaptics Scrolling Distance" 220, 220
+# mouse sensitivity
+xinput set-prop 13 "Synaptics Move Speed" 1.6, 1.6, 0.036101, 0.0
+# disable initial touchpad detection on edges, to help with palm detection
+xinput set-prop 13 "Synaptics Area" 1500, 5500, 0, 0
+
+
+#terminal emulator
+#st with custom config.h
+
+screenfetch
+
+#backlight (doesn't work)
+xbacklight -inc 10
+xbacklight -dec 10
+
+# screen brightness
+echo 400 | sudo tee /sys/class/backlight/intel_backlight/brightness
+#max brightness found in .../max_brightness
+# to give permissions we add this line to bottom of /etc/sudoers (using visudo)
+# it allows sudoer users to write to the brightness file without providing a password
+%sudo   ALL=NOPASSWD: /usr/bin/tee /sys/class/backlight/intel_backlight/brightness
+
+#view volume as p% on|off
+amixer -D pulse get Master | awk -F"[][]" '{ if (NR==6) { print $2 " " $4 }}'
+
+# compositor to prevent screen tearing
+compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc --unredir-if-possible
+
+#file manager
+#ranger
+
+#ascii image preview
+https://github.com/hit9/img2txt
+# change line in scope.sh
+img2txt.py --color --ansi --dither --targetAspect=0.5 --maxLen="$width" "$path" && exit 4 || exit 1;;
