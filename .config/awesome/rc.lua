@@ -82,16 +82,19 @@ local function notify_brightness(brightness)
 	end
 end
 
+local touchpadId = 15
 run_once({
 	"urxvtd",
 	"unclutter -root",
-	"xinput set-prop 13 \"Synaptics Palm Detection\" 1",
-	"xinput set-prop 13 \"Synaptics Palm Dimensions\" 10, 200",
-	"xinput set-prop 13 \"Synaptics Scrolling Distance\" 220, 220",
-	"xinput set-prop 13 \"Synaptics Move Speed\" 1.6, 1.6, 0.036101, 0.0",
-	"xinput set-prop 13 \"Synaptics Area\" 1500, 5500, 0, 0",
+	"xinput set-prop " .. touchpadId .. " \"Synaptics Palm Detection\" 1",
+	"xinput set-prop " .. touchpadId .. " \"Synaptics Palm Dimensions\" 10, 200",
+	"xinput set-prop " .. touchpadId .. " \"Synaptics Scrolling Distance\" 220, 220",
+	"xinput set-prop " .. touchpadId .. " \"Synaptics Move Speed\" 1.6, 1.6, 0.036101, 0.0",
+	"xinput set-prop " .. touchpadId .. " \"Synaptics Area\" 1500, 5500, 0, 0",
 	"nm-applet",
-	"compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc --unredir-if-possible"
+	"compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc --unredir-if-possible",
+	"dropbox start",
+	"slack"
 })
 -- }}}
 
@@ -237,7 +240,19 @@ screen.connect_signal("property::geometry", function(s)
     end
 end)
 -- Create a wibox for each screen and add it
-awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
+awful.screen.connect_for_each_screen(
+	function(s) beautiful.at_screen_connect(s)
+		s.quake = lain.util.quake({
+			app=terminal,
+			argname="-n %s",
+			name="ranger",
+			extra="-e ranger",
+			followtag=true,
+			vert="center",
+			height=1,
+			width=0.6
+		})
+	end)
 -- }}}
 
 -- {{{ Mouse bindings
