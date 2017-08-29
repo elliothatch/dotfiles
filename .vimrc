@@ -7,6 +7,10 @@ syntax on
 set backspace=indent,eol,start
 set mouse=a
 
+"windows -- use forward slashes
+" this can cause some plugins problems (but fixes problems with tsuquyomi)
+set shellslash
+
 "let mapleader="\"
 
 " EDITOR SETTINGS
@@ -46,11 +50,14 @@ set wildmode=full               " complete longest common prefix first
 " set default register to use system clipboard
 set clipboard=unnamed
 
+" remember buffers on reopen
+set viminfo='100,<50,s10,h,rA:,rB:,%
+
 " automatically add the current extension to 'gf' paths
 autocmd BufNewFile,BufRead * execute 'setl suffixesadd+=.' . expand('%:e')
 
 " PLUGINS
-let g:pathogen_disabled = ['vim-gitgutter'] " vim-gitgutter: SLOW ON bn
+let g:pathogen_disabled = ['vim-gitgutter', 'vim-easytags'] " vim-gitgutter: SLOW ON bn
 " Load pathogen
 execute pathogen#infect()
 
@@ -102,18 +109,23 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+" disable syntastic on python by default
+let g:syntastic_mode_map = {'passive_filetypes': ['python']}
 
 " tsuquyomi settings
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 let g:tsuquyomi_completion_detail = 1 "may cause slowdown
 let g:tsuquyomi_shortest_import_path = 1
+"temp bc it can't find vienna tsserver for some reason
 
 " C++ SETTINGS
 let g:syntastic_cpp_compiler_options = "-Wall -Wextra -pedantic"
 
 " HTML TIDY SETTINGS
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+
+let g:syntastic_python_flake8_args="--ignoreE501"
 
 " NERDTREE SETTINGS
 "autostart nerdtree
@@ -160,7 +172,7 @@ set pastetoggle=<leader>p
 nnoremap <leader>w :w<cr>
 
 " open file explorer
-nnoremap <leader>f :NERDTreeToggle<cr>
+nnoremap <leader>F :NERDTreeToggle<cr>
 
 " buffer bindings
 
