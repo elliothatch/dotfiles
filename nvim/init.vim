@@ -37,6 +37,9 @@ Plug 'mbbill/undotree'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 
+" nyaovim
+Plug 'rhysd/nyaovim-markdown-preview'
+
 call plug#end()
 
 " EDITOR SETTINGS
