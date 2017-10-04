@@ -263,7 +263,7 @@ nnoremap <silent> <leader>f :QFix<cr>
 
 " VISUAL SETTINGS
 if &t_Co >= 256 || has("gui_running")
-    colorscheme mustang
+    colorscheme burgundy
     "set guifont=Lucida_Console:h11
     set guifont=Source_Code_Pro:h11:cANSI
     set guioptions-=T " remove toolbar
@@ -271,19 +271,19 @@ endif
 
 " vertical line at 80 characters
 set colorcolumn=81
-highlight ColorColumn guibg=#303030 ctermbg=235
+"highlight ColorColumn guibg=#303030 ctermbg=235
 
 " change cursorline color when in insert mode
-autocmd InsertEnter * hi CursorLine guibg=#2C3038 ctermbg=236 cterm=none
-autocmd InsertLeave * hi CursorLine guibg=#2d2d2d ctermbg=236 cterm=none
+"autocmd InsertEnter * hi CursorLine guibg=#2C3038 ctermbg=236 cterm=none
+"autocmd InsertLeave * hi CursorLine guibg=#2d2d2d ctermbg=236 cterm=none
 
 " Statusline settings
 
 " change statusline color based on mode
-if version >= 700
-  au InsertEnter * hi StatusLine guifg=#7e8aa2 guibg=#2d2d2d gui=italic ctermfg=103 ctermbg=236 cterm=italic
-  au InsertLeave * hi StatusLine guifg=#e2e2e5 guibg=#444444 gui=italic ctermfg=253 ctermbg=238 cterm=italic
-endif
+"if version >= 700
+  "au InsertEnter * hi StatusLine guifg=#7e8aa2 guibg=#2d2d2d gui=italic ctermfg=103 ctermbg=236 cterm=italic
+  "au InsertLeave * hi StatusLine guifg=#e2e2e5 guibg=#444444 gui=italic ctermfg=253 ctermbg=238 cterm=italic
+"endif
 
 "green = 148
 "orange = 208
@@ -291,10 +291,11 @@ endif
 "very light grey = 253
 "darker grey = 238
 "dark grey = 234
-hi User2 guifg=#2d2d2d guibg=#ff9800 gui=bold ctermfg=236 ctermbg=208 cterm=bold
-hi User3 guifg=#2d2d2d guibg=#7e8aa2 gui=none ctermfg=236 ctermbg=103
-hi User7 guifg=#2d2d2d guibg=#e2e2e5 gui=bold ctermfg=236 ctermbg=253 cterm=bold
-hi User4 guifg=#2d2d2d guibg=#7e8aa2 gui=bold ctermfg=236 ctermbg=103 cterm=bold
+
+"hi User2 guifg=#2d2d2d guibg=#ff9800 gui=bold ctermfg=236 ctermbg=208 cterm=bold
+"hi User3 guifg=#2d2d2d guibg=#7e8aa2 gui=none ctermfg=236 ctermbg=103
+"hi User7 guifg=#2d2d2d guibg=#e2e2e5 gui=bold ctermfg=236 ctermbg=253 cterm=bold
+"hi User4 guifg=#2d2d2d guibg=#7e8aa2 gui=bold ctermfg=236 ctermbg=103 cterm=bold
 
 set statusline=
 set statusline+=%7*\[%n]                                  "buffernr
@@ -311,4 +312,13 @@ set statusline+=%P\ \                      "Modified? Readonly? Top/bot.
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
+
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+nnoremap <leader>. :call SynStack()<cr>
 

@@ -8,10 +8,14 @@
 [push]
 	default = simple
 [diff]
-	tool = gvim -d
+	tool = gvimdiff
+[difftool "gvimdiff"]
+	cmd = gvim -f -d "$LOCAL" "$REMOTE"
 [merge]
 	conflictstyle = diff3
-	tool = gvim -d
+	tool = gvimdiff
+[mergetool "gvimdiff"]
+	cmd = gvim -f -d -c \"wincmd J\" "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
 [color]
 	ui = true
 	branch = auto
