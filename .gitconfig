@@ -8,10 +8,10 @@
 [push]
 	default = simple
 [diff]
-	tool = vimdiff
+	tool = gvim -d
 [merge]
 	conflictstyle = diff3
-	tool = vimdiff
+	tool = gvim -d
 [color]
 	ui = true
 	branch = auto
