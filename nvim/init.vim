@@ -1,13 +1,14 @@
 set shellslash
 
 " python support setup
-let g:python3_host_prog='C:/Users/ellio/.local/virtualenvs/neovim3/Scripts/python.exe'
-let g:python_host_prog='C:/Users/ellio/.local/virtualenvs/neovim2/Scripts/python.exe'
+let g:python3_host_prog='/home/ellioth/.config/nvim/python/python3/bin/python'
+let g:python_host_prog='/home/ellioth/.config/nvim/python/python2/bin/python'
+set shellslash
 
 " PLUGIN SETUP
 " vim-airline/vim-airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='luna'
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline_theme='luna'
 
 " neomake/neomake
 let g:neomake_open_list = 2
@@ -27,15 +28,21 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'kshenoy/vim-signature'
 
+" git
+Plug 'tpope/vim-fugitive'
+
 " visual
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'mbbill/undotree'
 
 " syntax
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+
+" typescript
+Plug 'mhartington/nvim-typescript'
 
 " nyaovim
 Plug 'rhysd/nyaovim-markdown-preview'
@@ -64,7 +71,7 @@ set listchars=tab:>-,trail:.,extends:#,nbsp:.
 set cursorline                  " hilight current line
 set scrolloff=3                 " scroll before cursor is at edge of screen
 set colorcolumn=81
-" set termguicolors
+set termguicolors
 
 " AUTOCMDS
 " automatically add the current extension to 'gf' paths
@@ -147,4 +154,23 @@ call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'nor
 autocmd! BufWritePost,BufEnter * Neomake
 
 " VISUAL SETTINGS
-colorscheme mustang
+colorscheme burgundy
+
+" statusline
+
+set statusline=
+set statusline+=[%n]                                  "buffernr
+" TODO: change the color for modified
+set statusline+=%#DiffChange#%m%r%w%*                           " modified/readonly
+set statusline+=%#LineNr#%{fugitive#statusline()}%*             " git branch
+set statusline+=\ %<%F\                                "File+path
+set statusline+=%*\ %=\  "divider
+set statusline+=%{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
+set statusline+=%{(&bomb?\",BOM\":\"\")}            "Encoding2
+set statusline+=[%{&ff}]\                              "FileFormat (dos/unix..)
+set statusline+=%y\                                  "FileType
+set statusline+=0x%04B\          "character under cursor
+set statusline+=%l:%v\  "row:col
+set statusline+=%p%%\  "row %
+"set statusline+=%P\ \                      "Modified? Readonly? Top/bot.
+
