@@ -82,6 +82,9 @@ map <space> <leader>
 map <space><space> <leader><leader>
 
 " NORMAL MODE
+" window bindings
+nnoremap <leader>Q :q<cr>
+
 " Map ctrl-movement keys to window switching
 noremap <C-k> <C-w><Up>
 noremap <C-j> <C-w><Down>
@@ -103,7 +106,7 @@ nnoremap <leader>F :NERDTreeToggle<cr>
 " buffer bindings
 nnoremap <leader>l :bnext<cr>
 nnoremap <leader>h :bprevious<cr>
-nnoremap <leader>q :bp<bar>sp<bar>bn<bar>bd<cr>
+nnoremap <leader>q :bd<cr>
 nnoremap <leader>n :enew<cr>
 
 " wrap word in quotes
@@ -134,6 +137,13 @@ nnoremap <leader>u :UndotreeToggle<cr>
 nnoremap <C-p> :<C-u>Denite file_rec/git<CR>
 nnoremap <C-Space> :<C-u>Denite buffer<CR>
 
+" tpope/vim-fugitive
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>ga :Gwrite<CR>
+nnoremap <leader>gU :Gread<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gb :Gblame<CR>
+
 " PLUGIN SETUP
 "
 " Shougo/denite.nvim
@@ -161,7 +171,8 @@ set statusline=
 set statusline+=[%n]                                  "buffernr
 " TODO: change the color for modified
 set statusline+=%#DiffChange#%m%r%w%*                           " modified/readonly
-set statusline+=%#LineNr#%{fugitive#statusline()}%*             " git branch
+"set statusline+=%#LineNr#%{fugitive#statusline()}%*             " git branch
+set statusline+=%#LineNr#%{fugitive#head()}%*             " git branch
 set statusline+=\ %<%F\                                "File+path
 set statusline+=%*\ %=\  "divider
 set statusline+=%{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
