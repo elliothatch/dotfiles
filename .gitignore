@@ -2,4 +2,4 @@
 .vim/.netrwhist
 nvim/.netrwhist
 nvim/python/
-
+nvim/rplugin.vim

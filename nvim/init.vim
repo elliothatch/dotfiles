@@ -1,14 +1,16 @@
 set shellslash
 
 " python support setup
-let g:python3_host_prog='/home/ellioth/.config/nvim/python/python3/bin/python'
-let g:python_host_prog='/home/ellioth/.config/nvim/python/python2/bin/python'
-set shellslash
+let g:python3_host_prog='C:/Users/ellio/.local/virtualenvs/neovim3/Scripts/python.exe'
+let g:python_host_prog='C:/Users/ellio/.local/virtualenvs/neovim2/Scripts/python.exe'
 
 " PLUGIN SETUP
 " vim-airline/vim-airline
 "let g:airline#extensions#tabline#enabled = 1
 "let g:airline_theme='luna'
+"
+"let g:airline_powerline_fonts = 1
+"let g:airline_extensions = ['tabline']
 
 " neomake/neomake
 let g:neomake_open_list = 2
@@ -34,18 +36,24 @@ Plug 'tpope/vim-fugitive'
 " visual
 "Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
+
+Plug 'chrisbra/Colorizer'
+
 Plug 'scrooloose/nerdtree'
 Plug 'mbbill/undotree'
 
 " syntax
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
 
 " typescript
 Plug 'mhartington/nvim-typescript'
 
 " nyaovim
 Plug 'rhysd/nyaovim-markdown-preview'
+
+"Plug 'D:/workspace/nyaovim-color-picker'
 
 call plug#end()
 
@@ -110,6 +118,16 @@ nnoremap <leader>n :enew<cr>
 " wrap word in quotes
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
+" get highlight group under cursor
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+nnoremap <leader>. :call SynStack()<cr>
+
 " VISUAL MODE
 " don't exit visual mode when indenting
 vnoremap > >gv
@@ -173,4 +191,3 @@ set statusline+=0x%04B\          "character under cursor
 set statusline+=%l:%v\  "row:col
 set statusline+=%p%%\  "row %
 "set statusline+=%P\ \                      "Modified? Readonly? Top/bot.
-
