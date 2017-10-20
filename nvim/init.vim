@@ -33,6 +33,9 @@ Plug 'kshenoy/vim-signature'
 " git
 Plug 'tpope/vim-fugitive'
 
+" grep
+ Plug 'mileszs/ack.vim'
+
 " visual
 "Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
@@ -48,7 +51,7 @@ Plug 'mxw/vim-jsx'
 Plug 'leafgarland/typescript-vim'
 
 " typescript
-Plug 'mhartington/nvim-typescript'
+"Plug 'mhartington/nvim-typescript'
 
 " nyaovim
 Plug 'rhysd/nyaovim-markdown-preview'
@@ -82,8 +85,15 @@ set colorcolumn=81
 set termguicolors
 
 " AUTOCMDS
-" automatically add the current extension to 'gf' paths
-autocmd BufNewFile,BufRead * execute 'setl suffixesadd+=.' . expand('%:e')
+augroup myautocmds
+	" automatically add the current extension to 'gf' paths
+	autocmd!
+	autocmd BufNewFile,BufRead * execute 'setl suffixesadd+=.' . expand('%:e')
+	" make  '-' part of words in css files
+	autocmd FileType css,sass execute 'setl iskeyword+=-'
+	" skip quickfix list on :bn
+	autocmd FileType qf set nobuflisted
+augroup END
 
 " BINDINGS
 " use space as mapleader (silent off)
@@ -120,6 +130,19 @@ nnoremap <leader>n :enew<cr>
 
 " wrap word in quotes
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+
+" quickfix list
+nnoremap <leader>co :copen<cr>
+nnoremap <leader>cl :cnext<cr>
+nnoremap <leader>ch :cprevious<cr>
+
+" location list
+nnoremap <leader>Co :lopen<cr>
+nnoremap <leader>Cl :lnext<cr>
+nnoremap <leader>Ch :lprevious<cr>
+
+" set grep to ack
+set grepprg=ack\ -k
 
 " get highlight group under cursor
 function! SynStack()
@@ -161,7 +184,30 @@ nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>ga :Gwrite<CR>
 nnoremap <leader>gU :Gread<CR>
 nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gc :Gcommit<CR>
 nnoremap <leader>gb :Gblame<CR>
+
+" mileszs/ack.vim
+function! InputOrCancel(prefix, prompt, suffix)
+	call inputsave()
+	let result = input(a:prompt)
+	if result == ''
+		return '<cr>'
+	endif
+	call inputrestore()
+	return a:prefix . result . a:suffix
+endfunc
+
+"nnoremap <expr> <leader>ss ':Ack! '          . input('[ack]: ')              . ' ' . expand('%:p:h') . '<cr>'
+nnoremap <expr> <leader>ss InputOrCancel(':Ack! ',    '[ack]: ',       ' ' . expand('%:p:h') . '<cr>')
+nnoremap <expr> <leader>sl InputOrCancel(':LAck ',    '[ack]\|L: ', ' ' . expand('%:p:h') . '<cr>')
+nnoremap <expr> <leader>sf InputOrCancel(':AckFile ', '[ack file]: ', ' ' . expand('%:p:h') . '<cr>')
+nnoremap <expr> <leader>s/ ':AckFromSearch ' . expand('%:p:h') . '<cr>'
+
+nnoremap <expr> <leader>Ss InputOrCancel(':Ack! ',    '[ack project]: ',       '<cr>')
+nnoremap <expr> <leader>Sl InputOrCancel(':LAck ',    '[ack project]\|L: '), '<cr>')
+nnoremap <expr> <leader>Sf InputOrCancel(':AckFile ', '[ack project file]: '), '<cr>')
+nnoremap <expr> <leader>S/ ':AckFromSearch ' . '<cr>'
 
 " PLUGIN SETUP
 "
@@ -179,7 +225,7 @@ call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'nor
 
 " neomake/neomake
 " automatically run on load and save
-autocmd! BufWritePost,BufEnter * Neomake
+call neomake#configure#automake('rw', 1000)
 
 " VISUAL SETTINGS
 colorscheme burgundy
