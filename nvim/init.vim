@@ -37,6 +37,10 @@ Plug 'tpope/vim-fugitive'
 " visual
 "Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
+Plug 'elliothatch/burgundy.vim'
+
+Plug 'chrisbra/Colorizer'
+
 Plug 'scrooloose/nerdtree'
 Plug 'mbbill/undotree'
 
@@ -44,6 +48,8 @@ Plug 'mbbill/undotree'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'leafgarland/typescript-vim'
+Plug 'rust-lang/rust.vim'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 " typescript
 Plug 'mhartington/nvim-typescript'
