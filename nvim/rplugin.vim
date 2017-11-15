@@ -5,13 +5,16 @@ call remote#host#RegisterPlugin('python3', 'C:/Users/elhatch.REDMOND/.local/shar
       \ {'sync': v:true, 'name': '_denite_do_action', 'type': 'function', 'opts': {}},
      \ ])
 call remote#host#RegisterPlugin('python3', 'C:/Users/elhatch.REDMOND/.local/share/nvim/plugged/deoplete.nvim/rplugin/python3/deoplete', [
-      \ {'sync': v:false, 'name': '_deoplete', 'type': 'function', 'opts': {}},
+      \ {'sync': v:false, 'name': '_deoplete_init', 'type': 'function', 'opts': {}},
      \ ])
 call remote#host#RegisterPlugin('python3', 'C:/Users/elhatch.REDMOND/.local/share/nvim/plugged/nvim-typescript/rplugin/python3/nvim-typescript', [
+      \ {'sync': v:false, 'name': 'TSExtractFunction', 'type': 'command', 'opts': {'range': ''}},
       \ {'sync': v:true, 'name': 'TSGetDocSymbolsFunc', 'type': 'function', 'opts': {}},
+      \ {'sync': v:false, 'name': 'TSGetErrFunc', 'type': 'function', 'opts': {}},
       \ {'sync': v:true, 'name': 'TSGetWorkspaceSymbolsFunc', 'type': 'function', 'opts': {}},
       \ {'sync': v:false, 'name': 'TSOnBufEnter', 'type': 'function', 'opts': {}},
       \ {'sync': v:false, 'name': 'TSOnBufSave', 'type': 'function', 'opts': {}},
+      \ {'sync': v:false, 'name': 'TSCmRefresh', 'type': 'function', 'opts': {}},
       \ {'sync': v:false, 'name': 'TSReloadProject', 'type': 'command', 'opts': {}},
       \ {'sync': v:false, 'name': 'TSDef', 'type': 'command', 'opts': {}},
       \ {'sync': v:false, 'name': 'TSDefPreview', 'type': 'command', 'opts': {}},

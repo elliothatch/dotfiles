@@ -21,6 +21,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 " core
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'neomake/neomake'
+Plug 'tpope/vim-obsession'
 
 " editor
 Plug 'scrooloose/nerdcommenter'
@@ -42,9 +43,10 @@ Plug 'mbbill/undotree'
 " syntax
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
 
 " typescript
-"Plug 'mhartington/nvim-typescript'
+Plug 'mhartington/nvim-typescript'
 
 " nyaovim
 Plug 'rhysd/nyaovim-markdown-preview'
