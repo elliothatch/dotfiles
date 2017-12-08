@@ -1,6 +1,6 @@
-set runtimepath^=~/.vim  "Use instead of "vimfiles" on windows
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 
+<<<<<<< HEAD:.vimrc
 set nocompatible
 filetype plugin indent on
 syntax on
@@ -11,22 +11,27 @@ set mouse=a
 " this can cause some plugins problems (but fixes problems with tsuquyomi)
 set shellslash
 
+||||||| merged common ancestors
+set nocompatible
+filetype plugin indent on
+syntax on
+set backspace=indent,eol,start
+set mouse=a
+
+=======
+>>>>>>> master:.config/nvim/init.vim
 "let mapleader="\"
 
 " EDITOR SETTINGS
+set termguicolors
 set hidden
-set nowrap
 set shiftwidth=4
 set tabstop=4
 set softtabstop=-4
-set autoindent                  " carry indentation on newline
 set copyindent                  " carry indentation on newline
 set number                      " show line numbers
 set showmatch                   " show matching parentheses
 set matchtime=2                 " ms to show matching parens in showmatch
-set hlsearch                    " highlight seach
-set incsearch                   " search as you type
-set history=1000                " large command history
 set undolevels=1000             " large undo history
 set undodir=~/.vim/undo         " persistent undo
 set undofile
@@ -39,8 +44,6 @@ set cursorline                  " hilight current line
 set ignorecase                  " ignore case in search
 set smartcase                   " case sensitive when using capital letters
 set scrolloff=3                 " scroll before cursor is at edge of screen
-set backupdir=~/.vim/tmp
-set directory=~/.vim/tmp,.
 set wrap
 
 " tab completion
@@ -116,8 +119,13 @@ let g:syntastic_mode_map = {'passive_filetypes': ['python']}
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 let g:tsuquyomi_completion_detail = 1 "may cause slowdown
+<<<<<<< HEAD:.vimrc
 let g:tsuquyomi_shortest_import_path = 1
 "temp bc it can't find vienna tsserver for some reason
+||||||| merged common ancestors
+let g:tsuquyomi_shortest_import_path = 1
+=======
+>>>>>>> master:.config/nvim/init.vim
 
 " C++ SETTINGS
 let g:syntastic_cpp_compiler_options = "-Wall -Wextra -pedantic"

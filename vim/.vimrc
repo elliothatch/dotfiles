@@ -1,34 +1,115 @@
 set shellslash
+set runtimepath^=~/.vim  "Use instead of "vimfiles" on windows
 
-" python support setup
-let g:python3_host_prog='C:/Users/elhatch.REDMOND/.local/virtualenvs/neovim3/Scripts/python.exe'
-let g:python_host_prog='C:/Users/elhatch.REDMOND/.local/virtualenvs/neovim2/Scripts/python.exe'
+" VIM SETTINGS
+set nocompatible
+filetype plugin indent on
+syntax on
+set backspace=indent,eol,start
+set mouse=a
 
-" PLUGIN SETUP
-" vim-airline/vim-airline
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline_theme='luna'
-"
-"let g:airline_powerline_fonts = 1
-"let g:airline_extensions = ['tabline']
+"source ~/.vim/work.vim
 
-" neomake/neomake
-let g:neomake_open_list = 2
+set history=1000                " large command history
+set undolevels=1000             " large undo history
+set undodir=~/.vim/undo         " persistent undo
+set undofile
 
-" Shougo/deoplete.nvim
-let g:deoplete#enable_at_startup = 1
+set backupdir=~/.vim/tmp
+set directory=~/.vim/tmp,.
+
+set autoindent                  " carry indentation on newline
+set hlsearch                    " highlight seach
+set showcmd                     " display incomplete commands
+set wildmenu                    " show a menu of completions
+set wildmode=full               " complete longest common prefix first
+set wrap
+
+" PLUGIN SETTINGS
+
+" OMNICOMPLETE SETTINGS
+"set omnifunc=syntaxcomplete#Complete
+"set completeopt=longest,menuone
+
+" AUTOCOMPLPOP SETTINGS
+let g:acp_behaviorTypescriptOmniLength = 0
+function! AcpMeetsForTypescriptOmni(context)
+  return g:acp_behaviorPythonOmniLength >= 0 &&
+        \ a:context =~ '\k\.\k\{' . g:acp_behaviorTypescriptOmniLength . ',}$'
+endfunction
+
+let behavs = {
+	\'typescript': [{
+		\'command': "\<C-x>\<C-o>",
+		\'meets': 'AcpMeetsForTypescriptOmni',
+		\'repeat': 1
+	\}]
+\}
+
+" add keyword and file autocomplete to all custom behaviors
+"<C-n> below is the default value for g:acp_behaviorKeywordCommand
+for key in keys(behavs)
+	call add(behavs[key], {
+	\   'command' : "\<C-n>",
+	\   'meets'   : 'acp#meetsForKeyword',
+	\   'repeat'  : 0,
+	\ })
+endfor
+"---------------------------------------------------------------------------
+for key in keys(behavs)
+	call add(behavs[key], {
+	\   'command' : "\<C-x>\<C-f>",
+	\   'meets'   : 'acp#meetsForFile',
+	\   'repeat'  : 1,
+	\ })
+endfor
+
+if !exists("g:acp_behavior")
+	let g:acp_behavior = {}
+endif
+
+call extend(g:acp_behavior, behavs, "force")
+
+" SYNTASTIC SETTINGS
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" tsuquyomi settings
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+let g:tsuquyomi_completion_detail = 1 "may cause slowdown
+let g:tsuquyomi_shortest_import_path = 1
+
+" C++ SETTINGS
+let g:syntastic_cpp_compiler_options = "-Wall -Wextra -pedantic"
+
+" HTML TIDY SETTINGS
+let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+
+" CTRL-P SETTINGS
+let g:ctrlp_custom_ignore = {
+\ 'dir': '\v[\/](build|[.]git|node_modules|bower_components|dist|.sass-cache|Godeps)$',
+\ 'file': '\v\.(DS_Store)$' }
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+
+let g:ctrlp_max_files = 50000
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_lazy_update = 100
 
 " load plugins with vim-plug
-call plug#begin('~/.local/share/nvim/plugged')
+call plug#begin('~/.local/share/vim/plugged')
 
 " core
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'neomake/neomake'
+Plug 'scrooloose/syntastic'
 
 " editor
 Plug 'scrooloose/nerdcommenter'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'kshenoy/vim-signature'
+Plug 'vim-scripts/AutoComplPop'
+Plug 'kien/ctrlp.vim'
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -54,12 +135,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 
 " typescript
-"Plug 'mhartington/nvim-typescript'
-
-" nyaovim
-Plug 'rhysd/nyaovim-markdown-preview'
-
-"Plug 'D:/workspace/nyaovim-color-picker'
+Plug 'Quramy/tsuquyomi'
 
 call plug#end()
 
@@ -82,10 +158,10 @@ set showmatch                   " show matching parentheses
 set matchtime=2                 " ms to show matching parens in showmatch
 set list
 set listchars=tab:>-,trail:.,extends:#,nbsp:.
+set laststatus=2
 set cursorline                  " hilight current line
 set scrolloff=3                 " scroll before cursor is at edge of screen
 set colorcolumn=81
-set termguicolors
 
 " AUTOCMDS
 augroup myautocmds
@@ -96,6 +172,12 @@ augroup myautocmds
 	autocmd FileType css,sass execute 'setl iskeyword+=-'
 	" skip quickfix list on :bn
 	autocmd FileType qf set nobuflisted
+
+	" make settings
+	autocmd FileType tex setlocal makeprg=texfot\ pdflatex\ --shell-escape\ -interaction=nonstopmode\ %
+
+	" TYPESCRIPT SPECIFIC COMMANDS
+	autocmd FileType typescript map <buffer> <leader>i :TsuImport<cr>
 augroup END
 
 " BINDINGS
@@ -159,10 +241,6 @@ nnoremap <leader>. :call SynStack()<cr>
 vnoremap > >gv
 vnoremap < <gv
 
-" TERMINAL MODE
-" esc to exit terminal mode
-tnoremap <Esc> <C-\><C-n>
-
 " PLUGIN BINDINGS
 " scrooloose/nerdcommenter
 nmap <leader>/ <leader>c<Space>
@@ -174,10 +252,6 @@ nnoremap <leader>F :NERDTreeToggle<cr>
 
 " mbbill/undotree
 nnoremap <leader>u :UndotreeToggle<cr>
-
-" Shougo/denite.nvim
-nnoremap <C-p> :<C-u>Denite file_rec/git<CR>
-nnoremap <C-Space> :<C-u>Denite buffer<CR>
 
 " tpope/vim-fugitive
 nnoremap <leader>gs :Gstatus<CR>
@@ -209,26 +283,19 @@ nnoremap <expr> <leader>Sl InputOrCancel(':LAck ',    '[ack project]\|L: '), '<c
 nnoremap <expr> <leader>Sf InputOrCancel(':AckFile ', '[ack project file]: '), '<cr>')
 nnoremap <expr> <leader>S/ ':AckFromSearch ' . '<cr>'
 
-" PLUGIN SETUP
-"
-" Shougo/denite.nvim
-" add git ls-files source
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec/git', 'command',
-\ ['git', 'ls-files', '-co', '--exclude-standard'])
-nnoremap <silent> <C-p> :<C-u>Denite
-\ `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec'`<CR>
-
-" move cursor up/down with Ctrl-j and Ctrl-k
-call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
-
-" neomake/neomake
-" automatically run on load and save
-call neomake#configure#automake('rw', 1000)
+function! MakeAndShowErrors()
+	make
+	if v:shell_error
+		copen
+	endif
+endfunction
 
 " VISUAL SETTINGS
 colorscheme burgundy
+
+" GVIM SETTINGS
+set guifont=Source_Code_Pro:h11:cANSI
+set guioptions-=T " remove toolbar
 
 " statusline
 set statusline=
