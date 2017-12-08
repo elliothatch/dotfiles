@@ -1,4 +1,4 @@
-"set shellslash
+set shellslash
 set runtimepath^=~/.vim  "Use instead of "vimfiles" on windows
 
 " VIM SETTINGS
@@ -7,6 +7,8 @@ filetype plugin indent on
 syntax on
 set backspace=indent,eol,start
 set mouse=a
+
+"source ~/.vim/work.vim
 
 set history=1000                " large command history
 set undolevels=1000             " large undo history
