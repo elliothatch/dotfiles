@@ -105,6 +105,10 @@ map <space> <leader>
 map <space><space> <leader><leader>
 
 " NORMAL MODE
+" visual cursor movement
+nnoremap k gk
+nnoremap j gj
+
 " window bindings
 nnoremap <leader>Q :q<cr>
 
@@ -124,9 +128,15 @@ set pastetoggle=<leader>p
 nnoremap <leader>w :w<cr>
 
 " buffer bindings
-nnoremap <leader>l :bnext<cr>
-nnoremap <leader>h :bprevious<cr>
-nnoremap <leader>q :bd<cr>
+let g:bpLast = 0
+function! SetBpLast(bp, result)
+	let g:bpLast = a:bp
+	return a:result
+endfunction
+nnoremap <expr> <leader>l SetBpLast(0, ":bnext\<cr>")
+nnoremap <expr> <leader>h SetBpLast(1, ":bprevious\<cr>")
+" close buffer without closing split (switch to next buffer, delete prev buffer offscreen. if the last buffer swtich was :bn, call :bp. if this is the last buffer just close it
+nnoremap <expr> <leader>q len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) > 1 ? (g:bpLast == 0 ? ":bn\<bar>bd#\<bar>bp\<cr>" : ":bn\<bar>bd#\<cr>") : ":bd\<cr>"
 nnoremap <leader>n :enew<cr>
 
 " wrap word in quotes
@@ -176,10 +186,13 @@ endfunction
 function! AutocompleteOnInsertChar(chars)
 	for char in a:chars
 		execute 'inoremap <silent> <expr> ' . char . ' AutocompleteOnSymbol("'.char.'")'
-endfor
+	endfor
 endfunction
 
-call AutocompleteOnInsertChar(['<space>', '(', ';', ',', '.', '[', ':', '<', '>', '!', '='])
+call AutocompleteOnInsertChar([
+\'(', ')', '[', ']',
+\';', ',', '.',  ':',
+\'!', '='])
 
 " PLUGIN BINDINGS
 " scrooloose/nerdcommenter
