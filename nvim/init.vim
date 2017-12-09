@@ -75,6 +75,7 @@ set ignorecase                  " ignore case in search
 set smartcase                   " case sensitive when using capital letters
 set undofile                    " save undo history to file
 set textwidth=0                 " disable automatic word wrap
+set completeopt+=noinsert       " auto-select first omnicomplete result
 
 " DISPLAY SETTINGS
 set number                      " show line numbers
@@ -162,6 +163,23 @@ vnoremap < <gv
 " TERMINAL MODE
 " esc to exit terminal mode
 tnoremap <Esc> <C-\><C-n>
+
+" Map insert mdoe keys to insert the autocomplete match when typed
+function! AutocompleteOnSymbol(char)
+if pumvisible()
+	return "\<c-y>\<c-r>='" . a:char . "'\<cr>"
+else
+	return a:char
+endif
+endfunction
+
+function! AutocompleteOnInsertChar(chars)
+	for char in a:chars
+		execute 'inoremap <silent> <expr> ' . char . ' AutocompleteOnSymbol("'.char.'")'
+endfor
+endfunction
+
+call AutocompleteOnInsertChar(['<space>', '(', ';', ',', '.', '[', ':', '<', '>', '!', '='])
 
 " PLUGIN BINDINGS
 " scrooloose/nerdcommenter
