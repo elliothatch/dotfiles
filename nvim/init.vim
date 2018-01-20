@@ -18,6 +18,9 @@ let g:neomake_open_list = 2
 " Shougo/deoplete.nvim
 let g:deoplete#enable_at_startup = 1
 
+" elliothatch/nvim-typescript
+let g:nvim_typescript#_server_path = 'node_modules\\.bin\\tsserver'
+
 " load plugins with vim-plug
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -55,6 +58,7 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 
 " typescript
 "Plug 'mhartington/nvim-typescript'
+Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
 
 " nyaovim
 Plug 'rhysd/nyaovim-markdown-preview'
