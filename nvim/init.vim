@@ -1,8 +1,8 @@
 set shellslash
 
 " python support setup
-let g:python3_host_prog='C:/Users/ellio/.local/virtualenvs/neovim3/Scripts/python.exe'
-let g:python_host_prog='C:/Users/ellio/.local/virtualenvs/neovim2/Scripts/python.exe'
+let g:python3_host_prog='/home/ellioth/.local/virtualenvs/neovim3/bin/python'
+let g:python_host_prog='/home/ellioth/.local/virtualenvs/neovim2/bin/python'
 
 " PLUGIN SETUP
 " vim-airline/vim-airline
@@ -73,7 +73,7 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=-4
 set copyindent                  " carry indentation on newline
-set clipboard=unnamed
+set clipboard+=unnamedplus
 set incsearch                   " search as you type
 set ignorecase                  " ignore case in search
 set smartcase                   " case sensitive when using capital letters
