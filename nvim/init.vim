@@ -101,6 +101,8 @@ augroup myautocmds
 	autocmd FileType css,sass execute 'setl iskeyword+=-'
 	" skip quickfix list on :bn
 	autocmd FileType qf set nobuflisted
+	" use spaces instead of tabs in certain filetypes
+	autocmd FileType typescript execute 'setl expandtab'
 augroup END
 
 " BINDINGS
@@ -193,10 +195,10 @@ function! AutocompleteOnInsertChar(chars)
 	endfor
 endfunction
 
-call AutocompleteOnInsertChar([
-\'(', ')', '[', ']',
-\';', ',', '.',  ':',
-\'!', '='])
+"call AutocompleteOnInsertChar([
+"\'(', ')', '[', ']',
+"\';', ',', '.',  ':',
+"\'!', '='])
 
 " PLUGIN BINDINGS
 " scrooloose/nerdcommenter
@@ -243,6 +245,13 @@ nnoremap <expr> <leader>Ss InputOrCancel(':Ack! ',    '[ack project]: ',       '
 nnoremap <expr> <leader>Sl InputOrCancel(':LAck ',    '[ack project]\|L: '), '<cr>')
 nnoremap <expr> <leader>Sf InputOrCancel(':AckFile ', '[ack project file]: '), '<cr>')
 nnoremap <expr> <leader>S/ ':AckFromSearch ' . '<cr>'
+
+" elliothatch/nvim-typescript
+
+nnoremap <leader>td :TSDef<CR>
+nnoremap <leader>tD :TSTypeDef<CR>
+nnoremap <leader>ti :TSImport<CR>
+nnoremap <leader>tm :TSDoc<CR>
 
 " PLUGIN SETUP
 "
