@@ -1,5 +1,5 @@
 #in .zshenv
-export TERMCMD=sh
+export TERMCMD=st
 
 #enable trackpad palm detection
 xinput list-props
@@ -17,6 +17,9 @@ xinput set-prop 13 "Synaptics Area" 1500, 5500, 0, 0
 
 #terminal emulator
 #st with custom config.h
+
+# set nvim and st as defaults for some applications
+sudo update-alternatives
 
 screenfetch
 
@@ -44,3 +47,46 @@ compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc --u
 https://github.com/hit9/img2txt
 # change line in scope.sh
 img2txt.py --color --ansi --dither --targetAspect=0.5 --maxLen="$width" "$path" && exit 4 || exit 1;;
+
+# desktop shortcuts
+# place these in /usr/local/share/applications
+# simple-terminal.desktop
+[Desktop Entry]
+Name=Simple Terminal
+GenericName=Terminal
+Comment=Standard terminal emulator for the X window system
+Exec=st
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Icon=terminal
+StartupWMClass=st-256color
+Categories=System;TerminalEmulator;
+Keywords=shell;prompt;command;commandline;cmd;
+
+# ranger.desktop (note, ranger windows are grouped with st windows...)
+[Desktop Entry]
+Name=Ranger
+GenericName=Files
+Comment=Ranger file explorer
+Exec=st -t "Ranger" -e ranger
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Icon=system-file-manager
+StartupWMClass=Ranger
+Categories=GTK;System;TerminalEmulator;
+
+# nvim.desktop (windows are grouped with st...)
+[Desktop Entry]
+Name=NeoVim
+GenericName=Editor
+Comment=Neovim Text Editor
+Exec=st -t "Neovim" -e nvim
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Icon=nvim
+StartupWMClass=Neovim
+Categories=System;TerminalEmulator;
+Keywords=shell;prompt;command;commandline;cmd;

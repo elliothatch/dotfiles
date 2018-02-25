@@ -1,0 +1,5 @@
+--sort-files
+--smart-case
+
+--type-set=ts:ext:ts
+--type-set=tsdef:match:/.+\.d\.ts/

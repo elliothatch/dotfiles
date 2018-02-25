@@ -19,7 +19,7 @@ let g:neomake_open_list = 2
 let g:deoplete#enable_at_startup = 1
 
 " elliothatch/nvim-typescript
-let g:nvim_typescript#_server_path = 'node_modules\\.bin\\tsserver'
+"let g:nvim_typescript#_server_path = 'node_modules\\.bin\\tsserver'
 
 " load plugins with vim-plug
 call plug#begin('~/.local/share/nvim/plugged')
@@ -30,19 +30,20 @@ Plug 'neomake/neomake'
 
 " editor
 Plug 'scrooloose/nerdcommenter'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'tag': '4.0-serial' }
 Plug 'kshenoy/vim-signature'
 
 " git
 Plug 'tpope/vim-fugitive'
 
 " grep
- Plug 'mileszs/ack.vim'
+Plug 'mileszs/ack.vim'
 
 " visual
 "Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
 Plug 'elliothatch/burgundy.vim'
+Plug 'machakann/vim-highlightedyank'
 
 Plug 'chrisbra/Colorizer'
 
@@ -57,8 +58,9 @@ Plug 'rust-lang/rust.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 
 " typescript
-"Plug 'mhartington/nvim-typescript'
-Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
+Plug 'mhartington/nvim-typescript', {'commit': 'b1d61b22d2459f1f62ab256f564b52d05626440a'}
+
+"Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
 
 " nyaovim
 Plug 'rhysd/nyaovim-markdown-preview'
@@ -80,6 +82,7 @@ set smartcase                   " case sensitive when using capital letters
 set undofile                    " save undo history to file
 set textwidth=0                 " disable automatic word wrap
 set completeopt+=noinsert       " auto-select first omnicomplete result
+set mouse=a                     " enable mouse
 
 " DISPLAY SETTINGS
 set number                      " show line numbers
@@ -91,6 +94,8 @@ set cursorline                  " hilight current line
 set scrolloff=3                 " scroll before cursor is at edge of screen
 set colorcolumn=81
 set termguicolors
+
+set inccommand=split " live substitution with search matches shown in split
 
 " AUTOCMDS
 augroup myautocmds
@@ -106,6 +111,18 @@ augroup myautocmds
 augroup END
 
 " BINDINGS
+function! InputOrCancel(prefix, prompt, suffix)
+	call inputsave()
+	let result = input(a:prompt)
+	if result == ''
+		return '<cr>'
+	endif
+	call inputrestore()
+	let cmd = a:prefix . result . a:suffix
+	call histadd("cmd", cmd)
+	return ':' . cmd
+endfunc
+
 " use space as mapleader (silent off)
 map <space> <leader>
 map <space><space> <leader><leader>
@@ -149,17 +166,35 @@ nnoremap <leader>n :enew<cr>
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
 " quickfix list
-nnoremap <leader>co :copen<cr>
-nnoremap <leader>cl :cnext<cr>
-nnoremap <leader>ch :cprevious<cr>
+nnoremap <leader>fo :copen<cr>
+nnoremap <leader>fc :cclose<cr>
+nnoremap <leader>fl :cnext<cr>
+nnoremap <leader>fh :cprevious<cr>
 
 " location list
-nnoremap <leader>Co :lopen<cr>
-nnoremap <leader>Cl :lnext<cr>
-nnoremap <leader>Ch :lprevious<cr>
+nnoremap <leader>Fo :lopen<cr>
+nnoremap <leader>Fc :lclose<cr>
+nnoremap <leader>Fl :lnext<cr>
+nnoremap <leader>Fh :lprevious<cr>
 
 " set grep to ack
 set grepprg=ack\ -k
+
+" puts quickfix files in args
+command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
+function! QuickfixFilenames()
+  " Building a hash ensures we get each buffer only once
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
+endfunction
+
+" run command on each file in quickfix
+" to save changes, run :argdo update
+nnoremap <expr> <leader>r InputOrCancel('Qargs<bar>:argdo %', '[execute]\|q: ', '') . '<cr>'
+
 
 " get highlight group under cursor
 function! SynStack()
@@ -207,7 +242,7 @@ vmap <leader>/ <leader>c<Space>
 
 " scrooloose/nerdtree
 "" open file explorer
-nnoremap <leader>F :NERDTreeToggle<cr>
+nnoremap <leader>d :NERDTreeToggle<cr>
 
 " mbbill/undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -225,26 +260,20 @@ nnoremap <leader>gc :Gcommit<CR>
 nnoremap <leader>gb :Gblame<CR>
 
 " mileszs/ack.vim
-function! InputOrCancel(prefix, prompt, suffix)
-	call inputsave()
-	let result = input(a:prompt)
-	if result == ''
-		return '<cr>'
-	endif
-	call inputrestore()
-	return a:prefix . result . a:suffix
-endfunc
+"vnoremap <Leader>av :<C-u>let cmd = "Ack! " . VAck() <bar> call histadd("cmd", cmd) <bar> execute cmd<CR>
 
 "nnoremap <expr> <leader>ss ':Ack! '          . input('[ack]: ')              . ' ' . expand('%:p:h') . '<cr>'
-nnoremap <expr> <leader>ss InputOrCancel(':Ack! ',    '[ack]: ',       ' ' . expand('%:p:h') . '<cr>')
-nnoremap <expr> <leader>sl InputOrCancel(':LAck ',    '[ack]\|L: ', ' ' . expand('%:p:h') . '<cr>')
-nnoremap <expr> <leader>sf InputOrCancel(':AckFile ', '[ack file]: ', ' ' . expand('%:p:h') . '<cr>')
-nnoremap <expr> <leader>s/ ':AckFromSearch ' . expand('%:p:h') . '<cr>'
+nnoremap <expr> <leader>ss InputOrCancel('Ack! ',    '[ack]: ',     '') . '<cr>'
+nnoremap <expr> <leader>sl InputOrCancel('LAck ',    '[ack]\|L: '), '') . '<cr>'
+nnoremap <expr> <leader>sf InputOrCancel('AckFile ', '[ack]\|F: '), '') . '<cr>'
+nnoremap <expr> <leader>s/ 'AckFromSearch ' . '<cr>'
 
-nnoremap <expr> <leader>Ss InputOrCancel(':Ack! ',    '[ack project]: ',       '<cr>')
-nnoremap <expr> <leader>Sl InputOrCancel(':LAck ',    '[ack project]\|L: '), '<cr>')
-nnoremap <expr> <leader>Sf InputOrCancel(':AckFile ', '[ack project file]: '), '<cr>')
-nnoremap <expr> <leader>S/ ':AckFromSearch ' . '<cr>'
+" search from current buffer path
+nnoremap <expr> <leader>Ss InputOrCancel('Ack! ',    '[ack\|b]: ',    ' ' . expand('%:p:h')) . '<cr>'
+nnoremap <expr> <leader>Sl InputOrCancel('LAck ',    '[ack\|b]\|L: ', ' ' . expand('%:p:h')) . '<cr>'
+nnoremap <expr> <leader>Sf InputOrCancel('AckFile ', '[ack\|b]\|F: ', ' ' . expand('%:p:h')) . '<cr>'
+nnoremap <expr> <leader>S/ 'AckFromSearch ' . expand('%:p:h') . '<cr>'
+
 
 " elliothatch/nvim-typescript
 
@@ -252,6 +281,7 @@ nnoremap <leader>td :TSDef<CR>
 nnoremap <leader>tD :TSTypeDef<CR>
 nnoremap <leader>ti :TSImport<CR>
 nnoremap <leader>tm :TSDoc<CR>
+nnoremap <leader>ts :TSTypePreview<CR>
 
 " PLUGIN SETUP
 "
