@@ -8,14 +8,14 @@
 [push]
 	default = simple
 [diff]
-	tool = nvim
-[difftool "nvim"]
-	cmd = nvim -f -d "$LOCAL" "$REMOTE"
+	tool = nyaovim
+[difftool "nyaovim"]
+	cmd = nyaovim -f -d "$LOCAL" "$REMOTE"
 [merge]
 	conflictstyle = diff3
-	tool = nvim
-[mergetool "nvim"]
-	cmd = nvim -f -d -c \"wincmd J\" "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
+	tool = nyaovim
+[mergetool "nyaovim"]
+	cmd = nyaovim -f -d -c \"wincmd J\" "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
 [color]
 	ui = true
 	branch = auto

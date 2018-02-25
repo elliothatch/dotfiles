@@ -1,8 +1,8 @@
 set shellslash
 
 " python support setup
-let g:python3_host_prog='/home/ellioth/.local/virtualenvs/neovim3/bin/python'
-let g:python_host_prog='/home/ellioth/.local/virtualenvs/neovim2/bin/python'
+let g:python3_host_prog='C:/Users/ellio/.local/virtualenvs/neovim3/Scripts/python.exe'
+let g:python_host_prog='C:/Users/ellio/.local/virtualenvs/neovim2/Scripts/python.exe'
 
 " PLUGIN SETUP
 " vim-airline/vim-airline
@@ -59,7 +59,6 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 
 " typescript
 Plug 'mhartington/nvim-typescript', {'commit': 'b1d61b22d2459f1f62ab256f564b52d05626440a'}
-
 "Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
 
 " nyaovim
@@ -75,7 +74,7 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=-4
 set copyindent                  " carry indentation on newline
-set clipboard+=unnamedplus
+set clipboard+=unnamed
 set incsearch                   " search as you type
 set ignorecase                  " ignore case in search
 set smartcase                   " case sensitive when using capital letters
