@@ -1,140 +1,145 @@
-runtime bundle/vim-pathogen/autoload/pathogen.vim
+set shellslash
 
-"let mapleader="\"
+" python support setup
+"let g:python3_host_prog='C:/Users/ellio/.local/virtualenvs/neovim3/Scripts/python.exe'
+"let g:python_host_prog='C:/Users/ellio/.local/virtualenvs/neovim2/Scripts/python.exe'
+
+" PLUGIN SETUP
+" vim-airline/vim-airline
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline_theme='luna'
+"
+"let g:airline_powerline_fonts = 1
+"let g:airline_extensions = ['tabline']
+
+" neomake/neomake
+let g:neomake_open_list = 2
+
+" Shougo/deoplete.nvim
+let g:deoplete#enable_at_startup = 1
+
+" elliothatch/nvim-typescript
+let g:nvim_typescript#_server_path = 'node_modules\\.bin\\tsserver'
+
+" load plugins with vim-plug
+call plug#begin('~/.local/share/nvim/plugged')
+
+" core
+Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neomake/neomake'
+
+" editor
+Plug 'scrooloose/nerdcommenter'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'tag': '4.0-serial' }
+Plug 'kshenoy/vim-signature'
+
+" git
+Plug 'tpope/vim-fugitive'
+
+" grep
+Plug 'mileszs/ack.vim'
+
+" visual
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+Plug 'elliothatch/burgundy.vim'
+Plug 'machakann/vim-highlightedyank'
+
+Plug 'chrisbra/Colorizer'
+
+Plug 'scrooloose/nerdtree'
+Plug 'mbbill/undotree'
+
+" syntax
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
+Plug 'rust-lang/rust.vim'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'mustache/vim-mustache-handlebars'
+
+" typescript
+"Plug 'mhartington/nvim-typescript', {'commit': 'b1d61b22d2459f1f62ab256f564b52d05626440a'}
+Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
+
+" nyaovim
+Plug 'rhysd/nyaovim-markdown-preview'
+
+"Plug 'D:/workspace/nyaovim-color-picker'
+
+call plug#end()
 
 " EDITOR SETTINGS
-set termguicolors
 set hidden
 set shiftwidth=4
 set tabstop=4
 set softtabstop=-4
 set copyindent                  " carry indentation on newline
+set clipboard+=unnamed
+set incsearch                   " search as you type
+set ignorecase                  " ignore case in search
+set smartcase                   " case sensitive when using capital letters
+set undofile                    " save undo history to file
+set textwidth=0                 " disable automatic word wrap
+set completeopt+=noinsert       " auto-select first omnicomplete result
+set mouse=a                     " enable mouse
+
+" DISPLAY SETTINGS
 set number                      " show line numbers
 set showmatch                   " show matching parentheses
 set matchtime=2                 " ms to show matching parens in showmatch
-set undolevels=1000             " large undo history
-set undodir=~/.vim/undo         " persistent undo
-set undofile
 set list
 set listchars=tab:>-,trail:.,extends:#,nbsp:.
-set laststatus=2
-set textwidth=0                 " disable automatic word wrap
-set showcmd                     " display incomplete commands
 set cursorline                  " hilight current line
-set ignorecase                  " ignore case in search
-set smartcase                   " case sensitive when using capital letters
 set scrolloff=3                 " scroll before cursor is at edge of screen
-set wrap
+set colorcolumn=81
+set termguicolors
 
-" tab completion
-set wildmenu                    " show a menu of completions
-set wildmode=full               " complete longest common prefix first
+set inccommand=split " live substitution with search matches shown in split
 
-" set default register to use system clipboard
-set clipboard=unnamed
-
-" automatically add the current extension to 'gf' paths
-autocmd BufNewFile,BufRead * execute 'setl suffixesadd+=.' . expand('%:e')
-
-" PLUGINS
-let g:pathogen_disabled = ['vim-gitgutter'] " vim-gitgutter: SLOW ON bn
-" Load pathogen
-execute pathogen#infect()
-
-" OMNICOMPLETE SETTINGS
-"set omnifunc=syntaxcomplete#Complete
-"set completeopt=longest,menuone
-
-" AUTOCOMPLPOP SETTINGS
-let g:acp_behaviorTypescriptOmniLength = 0
-function! AcpMeetsForTypescriptOmni(context)
-  return g:acp_behaviorPythonOmniLength >= 0 &&
-        \ a:context =~ '\k\.\k\{' . g:acp_behaviorTypescriptOmniLength . ',}$'
-endfunction
-
-let behavs = {
-	\'typescript': [{
-		\'command': "\<C-x>\<C-o>",
-		\'meets': 'AcpMeetsForTypescriptOmni',
-		\'repeat': 1
-	\}]
-\}
-
-" add keyword and file autocomplete to all custom behaviors
-"<C-n> below is the default value for g:acp_behaviorKeywordCommand
-for key in keys(behavs)
-	call add(behavs[key], {
-	\   'command' : "\<C-n>",
-	\   'meets'   : 'acp#meetsForKeyword',
-	\   'repeat'  : 0,
-	\ })
-endfor
-"---------------------------------------------------------------------------
-for key in keys(behavs)
-	call add(behavs[key], {
-	\   'command' : "\<C-x>\<C-f>",
-	\   'meets'   : 'acp#meetsForFile',
-	\   'repeat'  : 1,
-	\ })
-endfor
-
-if !exists("g:acp_behavior")
-	let g:acp_behavior = {}
-endif
-
-call extend(g:acp_behavior, behavs, "force")
-
-" SYNTASTIC SETTINGS
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-" tsuquyomi settings
-let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
-let g:tsuquyomi_completion_detail = 1 "may cause slowdown
-
-" C++ SETTINGS
-let g:syntastic_cpp_compiler_options = "-Wall -Wextra -pedantic"
-
-" HTML TIDY SETTINGS
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
-
-" NERDTREE SETTINGS
-"autostart nerdtree
-"autocmd vimenter * NERDTree
-" autocmd BufNew * wincmd 1
-"autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd p | endif
-
-" CTRL-P SETTINGS
-let g:ctrlp_custom_ignore = {
-\ 'dir': '\v[\/](build|[.]git|node_modules|bower_components|dist|.sass-cache|Godeps)$',
-\ 'file': '\v\.(DS_Store)$' }
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-
-let g:ctrlp_max_files = 50000
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_lazy_update = 100
-
-" gitgutter options
-let g:gitgutter_sign_column_always = 1
+" AUTOCMDS
+augroup myautocmds
+	" automatically add the current extension to 'gf' paths
+	autocmd!
+	autocmd BufNewFile,BufRead * execute 'setl suffixesadd+=.' . expand('%:e')
+	" make  '-' part of words in css files
+	autocmd FileType css,sass execute 'setl iskeyword+=-'
+	" skip quickfix list on :bn
+	autocmd FileType qf set nobuflisted
+	" use spaces instead of tabs in certain filetypes
+	autocmd FileType typescript execute 'setl expandtab'
+augroup END
 
 " BINDINGS
+function! InputOrCancel(prefix, prompt, suffix)
+	call inputsave()
+	let result = input(a:prompt)
+	if result == ''
+		return '<cr>'
+	endif
+	call inputrestore()
+	let cmd = a:prefix . result . a:suffix
+	call histadd("cmd", cmd)
+	return ':' . cmd
+endfunc
+
 " use space as mapleader (silent off)
 map <space> <leader>
 map <space><space> <leader><leader>
+
+" NORMAL MODE
+" visual cursor movement
+nnoremap k gk
+nnoremap j gj
+
+" window bindings
+nnoremap <leader>Q :q<cr>
 
 " Map ctrl-movement keys to window switching
 noremap <C-k> <C-w><Up>
 noremap <C-j> <C-w><Down>
 noremap <C-l> <C-w><Right>
 noremap <C-h> <C-w><Left>
-
-" don't exit visual mode when indenting
-vnoremap > >gv
-vnoremap < <gv
 
 " clear search highlight
 nnoremap <silent> <leader>, :nohlsearch<CR>
@@ -145,144 +150,174 @@ set pastetoggle=<leader>p
 " save
 nnoremap <leader>w :w<cr>
 
-" open file explorer
-nnoremap <leader>f :NERDTreeToggle<cr>
-
 " buffer bindings
-
-nnoremap <leader>l :bnext<cr>
-nnoremap <leader>h :bprevious<cr>
-nnoremap <leader>q :bp<bar>sp<bar>bn<bar>bd<cr>
+let g:bpLast = 0
+function! SetBpLast(bp, result)
+	let g:bpLast = a:bp
+	return a:result
+endfunction
+nnoremap <expr> <leader>l SetBpLast(0, ":bnext\<cr>")
+nnoremap <expr> <leader>h SetBpLast(1, ":bprevious\<cr>")
+" close buffer without closing split (switch to next buffer, delete prev buffer offscreen. if the last buffer swtich was :bn, call :bp. if this is the last buffer just close it
+nnoremap <expr> <leader>q len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) > 1 ? (g:bpLast == 0 ? ":bn\<bar>bd#\<bar>bp\<cr>" : ":bn\<bar>bd#\<cr>") : ":bd\<cr>"
 nnoremap <leader>n :enew<cr>
 
-" font size change bindings
-"nnoremap + :silent! set guifont=Source_Code_Pro:h11:cANSI<CR>
-"nnoremap = :silent! let &guifont = substitute(
- "\ &guifont,
- "\ ':h\zs\d\+',
- "\ '\=eval(submatch(0)+1)',
- "\ '')<CR>
-"nnoremap - :silent! let &guifont = substitute(
- "\ &guifont,
- "\ ':h\zs\d\+',
- "\ '\=eval(submatch(0)-1)',
- "\ '')<CR>
 " wrap word in quotes
-
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
-imap <C-Space> <C-x><C-o>
-imap <C-@> <C-x><C-o>
+" quickfix list
+nnoremap <leader>fo :copen<cr>
+nnoremap <leader>fc :cclose<cr>
+nnoremap <leader>fl :cnext<cr>
+nnoremap <leader>fh :cprevious<cr>
 
-" bind 'make', automatically open the quickfix window
-nnoremap <leader>b :call MakeAndShowErrors()<cr>
+" location list
+nnoremap <leader>Fo :lopen<cr>
+nnoremap <leader>Fc :lclose<cr>
+nnoremap <leader>Fl :lnext<cr>
+nnoremap <leader>Fh :lprevious<cr>
 
-function! MakeAndShowErrors()
-	make
-	if v:shell_error
-		copen
-	endif
+" set grep to ack
+set grepprg=ack\ -k
+
+" puts quickfix files in args
+command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
+function! QuickfixFilenames()
+  " Building a hash ensures we get each buffer only once
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
 endfunction
 
-" NERD Commenter bindings
+" run command on each file in quickfix
+" to save changes, run :argdo update
+nnoremap <expr> <leader>r InputOrCancel('Qargs<bar>:argdo %', '[execute]\|q: ', '') . '<cr>'
+
+
+" get highlight group under cursor
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+nnoremap <leader>. :call SynStack()<cr>
+
+" VISUAL MODE
+" don't exit visual mode when indenting
+vnoremap > >gv
+vnoremap < <gv
+
+" TERMINAL MODE
+" esc to exit terminal mode
+tnoremap <Esc> <C-\><C-n>
+
+" Map insert mdoe keys to insert the autocomplete match when typed
+function! AutocompleteOnSymbol(char)
+if pumvisible()
+	return "\<c-y>\<c-r>='" . a:char . "'\<cr>"
+else
+	return a:char
+endif
+endfunction
+
+function! AutocompleteOnInsertChar(chars)
+	for char in a:chars
+		execute 'inoremap <silent> <expr> ' . char . ' AutocompleteOnSymbol("'.char.'")'
+	endfor
+endfunction
+
+"call AutocompleteOnInsertChar([
+"\'(', ')', '[', ']',
+"\';', ',', '.',  ':',
+"\'!', '='])
+
+" PLUGIN BINDINGS
+" scrooloose/nerdcommenter
 nmap <leader>/ <leader>c<Space>
 vmap <leader>/ <leader>c<Space>
 
-" easymotion bindings
-nmap <leader>d <Plug>(easymotion-bd-w)
-nmap <leader>s <Plug>(easymotion-s2)
+" scrooloose/nerdtree
+"" open file explorer
+nnoremap <leader>d :NERDTreeToggle<cr>
 
-" syntastic bindings
-nnoremap <leader>[ :lprevious<cr>
-nnoremap <leader>] :lnext<cr>
-
-" undotree bindings
+" mbbill/undotree
 nnoremap <leader>u :UndotreeToggle<cr>
 
-" git-gutter bindings (change <leader>h)
-"nmap <leader>Hs <Plug>GitGutterStageHunk
-"nmap <leader>Hr <Plug>GitGutterRevertHunk
-"nmap <leader>Hp <Plug>GitGutterPreviewHunk
+" Shougo/denite.nvim
+nnoremap <C-p> :<C-u>Denite file_rec/git<CR>
+nnoremap <C-Space> :<C-u>Denite buffer<CR>
 
-" reopen readonly file with sudo using ;w!!
-cnoremap w!! w !sudo tee % >/dev/null
+" tpope/vim-fugitive
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>ga :Gwrite<CR>
+nnoremap <leader>gU :Gread<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>gb :Gblame<CR>
 
-" MAKE COMMAND SETTINGS
-autocmd FileType tex setlocal makeprg=texfot\ pdflatex\ --shell-escape\ -interaction=nonstopmode\ %
+" mileszs/ack.vim
+"vnoremap <Leader>av :<C-u>let cmd = "Ack! " . VAck() <bar> call histadd("cmd", cmd) <bar> execute cmd<CR>
 
-" TYPESCRIPT SPECIFIC COMMANDS
-autocmd FileType typescript map <buffer> <leader>i :TsuImport<cr>
+"nnoremap <expr> <leader>ss ':Ack! '          . input('[ack]: ')              . ' ' . expand('%:p:h') . '<cr>'
+nnoremap <expr> <leader>ss InputOrCancel('Ack! ',    '[ack]: ',     '') . '<cr>'
+nnoremap <expr> <leader>sl InputOrCancel('LAck ',    '[ack]\|L: '), '') . '<cr>'
+nnoremap <expr> <leader>sf InputOrCancel('AckFile ', '[ack]\|F: '), '') . '<cr>'
+nnoremap <expr> <leader>s/ 'AckFromSearch ' . '<cr>'
 
-" toggle quickfix window
-let g:jah_Quickfix_Win_Height=10
+" search from current buffer path
+nnoremap <expr> <leader>Ss InputOrCancel('Ack! ',    '[ack\|b]: ',    ' ' . expand('%:p:h')) . '<cr>'
+nnoremap <expr> <leader>Sl InputOrCancel('LAck ',    '[ack\|b]\|L: ', ' ' . expand('%:p:h')) . '<cr>'
+nnoremap <expr> <leader>Sf InputOrCancel('AckFile ', '[ack\|b]\|F: ', ' ' . expand('%:p:h')) . '<cr>'
+nnoremap <expr> <leader>S/ 'AckFromSearch ' . expand('%:p:h') . '<cr>'
 
-command! -bang -nargs=? QFix call QFixToggle(<bang>0)
-function! QFixToggle(forced)
-  if exists("g:qfix_win") && a:forced == 0
-    cclose
-  else
-    execute "copen " . g:jah_Quickfix_Win_Height
-  endif
-endfunction
 
-" used to track the quickfix window
-augroup QFixToggle
- autocmd!
- autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
- autocmd BufWinLeave * if exists("g:qfix_win") && expand("<abuf>") == g:qfix_win | unlet! g:qfix_win | endif
-augroup END
+" elliothatch/nvim-typescript
 
-nnoremap <silent> <leader>f :QFix<cr>
+nnoremap <leader>td :TSDef<CR>
+nnoremap <leader>tD :TSTypeDef<CR>
+nnoremap <leader>ti :TSImport<CR>
+nnoremap <leader>tm :TSDoc<CR>
+nnoremap <leader>ts :TSTypePreview<CR>
 
+" PLUGIN SETUP
+"
+" Shougo/denite.nvim
+" add git ls-files source
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#var('file_rec/git', 'command',
+\ ['git', 'ls-files', '-co', '--exclude-standard'])
+nnoremap <silent> <C-p> :<C-u>Denite
+\ `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec'`<CR>
+
+" move cursor up/down with Ctrl-j and Ctrl-k
+call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+
+" neomake/neomake
+" automatically run on load and save
+call neomake#configure#automake('rw', 1000)
 
 " VISUAL SETTINGS
-if &t_Co >= 256 || has("gui_running")
-    colorscheme mustang
-    "set guifont=Lucida_Console:h11
-    set guifont=Source_Code_Pro:h11:cANSI
-    set guioptions-=T " remove toolbar
-endif
+colorscheme burgundy
 
-" vertical line at 80 characters
-set colorcolumn=81
-highlight ColorColumn guibg=#303030 ctermbg=235
-
-" change cursorline color when in insert mode
-autocmd InsertEnter * hi CursorLine guibg=#2C3038 ctermbg=236 cterm=none
-autocmd InsertLeave * hi CursorLine guibg=#2d2d2d ctermbg=236 cterm=none
-
-" Statusline settings
-
-" change statusline color based on mode
-if version >= 700
-  au InsertEnter * hi StatusLine guifg=#7e8aa2 guibg=#2d2d2d gui=italic ctermfg=103 ctermbg=236 cterm=italic
-  au InsertLeave * hi StatusLine guifg=#e2e2e5 guibg=#444444 gui=italic ctermfg=253 ctermbg=238 cterm=italic
-endif
-
-"green = 148
-"orange = 208
-"blue = 103
-"very light grey = 253
-"darker grey = 238
-"dark grey = 234
-hi User2 guifg=#2d2d2d guibg=#ff9800 gui=bold ctermfg=236 ctermbg=208 cterm=bold
-hi User3 guifg=#2d2d2d guibg=#7e8aa2 gui=none ctermfg=236 ctermbg=103
-hi User7 guifg=#2d2d2d guibg=#e2e2e5 gui=bold ctermfg=236 ctermbg=253 cterm=bold
-hi User4 guifg=#2d2d2d guibg=#7e8aa2 gui=bold ctermfg=236 ctermbg=103 cterm=bold
-
+" statusline
 set statusline=
-set statusline+=%7*\[%n]                                  "buffernr
-set statusline+=%2*\%m%r%w                           " modified/readonly
-set statusline+=%3*\ %<%F\                                "File+path
-set statusline+=%*\ %y\                                  "FileType
+set statusline+=[%n]                                  "buffernr
+" TODO: change the color for modified
+set statusline+=%#DiffChange#%m%r%w%*                           " modified/readonly
+"set statusline+=%#LineNr#%{fugitive#statusline()}%*             " git branch
+set statusline+=%#LineNr#%{fugitive#head()}%*             " git branch
+set statusline+=\ %<%F\                                "File+path
+set statusline+=%*\ %=\  "divider
 set statusline+=%{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
-set statusline+=%{(&bomb?\",BOM\":\"\")}\            "Encoding2
-set statusline+=%{&ff}\                              "FileFormat (dos/unix..)
-set statusline+=%*\ %=\ row:%l/%L\ (%03p%%)\             "Rownumber/total (%)
-set statusline+=col:%03c\                            "Colnr
-set statusline+=%P\ \                      "Modified? Readonly? Top/bot.
-
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
+set statusline+=%{(&bomb?\",BOM\":\"\")}            "Encoding2
+set statusline+=[%{&ff}]\                              "FileFormat (dos/unix..)
+set statusline+=%y\                                  "FileType
+set statusline+=0x%04B\          "character under cursor
+set statusline+=%l:%v\  "row:col
+set statusline+=%p%%\  "row %
+"set statusline+=%P\ \                      "Modified? Readonly? Top/bot.
