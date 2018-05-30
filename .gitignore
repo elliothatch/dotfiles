@@ -1,5 +1,4 @@
 .DS_Store
 .vim/.netrwhist
-nvim/.netrwhist
-nvim/python/
-nvim/rplugin.vim
+.config/nvim/.netrwhist
+.config/nvim/rplugin.vim
