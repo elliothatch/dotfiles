@@ -10,6 +10,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 " core
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'junegunn/fzf.vim'
 Plug 'neomake/neomake'
 
 " editor
@@ -76,6 +77,8 @@ let g:deoplete#enable_at_startup = 1
 " elliothatch/nvim-typescript
 let g:nvim_typescript#_server_path = 'node_modules\\.bin\\tsserver'
 
+let g:neomake_html_enabled_makers = []
+
 "let g:tagbar_type_css = {
 "\ 'ctagstype' : 'Css',
     "\ 'kinds'     : [
@@ -137,13 +140,14 @@ nnoremap <C-Space> :<C-u>Denite buffer<CR>
 
 " tpope/vim-fugitive
 nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gl :Glog -- %<CR>
-nnoremap <leader>gL :Glog<CR>
 nnoremap <leader>ga :Gwrite<CR>
 nnoremap <leader>gU :Gread<CR>
-nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>gb :Gblame<CR>
+" run these commands in a separate tab
+nnoremap <leader>gl :tabe %<CR>:Glog -- %<CR>
+nnoremap <leader>gL :tabe %<CR>:Glog<CR>
+nnoremap <leader>gd :tabe %<CR>:Gdiff<CR>
+nnoremap <leader>gb :tabe %<CR>:Gblame<CR>
 
 " mileszs/ack.vim
 "vnoremap <Leader>av :<C-u>let cmd = "Ack! " . VAck() <bar> call histadd("cmd", cmd) <bar> execute cmd<CR>
@@ -236,7 +240,7 @@ function! MyFoldText() " {{{
 		"endif
 		"let i = i + 1
 	"endwhile
-	let l:fillcharcount = l:windowwidth - len(l:line) - len(l:rightcoltext)-2
+	let l:fillcharcount = l:windowwidth - len(l:line) - len(l:rightcoltext)
 	"let l:centercolcontent = ''
 	"let l:centercoltext = l:centercolcontent . ' ' . repeat(' ', l:fillcharcount-len(l:centercolcontent))
 	"let centercolcontent = centercolcontent . ' ' . repeat(' ', fillcharcount-len(centercolcontent)-2)
@@ -350,7 +354,7 @@ nnoremap <leader>E :E<cr>
 "nnoremap n nzzzv
 "nnoremap N Nzzzv
 
-" Easier to type, and I never use the default behavior.
+" Easier to type
 noremap H ^
 noremap L $
 vnoremap L g_
