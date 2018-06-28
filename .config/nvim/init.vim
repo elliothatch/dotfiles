@@ -37,7 +37,6 @@ Plug 'machakann/vim-highlightedyank'
 
 Plug 'chrisbra/Colorizer'
 
-Plug 'scrooloose/nerdtree'
 Plug 'mbbill/undotree'
 
 " syntax
@@ -128,10 +127,6 @@ call neomake#configure#automake('rw', 1000)
 " scrooloose/nerdcommenter
 nmap <leader>/ <leader>c<Space>
 vmap <leader>/ <leader>c<Space>
-
-" scrooloose/nerdtree
-"" open file explorer
-nnoremap <leader>d :NERDTreeToggle<cr>
 
 " mbbill/undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -383,7 +378,8 @@ nnoremap vv ^vg_
 nnoremap <leader>Q :q<cr>
 
 " split
-noremap <leader>v <C-w>v
+noremap <leader>v <C-w>v<C-w>l
+noremap <leader>V <C-w>S<C-w>j
 
 " Map ctrl-movement keys to window switching
 noremap <C-k> <C-w><Up>
