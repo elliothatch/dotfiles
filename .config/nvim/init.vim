@@ -137,6 +137,8 @@ nnoremap <C-Space> :<C-u>Denite buffer<CR>
 
 " tpope/vim-fugitive
 nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gl :Glog -- %<CR>
+nnoremap <leader>gL :Glog<CR>
 nnoremap <leader>ga :Gwrite<CR>
 nnoremap <leader>gU :Gread<CR>
 nnoremap <leader>gd :Gdiff<CR>
@@ -340,7 +342,10 @@ noremap j gj
 noremap k gk
 noremap gj j
 noremap gk k
-"
+
+nnoremap <leader>e :e.<cr>
+nnoremap <leader>E :E<cr>
+
 " Keep search matches in the middle of the window.
 "nnoremap n nzzzv
 "nnoremap N Nzzzv
@@ -388,16 +393,22 @@ noremap <C-l> <C-w><Right>
 noremap <C-h> <C-w><Left>
 "}}}
 "  - Quickfix List {{{
-nnoremap <leader>fo :copen<cr>
-nnoremap <leader>fc :cclose<cr>
-nnoremap <leader>fl :cnext<cr>
-nnoremap <leader>fh :cprevious<cr>
+nnoremap <leader>co :copen<cr>
+nnoremap <leader>cc :cclose<cr>
+
+nnoremap ]q :cnext<cr>
+nnoremap [q :cprevious<cr>
+nnoremap ]Q :cfirst<cr>
+nnoremap [Q :clast<cr>
 
 " location list
-nnoremap <leader>Fo :lopen<cr>
-nnoremap <leader>Fc :lclose<cr>
-nnoremap <leader>Fl :lnext<cr>
-nnoremap <leader>Fh :lprevious<cr>
+nnoremap <leader>Co :lopen<cr>
+nnoremap <leader>Cc :lclose<cr>
+
+nnoremap ]l :cnext<cr>
+nnoremap [l :cprevious<cr>
+nnoremap ]L :cfirst<cr>
+nnoremap [L :clast<cr>
 
 " puts quickfix files in args
 command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
