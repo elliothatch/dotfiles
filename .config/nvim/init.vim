@@ -9,12 +9,14 @@ let g:python_host_prog='C:/Users/ellio/.local/virtualenvs/neovim2/Scripts/python
 call plug#begin('~/.local/share/nvim/plugged')
 
 " core
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-"Plug 'junegunn/fzf.vim'
+"Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+" use vim-specific fzf
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'neomake/neomake'
 
 " editor
-Plug 'scrooloose/nerdcommenter'
+"Plug 'scrooloose/nerdcommenter'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'tag': '4.0-serial' }
 Plug 'kshenoy/vim-signature'
 
@@ -112,15 +114,15 @@ let g:neomake_html_enabled_makers = []
 "
 " Shougo/denite.nvim
 " add git ls-files source
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec/git', 'command',
-\ ['git', 'ls-files', '-co', '--exclude-standard'])
-nnoremap <silent> <C-p> :<C-u>Denite
-\ `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec'`<CR>
+"call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+"call denite#custom#var('file_rec/git', 'command',
+"\ ['git', 'ls-files', '-co', '--exclude-standard'])
+"nnoremap <silent> <C-p> :<C-u>Denite
+"\ `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec'`<CR>
 
 " move cursor up/down with Ctrl-j and Ctrl-k
-call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+"call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
+"call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
 
 " neomake/neomake
 " automatically run on load and save
@@ -128,26 +130,30 @@ call neomake#configure#automake('rw', 1000)
 " }}}
 "  - Bindings {{{
 " scrooloose/nerdcommenter
-nmap <leader>/ <leader>c<Space>
-vmap <leader>/ <leader>c<Space>
+"nmap <leader>/ <leader>c<Space>
+"vmap <leader>/ <leader>c<Space>
 
 " mbbill/undotree
 nnoremap <leader>u :UndotreeToggle<cr>
 
 " Shougo/denite.nvim
-nnoremap <C-p> :<C-u>Denite file_rec/git<CR>
-nnoremap <C-Space> :<C-u>Denite buffer<CR>
+"nnoremap <C-p> :<C-u>Denite file_rec/git<CR>
+"nnoremap <C-Space> :<C-u>Denite buffer<CR>
+
+" junegunn/fzf
+nnoremap <C-p> :Files<CR>
+nnoremap <C-Space> :Buffers<CR>
 
 " tpope/vim-fugitive
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>ga :Gwrite<CR>
 nnoremap <leader>gU :Gread<CR>
 nnoremap <leader>gc :Gcommit<CR>
-" run these commands in a separate tab
-nnoremap <leader>gl :tabe %<CR>:Glog -- %<CR>
-nnoremap <leader>gL :tabe %<CR>:Glog<CR>
-nnoremap <leader>gd :tabe %<CR>:Gdiff<CR>
-nnoremap <leader>gb :tabe %<CR>:Gblame<CR>
+" run these commands in a separate tab, auto open the quickfix list
+nnoremap <leader>gl :tabe %<CR>:NeomakeDisableTab<CR>:Glog -- %<CR>:botright copen<CR>
+nnoremap <leader>gL :tabe %<CR>:NeomakeDisableTab<CR>:Glog<CR>:botright copen<CR>
+nnoremap <leader>gd :tabe %<CR>:NeomakeDisableTab<CR>:Gdiff<CR>
+nnoremap <leader>gb :tabe %<CR>:NeomakeDisableTab<CR>:Gblame<CR>
 
 " mileszs/ack.vim
 "vnoremap <Leader>av :<C-u>let cmd = "Ack! " . VAck() <bar> call histadd("cmd", cmd) <bar> execute cmd<CR>
@@ -267,6 +273,7 @@ set showbreak=↪
 set cursorline                  " hilight current line
 set scrolloff=3                 " scroll before cursor is at edge of screen
 set colorcolumn=81
+set lazyredraw
 set termguicolors
 
 set inccommand=split " live substitution with search matches shown in split
@@ -395,9 +402,12 @@ noremap <C-k> <C-w><Up>
 noremap <C-j> <C-w><Down>
 noremap <C-l> <C-w><Right>
 noremap <C-h> <C-w><Left>
+
+" diff current window
+nnoremap <leader>d :diffthis<cr>
 "}}}
 "  - Quickfix List {{{
-nnoremap <leader>co :copen<cr>
+nnoremap <leader>co :botright copen<cr>
 nnoremap <leader>cc :cclose<cr>
 
 nnoremap ]q :cnext<cr>
@@ -430,8 +440,11 @@ endfunction
 nnoremap <expr> <leader>r InputOrCancel('Qargs<bar>:argdo %', '[execute]\|q: ', '') . '<cr>'
 " }}}
 "  - Terminal Mode {{{
-" esc to exit terminal mode
-tnoremap <Esc> <C-\><C-n>
+" map ctrl-movement keys to switch windows (can be used to exit terminal mode quickly)
+tnoremap <C-k> <C-\><C-N><C-w><Up>
+tnoremap <C-j> <C-\><C-N><C-w><Down>
+tnoremap <C-l> <C-\><C-N><C-w><Right>
+tnoremap <C-h> <C-\><C-N><C-w><Left>
 
 " }}}
 "  - Other {{{
