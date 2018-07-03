@@ -335,16 +335,14 @@ nnoremap <silent> <leader>, :nohlsearch<CR>
 
 " }}}
 "  - Buffers {{{
-let g:bpLast = 0
-function! SetBpLast(bp, result)
-	let g:bpLast = a:bp
-	return a:result
-endfunction
-nnoremap <expr> <leader>l SetBpLast(0, ":bnext\<cr>")
-nnoremap <expr> <leader>h SetBpLast(1, ":bprevious\<cr>")
-" close buffer without closing split (switch to next buffer, delete prev buffer offscreen. if the last buffer swtich was :bn, call :bp. if this is the last buffer just close it
-nnoremap <expr> <leader>q len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) > 1 ? (g:bpLast == 0 ? ":bn\<bar>bd#\<bar>bp\<cr>" : ":bn\<bar>bd#\<cr>") : ":bd\<cr>"
+nnoremap <leader>l :bnext<cr>
+nnoremap <leader>h :bprevious<cr>
 nnoremap <leader>n :enew<cr>
+" close buffer without closing the window
+" switch to alternate buffer and close the buffer we were just on
+" if the alternate buffer is unlisted, go to the previous buffer instead
+" if we are closing the last listed buffer, create a new blank buffer to switch to
+nnoremap <expr> <leader>q len(getbufinfo({'buflisted':1})) == 1 ? ':enew<cr>:bd#<cr>' : (buflisted(bufnr('#')) ? ':b #<cr>:bd #<cr>' : ':bp<cr>:bd #<cr>')
 
 " }}}
 "  - Navigation {{{
@@ -354,8 +352,10 @@ noremap k gk
 noremap gj j
 noremap gk k
 
-nnoremap <leader>e :e.<cr>
-nnoremap <leader>E :E<cr>
+" don't use this command because it gets netrw in a weird state
+"nnoremap <leader>e :e.<cr>
+nnoremap <leader>e :E<cr>
+nnoremap <expr> <leader>E ':E ' . getcwd() . '<cr>'
 
 " Keep search matches in the middle of the window.
 "nnoremap n nzzzv
@@ -391,7 +391,7 @@ vnoremap <leader>s :sort<CR>
 nnoremap vv ^vg_
 " }}}
 "  - Windows {{{
-nnoremap <leader>Q :q<cr>
+nnoremap <leader>Q :close<cr>
 
 " split
 noremap <leader>v <C-w>v<C-w>l
@@ -412,17 +412,17 @@ nnoremap <leader>cc :cclose<cr>
 
 nnoremap ]q :cnext<cr>
 nnoremap [q :cprevious<cr>
-nnoremap ]Q :cfirst<cr>
-nnoremap [Q :clast<cr>
+nnoremap ]Q :clast<cr>
+nnoremap [Q :cfirst<cr>
 
 " location list
 nnoremap <leader>Co :lopen<cr>
 nnoremap <leader>Cc :lclose<cr>
 
-nnoremap ]l :cnext<cr>
-nnoremap [l :cprevious<cr>
-nnoremap ]L :cfirst<cr>
-nnoremap [L :clast<cr>
+nnoremap ]l :lnext<cr>
+nnoremap [l :lprevious<cr>
+nnoremap ]L :llast<cr>
+nnoremap [L :lfirst<cr>
 
 " puts quickfix files in args
 command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
