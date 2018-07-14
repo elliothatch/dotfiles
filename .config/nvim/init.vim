@@ -19,6 +19,23 @@ Plug 'neomake/neomake'
 "Plug 'scrooloose/nerdcommenter'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'tag': '4.0-serial' }
 Plug 'kshenoy/vim-signature'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+if has('win32')
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'powershell -executionpolicy bypass -File install.ps1',
+    \ }
+else
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+endif
+Plug 'godlygeek/tabular'
+" install language servers for LSP
+" typescript + javascript
+" npm install -g javascript-typescript-langserver
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -34,6 +51,7 @@ Plug 'nelstrom/vim-markdown-folding'
 "Plug 'vim-airline/vim-airline-themes'
 Plug 'elliothatch/burgundy.vim'
 Plug 'machakann/vim-highlightedyank'
+Plug 'plasticboy/vim-markdown'
 
 " uses ctags (https://github.com/universal-ctags/ctags)
 "Plug 'majutsushi/tagbar'
@@ -53,7 +71,7 @@ Plug 'mustache/vim-mustache-handlebars'
 
 " typescript
 "Plug 'mhartington/nvim-typescript', {'commit': 'b1d61b22d2459f1f62ab256f564b52d05626440a'}
-Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
+"Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
 
 " nyaovim
 Plug 'rhysd/nyaovim-markdown-preview'
@@ -70,16 +88,35 @@ call plug#end()
 "let g:airline_powerline_fonts = 1
 "let g:airline_extensions = ['tabline']
 
+" autozimu/LanguageClient-neovim
+let g:LanguageClient_serverCommands = {
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'python': ['pyls'],
+    \ 'typescript': ['C:\Users\ellio\AppData\Roaming\npm\javascript-typescript-stdio.cmd'],
+    \ }
+
+let g:LanguageClient_loggingLevel = 'INFO'
+let g:LanguageClient_loggingFile = 'D:/test.log'
+
 " neomake/neomake
 let g:neomake_open_list = 2
 
 " Shougo/deoplete.nvim
 let g:deoplete#enable_at_startup = 1
+" let g:deoplete#sources = {
+" 	\ 'javascript': ['LanguageClient'],
+" 	\ 'python': ['LanguageClient'],
+" 	\ 'typescript': ['LanguageClient'],
+" \ }
+
 
 " elliothatch/nvim-typescript
-let g:nvim_typescript#_server_path = 'node_modules\\.bin\\tsserver'
+"let g:nvim_typescript#_server_path = 'node_modules\\.bin\\tsserver'
 
 let g:neomake_html_enabled_makers = []
+
+" plasticboy/vim-markdown
+set conceallevel=2
 
 "let g:tagbar_type_css = {
 "\ 'ctagstype' : 'Css',
@@ -129,9 +166,13 @@ let g:neomake_html_enabled_makers = []
 call neomake#configure#automake('rw', 1000)
 " }}}
 "  - Bindings {{{
-" scrooloose/nerdcommenter
-"nmap <leader>/ <leader>c<Space>
-"vmap <leader>/ <leader>c<Space>
+
+
+" autozimu/LanguageClient-neovim
+"nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+"nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+"nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
 
 " mbbill/undotree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -405,6 +446,7 @@ noremap <C-h> <C-w><Left>
 
 " diff current window
 nnoremap <leader>d :diffthis<cr>
+nnoremap <leader>D :diffoff!<cr>
 "}}}
 "  - Quickfix List {{{
 nnoremap <leader>co :botright copen<cr>

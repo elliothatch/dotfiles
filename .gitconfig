@@ -21,3 +21,5 @@
 	branch = auto
 	diff = auto
 	status = auto
+[core]
+	editor = nvim
