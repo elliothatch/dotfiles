@@ -1,9 +1,10 @@
 " Setup {{{
 set shellslash
 
+let g:HomeDir='C:/Users/ellio/'
 " python support setup
-let g:python3_host_prog='C:/Users/ellio/.local/virtualenvs/neovim3/Scripts/python.exe'
-let g:python_host_prog='C:/Users/ellio/.local/virtualenvs/neovim2/Scripts/python.exe'
+let g:python3_host_prog=g:HomeDir . '.local/virtualenvs/neovim3/Scripts/python.exe'
+let g:python_host_prog=g:HomeDir . '.local/virtualenvs/neovim2/Scripts/python.exe'
 " }}}
 " Plugins {{{
 call plug#begin('~/.local/share/nvim/plugged')
@@ -156,6 +157,7 @@ nnoremap <leader>gd :tabe %<CR>:NeomakeDisableTab<CR>:Gdiff<CR>
 nnoremap <leader>gb :tabe %<CR>:NeomakeDisableTab<CR>:Gblame<CR>
 
 " mileszs/ack.vim
+let g:ackprg = 'ag --nogroup --nocolor --column --hidden --path-to-ignore ' . g:HomeDir . '.config/ag/.ignore'
 "vnoremap <Leader>av :<C-u>let cmd = "Ack! " . VAck() <bar> call histadd("cmd", cmd) <bar> execute cmd<CR>
 
 "nnoremap <expr> <leader>ss ':Ack! '          . input('[ack]: ')              . ' ' . expand('%:p:h') . '<cr>'

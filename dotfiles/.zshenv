@@ -10,3 +10,5 @@ export LANG=en_US.UTF-8
 export TERMCMD=st
 
 export PATH=$PATH:~/.local/bin
+
+export FZF_DEFAULT_COMMAND='ag -l --hidden --path-to-ignore $HOME/.config/ag/.ignore'
