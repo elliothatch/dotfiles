@@ -20,6 +20,7 @@ Plug 'neomake/neomake'
 "Plug 'scrooloose/nerdcommenter'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'tag': '4.0-serial' }
 Plug 'kshenoy/vim-signature'
+Plug 'tpope/vim-commentary'
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -177,6 +178,7 @@ nnoremap <expr> <leader>S/ 'AckFromSearch ' . expand('%:p:h') . '<cr>'
 
 nnoremap <leader>td :TSDef<CR>
 nnoremap <leader>tD :TSTypeDef<CR>
+nnoremap <leader>tt :TSType<CR>
 nnoremap <leader>ti :TSImport<CR>
 nnoremap <leader>tm :TSDoc<CR>
 nnoremap <leader>ts :TSTypePreview<CR>
