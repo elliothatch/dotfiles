@@ -1,7 +1,7 @@
 " Setup {{{
 set shellslash
 
-let g:HomeDir='C:/Users/ellio/'
+let g:HomeDir='C:/Users/elhatch.REDMOND/'
 " python support setup
 let g:python3_host_prog=g:HomeDir . '.local/virtualenvs/neovim3/Scripts/python.exe'
 let g:python_host_prog=g:HomeDir . '.local/virtualenvs/neovim2/Scripts/python.exe'

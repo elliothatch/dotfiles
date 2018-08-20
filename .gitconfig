@@ -1,6 +1,6 @@
 [user]
 	name = Elliot Hatch
-	email = elliot.hatch@gmail.com
+	email = elhatch@microsoft.com
 [alias]
 	st = status -s -b
 	lg = log --oneline
@@ -21,3 +21,5 @@
 	branch = auto
 	diff = auto
 	status = auto
+[core]
+	editor = nvim
