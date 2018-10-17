@@ -4,16 +4,22 @@
 [alias]
 	st = status -s -b
 	lg = log --oneline
+	df = "!git difftool --no-prompt $1 $2 -- $(git diff --name-only $1 $2 | fzf -0 --ansi --preview=\"git diff --color $1 $2 -- {}\") #"
+	a = "!git add $(git diff --name-only | fzf -0 -m --ansi --preview=\"git diff --color -- {}\") #"
 
 [push]
 	default = simple
 [diff]
-	tool = nyaovim
+	tool = nvim-qt
 [difftool "nyaovim"]
 	cmd = nyaovim -f -d "$LOCAL" "$REMOTE"
+[difftool "nvim-qt"]
+	cmd = nvim-qt -- -f -d -- "$LOCAL" "$REMOTE"
 [merge]
 	conflictstyle = diff3
-	tool = nyaovim
+	tool = nvim-qt
+[mergetool "nvim-qt"]
+	cmd = nvim-qt -- -f -d -c \"wincmd J\" -- "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
 [mergetool "nyaovim"]
 	cmd = nyaovim -f -d -c \"wincmd J\" "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
 [color]
