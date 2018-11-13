@@ -1,10 +1,10 @@
 " Setup {{{
 set shellslash
 
-let g:HomeDir='C:/Users/ellio/'
+let g:HomeDir='/home/ellioth/'
 " python support setup
-let g:python3_host_prog=g:HomeDir . '.local/virtualenvs/neovim3/Scripts/python.exe'
-let g:python_host_prog=g:HomeDir . '.local/virtualenvs/neovim2/Scripts/python.exe'
+let g:python3_host_prog=g:HomeDir . '.local/virtualenvs/neovim3/bin/python'
+let g:python_host_prog=g:HomeDir . '.local/virtualenvs/neovim2/bin/python'
 " }}}
 " Plugins {{{
 call plug#begin('~/.local/share/nvim/plugged')

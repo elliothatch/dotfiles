@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+#
+# Copyright (C) 2018 Elliot Hatch
+# Licensed under the GPL version 2 only
+#
+# A wifi indicator blocklet script for i3blocks and connman
+
+import re
+import os
+from subprocess import check_output
+
+if "BLOCK_BUTTON" in os.environ and os.environ["BLOCK_BUTTON"] == '1':
+    check_output(['swaymsg', 'exec', 'cmst -d'])
+
+long_format = "<span color='{}'><span font='FontAwesome'>\uf1eb</span>{}[{}]</span>"
+short_format = "<span color='{}'><span font='FontAwesome'>\uf1eb</span>{}</span>"
+
+def get_service_property(service_details, property_name):
+    for service_property in service_details:
+        property_parts = service_property.split();
+        if property_parts[0] == property_name:
+            return property_parts[2]
+
+    return ""
+
+status = check_output(['connmanctl', 'services'], universal_newlines=True)
+
+if not status:
+    # no services found
+    print("<span color='#a0a0a0'><span font='FontAwesome'>\uf1eb</span></span>")
+    print("<span color='#a0a0a0'><span font='FontAwesome'>\uf1eb</span></span>")
+else:
+    service_name = ""
+    service_id = ""
+    service_strength = ""
+    services = status.split("\n")
+    for service in services:
+        if len(service) > 2 and service[2] == "O":
+            # O means "online", we are connected to this service
+            service_parts = service.split()
+            service_name = service_parts[1]
+            service_id = service_parts[2]
+            service_details = check_output(['connmanctl', 'services', service_id], universal_newlines=True)
+            service_strength = get_service_property(service_details.split("\n"), "Strength")
+            break;
+
+    if service_name:
+        color = "#ffffff"
+        print(long_format.format(color, " " + service_strength + "% ", service_name))
+        print(short_format.format(color, " " + service_strength + "% ", service_name))
+    else:
+        color = "#a0a0a0"
+        print(long_format.format(color, "", len(services)))
+        print(short_format.format(color, "", len(services)))
