@@ -38,6 +38,7 @@ yay -S wl-clipboard-git
 
 # fonts
 pacman -S ttf-dejavu noto-fonts noto-fonts-emoji ttf-font-awesome
+yay -S nerd-fonts-dejavu-complete
 fc-cache -f -v
 
 # system monitors

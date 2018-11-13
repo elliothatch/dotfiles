@@ -1,7 +1,7 @@
 export TERMCMD=termite
 
-export VISUAL=nvim
-export EDITOR=$VISUAL
+export VISUAL=nvim-gui
+export EDITOR=nvim
 
 export PAGER=less
 export LESS=RM
