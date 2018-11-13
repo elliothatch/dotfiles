@@ -23,7 +23,6 @@ yay -S cmst
 
 pacman -S openssh
 
-
 # GUI
 ## window manager
 yay -S wlroots-git sway-git
@@ -59,13 +58,15 @@ pacman -S light
 # network
 pacman -S connman
 
+# user programs
+pacman -S neovim fzf the_silver_searcher
+
 # file manager
 yay -S ranger-git
 
 # image viewer
 pacman -S imv
 
-# user programs
-pacman -S neovim fzf the_silver_searcher
-
 yay -S slack-desktop
+
+# set up yubikey https://support.yubico.com/support/solutions/articles/15000006449-using-your-u2f-yubikey-with-linux
