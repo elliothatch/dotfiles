@@ -190,7 +190,7 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=-4
 set copyindent                  " carry indentation on newline
-set clipboard+=unnamed
+set clipboard+=unnamedplus
 set incsearch                   " search as you type
 set ignorecase                  " ignore case in search
 set smartcase                   " case sensitive when using capital letters

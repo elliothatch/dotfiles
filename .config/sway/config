@@ -71,6 +71,7 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
 
     # start your launcher
     bindsym $mod+d exec $menu
+    for_window [title="Launch application"] floating enable
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -198,9 +199,21 @@ mode "resize" {
     bindsym Up resize shrink height 10px
     bindsym Right resize grow width 10px
 
+    bindsym $left+Shift resize shrink width 100px
+    bindsym $down+Shift resize grow height 100px
+    bindsym $up+Shift resize shrink height 100px
+    bindsym $right+Shift resize grow width 100px
+
+    # ditto, with arrow keys
+    bindsym Left+Shift resize shrink width 100px
+    bindsym Down+Shift resize grow height 100px
+    bindsym Up+Shift resize shrink height 100px
+    bindsym Right+Shift resize grow width 100px
+
     # return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
 }
 bindsym $mod+r mode "resize"
 

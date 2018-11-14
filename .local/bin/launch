@@ -1,0 +1,2 @@
+#!/bin/sh
+swaymsg exec "$TERMCMD -d $PWD -t "$1" -e \"$SHELL -c '$1 ${@:2}'\""

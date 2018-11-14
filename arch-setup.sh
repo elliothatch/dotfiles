@@ -22,6 +22,11 @@ yay -S cmst
 # yay -S kdesu netctl-gui
 
 pacman -S openssh
+pacman -S xclip
+# process manager
+pacman -S htop
+
+pacman -S neofetch
 
 # GUI
 ## window manager
@@ -37,6 +42,7 @@ yay -S wl-clipboard-git
 
 # fonts
 pacman -S ttf-dejavu noto-fonts noto-fonts-emoji ttf-font-awesome
+pacman -S noto-fonts-cjk
 # yay -S nerd-fonts-dejavu-complete # icons are too small
 fc-cache -f -v
 
@@ -66,6 +72,11 @@ yay -S ranger-git
 
 # image viewer
 pacman -S imv
+
+# video player
+pacman -S vlc
+
+# audio player
 
 yay -S slack-desktop
 

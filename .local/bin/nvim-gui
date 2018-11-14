@@ -1,2 +1,2 @@
 #!/bin/sh
-swaymsg exec "$TERMCMD -t "Neovim" -e \"$SHELL -c 'nvim $@'\""
+launch nvim $@
