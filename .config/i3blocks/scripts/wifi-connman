@@ -18,7 +18,7 @@ short_format = "<span color='{}'><span font='FontAwesome'>\uf1eb</span>{}</span>
 def get_service_property(service_details, property_name):
     for service_property in service_details:
         property_parts = service_property.split();
-        if property_parts[0] == property_name:
+        if len(property_parts) > 2 and property_parts[0] == property_name:
             return property_parts[2]
 
     return ""
@@ -38,8 +38,8 @@ else:
         if len(service) > 2 and service[2] == "O":
             # O means "online", we are connected to this service
             service_parts = service.split()
-            service_name = service_parts[1]
-            service_id = service_parts[2]
+            service_name = " ".join(service_parts[1:-1])
+            service_id = service_parts[-1]
             service_details = check_output(['connmanctl', 'services', service_id], universal_newlines=True)
             service_strength = get_service_property(service_details.split("\n"), "Strength")
             break;

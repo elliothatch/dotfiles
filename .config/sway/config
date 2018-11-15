@@ -34,7 +34,9 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
 ### Notifications
-exec mako
+exec mako --background-color "#9e0c46" --text-color "#f2ead7" --border-color "#e3006a"
+
+client.focused #9e0c46 #9e0c46 #f2ead7 #d11b2d #9e0c46 
 
 ### Idle configuration
 #
@@ -226,6 +228,14 @@ bindsym XF86AudioMute exec --no-startup-id amixer -q -D pulse sset Master toggle
 bindsym XF86MonBrightnessUp exec light -A 10
 bindsym XF86MonBrightnessDown exec light -U 10
 
+# colors
+client.focused #9e0c46 #9e0c46 #f2ead7 #d11b2d #9e0c46 
+client.focused_inactive #9e0c46 #2c0d1a #e3006a #d11b2d #9e0c46 
+client.unfocused #9e0c46 #1a0a16 #9e0c46 #d11b2d #9e0c46 
+client.urgent #d11b2d #e3006a #ffffff #d11b2d #d11b2d 
+client.placeholder #9e0c46 #1a0a16 #9e0c46 #d11b2d #9e0c46 
+client.background #1a0a16
+
 #
 # Status Bar:
 #
@@ -239,9 +249,12 @@ bar {
     status_command SCRIPT_DIR=~/.config/i3blocks/scripts i3blocks
 
     colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
+        statusline #f2ead7
+        background #240d19
+        separator #9e0c46
+        inactive_workspace #9e0c46 #2c0d1a #9e0c46
+        focused_workspace #e3006a #9e0c46 #f2ead7
+        urgent_workspace #e3006a #d11b2d #ffffff
     }
 }
 
