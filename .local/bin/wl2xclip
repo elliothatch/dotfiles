@@ -1,0 +1,2 @@
+#!/bin/sh
+wl-paste --no-newline | xclip -i -selection clipboard

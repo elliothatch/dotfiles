@@ -61,6 +61,9 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
     middle_emulation enabled
 }
 
+### Workspace configuration
+for_window [workspace=2] layout tabbed
+
 ### Key bindings
 #
 # Basics:
@@ -83,7 +86,11 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
     floating_modifier $mod normal
 
     # reload the configuration file
-    bindsym $mod+Shift+c reload
+    bindsym $mod+Control+Shift+c reload
+
+    # clipboard helpers
+    bindsym $mod+Shift+c exec $SHELL -c wl2xclip
+    bindsym $mod+Shift+v exec $SHELL -c xclip2wl
 
     # exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
@@ -225,8 +232,10 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q -D pulse sset Master
 bindsym XF86AudioMute exec --no-startup-id amixer -q -D pulse sset Master toggle
 
 # Brightness buttons
-bindsym XF86MonBrightnessUp exec light -A 10
-bindsym XF86MonBrightnessDown exec light -U 10
+# bindsym XF86MonBrightnessUp exec light -A 10
+# bindsym XF86MonBrightnessDown exec light -U 10
+# bindsym XF86MonBrightnessUp exec [[ $(light) -lt 15 ]] && light -A 2 || light -A 10
+# bindsym XF86MonBrightnessDown exec [[ $(light) -lt 15 ]] && light -U 2 || light -U 10
 
 # colors
 client.focused #9e0c46 #9e0c46 #f2ead7 #d11b2d #9e0c46 

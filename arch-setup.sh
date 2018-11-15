@@ -61,9 +61,6 @@ pacman -S acpi
 ## backlight
 pacman -S light
 
-# network
-pacman -S connman
-
 # user programs
 pacman -S neovim fzf the_silver_searcher
 

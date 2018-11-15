@@ -190,7 +190,6 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=-4
 set copyindent                  " carry indentation on newline
-set clipboard+=unnamedplus
 set incsearch                   " search as you type
 set ignorecase                  " ignore case in search
 set smartcase                   " case sensitive when using capital letters
@@ -198,6 +197,21 @@ set undofile                    " save undo history to file
 set textwidth=0                 " disable automatic word wrap
 set completeopt+=noinsert       " auto-select first omnicomplete result
 set mouse=a                     " enable mouse
+" }}}
+" Clipboard settings {{{
+set clipboard+=unnamedplus
+" let g:clipboard = {
+" 	\'name': 'wl-clipboard',
+" 	\   'copy': {
+" 	\      '+': 'wl-copy',
+" 	\      '*': 'wl-copy',
+" 	\    },
+" 	\   'paste': {
+" 	\      '+': 'wl-paste --no-newline',
+" 	\      '*': 'wl-paste --no-newline --primary',
+" 	\   },
+" 	\'cache_enabled': 1,
+" \}
 " }}}
 "  - Folding {{{
 
