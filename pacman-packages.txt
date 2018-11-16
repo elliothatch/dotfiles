@@ -1,0 +1,38 @@
+# core
+atool
+connman
+fzf
+highlight
+htop
+neofetch
+neovim
+openssh
+sysstat
+the_silver_searcher
+unzip
+wpa_supplicant
+zip
+
+# fonts
+noto-fonts-cjk
+noto-fonts-emoji
+ttf-dejavu noto-fonts
+ttf-font-awesome
+
+# audio
+alsa-utils
+pavucontrol
+
+# media
+imv
+vlc
+
+# xorg
+xclip
+
+# laptop
+acpi
+
+# other
+# bluez
+# openvpn

@@ -38,14 +38,11 @@ exec mako --background-color "#9e0c46" --text-color "#f2ead7" --border-color "#e
 exec slack
 
 ### Idle configuration
-#
-# Example configuration:
-#
-#exec swayidle \
-#    timeout 300 'swaylock -c 000000' \
-#    timeout 600 'swaymsg "output * dpms off"' \
-#       resume 'swaymsg "output * dpms on"' \
-#    before-sleep 'swaylock -c 000000'
+exec swayidle \
+    timeout 300 'swaylock -e -c 1a0a16' \
+    timeout 600 'swaymsg "output * dpms off"' \
+       resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -c 1a0a16'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 600 seconds, and turn your screens back on when

@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# install packages
+pacman -S $(cat ./pacman-packages.txt | sed '/^#/ d' | tr '\n' ' ')
+
 # AUR package manager
 mkdir $HOME/build
 cd $HOME/build
@@ -7,74 +10,7 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 
-# network
-pacman -S wpa_supplicant
-
-# bluetooth
-# pacman -S bluez
-
-# vpn
-# pacman -S openvpn
-
-pacman -S connman
-# network gui
-yay -S cmst
-# yay -S kdesu netctl-gui
-
-pacman -S openssh
-pacman -S xclip
-# process manager
-pacman -S htop
-
-pacman -S neofetch
-
-pacman -S zip unzip atool
-
-# GUI
-## window manager
-yay -S wlroots-git sway-git
-
-## status bar
-yay -S i3blocks-git
-
-## notifications
-yay -S mako-git
-
-yay -S wl-clipboard-git
-
-# fonts
-pacman -S ttf-dejavu noto-fonts noto-fonts-emoji ttf-font-awesome
-pacman -S noto-fonts-cjk
-# yay -S nerd-fonts-dejavu-complete # icons are too small
-fc-cache -f -v
-
-# system monitors
-pacman -S sysstat
-
-# audio
-pacman -S alsa-utils pavucontrol
-
-# laptop
-## power
-pacman -S acpi
-# pacman -S acpid
-# systemctl enable acpid.service
-
-## backlight
-pacman -S light
-
-# user programs
-pacman -S neovim fzf the_silver_searcher
-
-# file manager
-yay -S ranger-git
-
-# image viewer
-pacman -S imv
-
-# video player
-pacman -S vlc
-
-yay -S slack-desktop
+yay --no-prompt -S $(cat ./aur-packages.txt | sed '/^#/ d' | tr '\n' ' ')
 
 # set up yubikey https://support.yubico.com/support/solutions/articles/15000006449-using-your-u2f-yubikey-with-linux
+curl https://raw.githubusercontent.com/Yubico/libu2f-host/master/70-u2f.rules > /etc/udev/rules.d/70-u2f.rules

@@ -1,0 +1,11 @@
+cmst
+light
+ranger-git
+slack-desktop
+
+# wm
+i3blocks-git
+mako-git
+sway-git
+wl-clipboard-git
+wlroots-git
