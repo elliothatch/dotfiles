@@ -8,6 +8,7 @@ neofetch
 neovim
 openssh
 sysstat
+termite
 the_silver_searcher
 unzip
 wpa_supplicant
