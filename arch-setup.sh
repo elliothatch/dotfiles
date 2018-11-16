@@ -28,6 +28,8 @@ pacman -S htop
 
 pacman -S neofetch
 
+pacman -S zip unzip atool
+
 # GUI
 ## window manager
 yay -S wlroots-git sway-git
@@ -72,8 +74,6 @@ pacman -S imv
 
 # video player
 pacman -S vlc
-
-# audio player
 
 yay -S slack-desktop
 
