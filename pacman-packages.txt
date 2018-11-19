@@ -1,28 +1,37 @@
 # core
 atool
 connman
+dialog
+firefox
 fzf
+gdm
+git
 highlight
 htop
 neofetch
 neovim
 openssh
+python-virtualenv
 sysstat
 termite
 the_silver_searcher
 unzip
 wpa_supplicant
 zip
+zsh
 
 # fonts
+noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
-ttf-dejavu noto-fonts
+ttf-dejavu
 ttf-font-awesome
 
 # audio
 alsa-utils
 pavucontrol
+pulseaudio
+pulseaudio-alsa
 
 # media
 imv
