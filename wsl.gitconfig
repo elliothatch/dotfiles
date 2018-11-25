@@ -4,20 +4,22 @@
 [alias]
 	st = status -s -b
 	lg = log --oneline
-	bugs = !git ls-tree --name-only refs/heads/bugs -- ${1:-open/}
-	bug = "!git show refs/heads/bugs:${2:-open}/$1/bug #"
-	bug-assigned = !git grep --name-only $1 refs/heads/bugs -- **/assigned
-	bugs-mine = "!git grep --name-only $1 refs/heads/bugs -- $2**/assigned #"
-	bug-id = "!git log --follow --diff-filter=A --name-status --format=%H refs/heads/bugs -- open/$1/bug #"
+	bugs = ls-tree --name-only refs/heads/bugs
+	bug = "!git show refs/heads/bugs:\"$1\"/bug #"
+	bug-assigned = !git grep --name-only \"$1\" refs/heads/bugs -- **/assigned
+	bugs-all = ls-tree -r --name-only refs/heads/bugs
 	bugs-open = ls-tree --name-only refs/heads/bugs -- open/
-	bug-history = "!git log refs/heads/bugs --follow -- **/$1/* #"
-	bugs-init = worktree add bugs refs/heads/bugs
+	bugs-mine = "!git grep --name-only \"$1\" refs/heads/bugs -- \"$2\"**/assigned #"
+	bug-id = "!git log --follow --diff-filter=A --name-status --format=\"%H\" refs/heads/bugs -- open/\"$1\"/bug #"
+	bug-history = "!git log refs/heads/bugs --follow -- **/\"$1\"/* #"
 	df = "!git difftool --no-prompt $1 $2 -- $(git diff --name-only $1 $2 | fzf -0 --ansi --preview=\"git diff --color $1 $2 -- {}\") #"
-	default = simple
 	a = "!git add $(git diff --name-only | fzf -0 -m --ansi --preview=\"git diff --color -- {}\") #"
 	l = "!git show $(git log -200 --pretty=\"format:%H %an %s\" | fzf --no-sort --reverse -0 -m --ansi --preview=\"git show --color --name-status \\$(echo {} | python -c \\\"import sys; print(sys.stdin.read().split(' ')[0]);\\\")\" | python -c \"import sys; print(sys.stdin.read().split(\\\" \\\")[0]);\") #"
-	t = "!git show $(git log -200 --pretty=\"format:%H\" | fzf --no-sort --reverse -0 --ansi --preview=\"git show --color $(echo {})\")"
 	co = "!git checkout $(git branch --color --all | fzf -0 --ansi --preview=\"git log --oneline --graph --color \\$(echo {} | python -c \\\"import sys; print(sys.stdin.read()[2:]);\\\")\") -- #"
+
+
+[push]
+	default = simple
 [diff]
 	tool = nvim-qt
 [difftool "nvim-qt"]
@@ -35,4 +37,4 @@
 	diff = auto
 	status = auto
 [core]
-	ignorecase = false
+	autocrlf = true

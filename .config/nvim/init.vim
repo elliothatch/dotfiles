@@ -52,10 +52,12 @@ Plug 'sheerun/vim-polyglot'
 "Plug 'rust-lang/rust.vim'
 "Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'mustache/vim-mustache-handlebars'
+Plug 'HerringtonDarkholme/yats.vim'
 
 " typescript
 "Plug 'mhartington/nvim-typescript', {'commit': 'b1d61b22d2459f1f62ab256f564b52d05626440a'}
-Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
+" Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
+Plug 'mhartington/nvim-typescript'
 
 " nyaovim
 Plug 'rhysd/nyaovim-markdown-preview'
@@ -156,6 +158,9 @@ nnoremap <leader>gl :tabe %<CR>:NeomakeDisableTab<CR>:Glog -- %<CR>:botright cop
 nnoremap <leader>gL :tabe %<CR>:NeomakeDisableTab<CR>:Glog<CR>:botright copen<CR>
 nnoremap <leader>gd :tabe %<CR>:NeomakeDisableTab<CR>:Gdiff<CR>
 nnoremap <leader>gb :tabe %<CR>:NeomakeDisableTab<CR>:Gblame<CR>
+" format json
+nnoremap <leader>fj :%! python -m json.tool<CR>
+vnoremap <leader>fj :! python -m json.tool<CR>
 
 " mileszs/ack.vim
 let g:ackprg = 'ag --nogroup --nocolor --column --hidden --path-to-ignore ' . g:HomeDir . '.config/ag/.ignore'
@@ -189,6 +194,7 @@ set hidden
 set shiftwidth=4
 set tabstop=4
 set softtabstop=-4
+set expandtab
 set copyindent                  " carry indentation on newline
 set clipboard+=unnamed
 set incsearch                   " search as you type
@@ -292,8 +298,8 @@ set statusline+=%#DiffChange#%m%r%w%*                           " modified/reado
 set statusline+=%#LineNr#%{fugitive#head()}%*             " git branch
 set statusline+=\ %<%F\                                "File+path
 set statusline+=%*\ %=\  "divider
-set statusline+=%{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
 set statusline+=%{SpinnerText()}\      "Encoding
+set statusline+=%{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
 set statusline+=%{(&bomb?\",BOM\":\"\")}            "Encoding2
 set statusline+=[%{&ff}]\                              "FileFormat (dos/unix..)
 set statusline+=%y\                                  "FileType
@@ -531,6 +537,8 @@ augroup neomake_hooks
     " autocmd User NeomakeFinished :echom "Build complete"
 augroup END
 
+" autocomplete MUST be sorted shortest match first or this is incredibly
+" annoying!
 "call AutocompleteOnInsertChar([
 "\'(', ')', '[', ']',
 "\';', ',', '.',  ':',
