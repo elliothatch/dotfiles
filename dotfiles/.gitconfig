@@ -4,6 +4,12 @@
 [alias]
 	st = status -s -b
 	lg = log --oneline
+	df = "!git diff --name-only $1 $2 -- | fzf -0 --ansi --preview=\"git diff --color $1 $2 -- {}\" | xargs -r git difftool --no-prompt $1 $2 --"
+	a = "!{ git diff --name-only; git ls-files -o ; } | fzf -0 -m --ansi --preview=\"git diff --color -- {}\" | xargs -r git add --"
+	r = "!git diff --cached --name-only | fzf -0 -m --ansi --preview=\"git diff --cached --color -- {}\" | xargs -r git reset --"
+	l = "!git log -200 --color --pretty=\"format:%s - %Cgreen%an%Creset - %Cblue%H%Creset\" \"$@\" | fzf --no-sort --reverse -0 -m --ansi --preview=\"echo {} | sed 's/.*- //' | xargs -r git show --color --stat\" | sed 's/.*- //' | xargs -r git show"
+	co = "!git branch --color --all | fzf -0 --ansi --preview=\"echo {} | sed 's/^[*\\s]*//' | sed 's/->.*//' | xargs git log --oneline --graph --color\" | sed 's/^[*\\s]*//' | sed 's/->.*//' | xargs -r -I % git checkout % --"
+
 
 [push]
 	default = simple

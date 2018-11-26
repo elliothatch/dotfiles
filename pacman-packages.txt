@@ -11,6 +11,7 @@ htop
 neofetch
 neovim
 openssh
+p7zip
 python-virtualenv
 sysstat
 termite
