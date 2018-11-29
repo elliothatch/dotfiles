@@ -1,5 +1,6 @@
 cmst
 light
+nvm
 ranger-git
 slack-desktop
 

@@ -54,8 +54,9 @@ Plug 'sheerun/vim-polyglot'
 Plug 'mustache/vim-mustache-handlebars'
 
 " typescript
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 "Plug 'mhartington/nvim-typescript', {'commit': 'b1d61b22d2459f1f62ab256f564b52d05626440a'}
-Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
+" Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
 
 " nyaovim
 Plug 'rhysd/nyaovim-markdown-preview'
@@ -79,7 +80,7 @@ let g:neomake_open_list = 2
 let g:deoplete#enable_at_startup = 1
 
 " elliothatch/nvim-typescript
-let g:nvim_typescript#_server_path = 'node_modules\\.bin\\tsserver'
+" let g:nvim_typescript#_server_path = 'node_modules\\.bin\\tsserver'
 
 let g:neomake_html_enabled_makers = []
 

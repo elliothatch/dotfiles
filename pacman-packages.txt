@@ -10,6 +10,7 @@ highlight
 htop
 neofetch
 neovim
+nftables
 openssh
 p7zip
 python-virtualenv
