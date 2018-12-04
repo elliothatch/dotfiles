@@ -1,7 +1,13 @@
 #!/bin/sh
 
+# pick fastest package mirrors
+pacman -S pacman-contrib
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+awk '/^## United States$/{f=1}f==0{next}/^$/{exit}{print substr($0, 2)}' /etc/pacman.d/mirrorlist.backup
+rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+
 # useful initial packages
-pacman -S connman dialog git wpa_supplicant zsh
+pacman -S base-devel connman dialog git wpa_supplicant zsh
 
 # user setup
 useradd --create-home ellioth
