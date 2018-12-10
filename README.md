@@ -1,19 +1,27 @@
-# vimconfig
-my .vim, .vimrc, .gitconfig and plugins and anything else
+# dotfiles
+dotfiles for arch linux
 
-setup
------
-run `install.sh` to automatically link all the files to your home directory (only includes .gitconfig if logged in with my username, since it has my personal info)
+# overview
+ - shell: zsh
+ - text editor: neovim
+ - code search: ag (the silver searcher)
+ - fuzzy finder: fzf
+ - file manager: ranger
+ - terminal emulator: termite
+ - window manager: sway
+ - status bar: i3blocks
+ - notifications: mako
 
-If this is the first install, you also need to build `vimproc` for tsuquyomi to work:
+Sway doesn't work well with Nvidia, so on my desktop I use the following instead:
+ - window manager: i3-gaps
+ - notifications: dunst
 
-```
-cd .vim/bundle/vimproc
-make
-```
+See package files for details.
 
-In windows, use the VS command prompt or download vimproc binaries to `vimproc/lib`.
-```
-nmake -f make_msvc.mak nodebug=1 "SDK_INCLUDE_DIR=C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Include"
-```
+Also, my .gitconfig includes aliases that make some common git commands (add, checkout, diff, reset) interactive, using fzf.
 
+# setup
+Arch files are found in the `arch/` directory. run commands in `arch/setup.sh` one at a time to install. the script isn't really automated and some commands will not work as provided.
+
+Within `arch/` are subdirectories for specific computers (core/desktop/laptop). Each directory may contain `pacman-packages.txt` and/or `aur-packages.txt`. See `setup.txt` for an example of how these files are used.
+Each arch subdirectory also contains a `link.sh`, which symlinks the files for the corresponding setup. Additional manual setup may be required.

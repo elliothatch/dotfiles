@@ -63,21 +63,21 @@ interval=2
 # The directory defaults to $HOME if the instance is not specified.
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
-[disk]
-label=HOME
+# [disk]
+# label=HOME
 #DIR=/mnt/data
-interval=30
+# interval=30
 
 
 # Network interface monitoring
 #
 # If the instance is not specified, use the interface used for default route.
 # The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
-[iface]
+# [iface]
 #IFACE=wlan0
-color=#00FF00
-interval=10
-separator=false
+# color=#00FF00
+# interval=10
+# separator=false
 
 [wifi-connman]
 #INTERFACE=wlp3s0
@@ -86,23 +86,23 @@ markup=pango
 interval=2
 # separator=false
 
-[bandwidth]
+# [bandwidth]
 #INTERFACE=eth0
-interval=5
+# interval=5
 
-[load_average]
-label=LOAD
-interval=10
+# [load_average]
+# label=LOAD
+# interval=10
 
 # Volume indicator
 [volume-pulseaudio]
 markup=pango
 interval=persist
-SUBSCRIBE=1
+# SUBSCRIBE=1
 
-[battery2]
-markup=pango
-interval=1
+# [battery2]
+# markup=pango
+# interval=1
 
 # Date Time
 #

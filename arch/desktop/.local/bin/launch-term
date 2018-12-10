@@ -1,0 +1,2 @@
+#!/bin/sh
+i3-msg exec "$TERMCMD -d $PWD -t \"$1\" -e \"$SHELL -c '$1 ${@:2}'\""

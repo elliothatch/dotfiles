@@ -46,8 +46,9 @@ else:
 
     if service_name:
         color = "#ffffff"
-        print(long_format.format(color, " " + service_strength + "% ", service_name))
-        print(short_format.format(color, " " + service_strength + "% ", service_name))
+        strength_str = service_strength + "% " if service_strength else " "
+        print(long_format.format(color, " "  + strength_str, service_name))
+        print(short_format.format(color, " " + strength_str, service_name))
     else:
         color = "#a0a0a0"
         print(long_format.format(color, "", len(services)))

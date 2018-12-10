@@ -1,10 +1,13 @@
 #!/bin/sh
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # pick fastest package mirrors
 pacman -S pacman-contrib
+# cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+# awk '/^## United States$/{f=1}f==0{next}/^$/{exit}{print substr($0, 2)}' /etc/pacman.d/mirrorlist.backup
+# rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-awk '/^## United States$/{f=1}f==0{next}/^$/{exit}{print substr($0, 2)}' /etc/pacman.d/mirrorlist.backup
-rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+cp $DIR/mirrorlist /etc/pacman.d/mirrorlist
 
 # useful initial packages
 pacman -S base-devel connman dialog git wpa_supplicant zsh
@@ -20,7 +23,7 @@ systemctl enable connman
 systemctl start connman
 
 # install packages
-pacman -S $(cat ./pacman-packages.txt | sed '/^#/ d' | tr '\n' ' ')
+pacman -S $(cat $DIR/core/pacman-packages.txt | sed '/^#/ d' | tr '\n' ' ')
 
 # AUR package manager
 mkdir $HOME/build
@@ -29,12 +32,15 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 
-yay --no-prompt -S $(cat ./aur-packages.txt | sed '/^#/ d' | tr '\n' ' ')
+yay --no-prompt -S $(cat $DIR/core/aur-packages.txt | sed '/^#/ d' | tr '\n' ' ')
 
 systemctl enable gdm
 
 # enable firewall
 systemctl enable nftables
+
+# enable printer
+systemctl enable org.cups.cupsd.service
 
 
 # set up yubikey https://support.yubico.com/support/solutions/articles/15000006449-using-your-u2f-yubikey-with-linux

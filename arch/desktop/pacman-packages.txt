@@ -1,0 +1,11 @@
+# xorg
+arandr
+dunst
+feh
+i3
+scrot
+xautolock
+xclip
+xorg-xinput
+
+nvidia

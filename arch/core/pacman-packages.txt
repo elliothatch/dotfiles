@@ -1,4 +1,3 @@
-# core
 atool
 connman
 dialog
@@ -14,9 +13,13 @@ nftables
 openssh
 p7zip
 python-virtualenv
+rsync
+smbclient
 sysstat
 termite
 the_silver_searcher
+udiskie
+udisks2
 unzip
 wpa_supplicant
 zip
@@ -36,14 +39,16 @@ pulseaudio
 pulseaudio-alsa
 
 # media
+gimp
+imagemagick
 imv
 vlc
 
+# printer
+cups
+
 # xorg
 xclip
-
-# laptop
-acpi
 
 # other
 # bluez
