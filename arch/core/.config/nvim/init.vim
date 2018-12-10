@@ -158,6 +158,10 @@ nnoremap <leader>gL :tabe %<CR>:NeomakeDisableTab<CR>:Glog<CR>:botright copen<CR
 nnoremap <leader>gd :tabe %<CR>:NeomakeDisableTab<CR>:Gdiff<CR>
 nnoremap <leader>gb :tabe %<CR>:NeomakeDisableTab<CR>:Gblame<CR>
 
+" format json
+nnoremap <leader>fj :%! python -m json.tool<CR>
+vnoremap <leader>fj :! python -m json.tool<CR>
+
 " mileszs/ack.vim
 let g:ackprg = 'ag --nogroup --nocolor --column --hidden --path-to-ignore ' . g:HomeDir . '.config/ag/.ignore'
 "vnoremap <Leader>av :<C-u>let cmd = "Ack! " . VAck() <bar> call histadd("cmd", cmd) <bar> execute cmd<CR>
