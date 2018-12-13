@@ -21,6 +21,7 @@ the_silver_searcher
 udiskie
 udisks2
 unzip
+w3m
 wpa_supplicant
 zip
 zsh
@@ -46,6 +47,9 @@ vlc
 
 # printer
 cups
+
+# mtp
+simple-mtpfs
 
 # xorg
 xclip

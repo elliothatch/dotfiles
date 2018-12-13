@@ -11,54 +11,27 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term termite -t termite
-# Your preferred application launcher
-# Note: it's recommended that you pass the final command to sway
 
-### Output configuration
-#
-# Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
-# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill scale 2
+# desktop background
+exec --no-startup-id feh --bg-scale ~/Pictures/bg-gradient.jpg
 
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: i3-msg -t get_outputs
-
-### Notifications
-# exec mako --background-color "#9e0c46" --text-color "#f2ead7" --border-color "#e3006a"
-exec compton -b
-exec slack
-exec udiskie
+exec --no-startup-id compton -b
+exec --no-startup-id slack
+exec --no-startup-id udiskie
 
 ### Idle configuration
 exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
 
-bindsym $mod+x exec --no-startup-id xautolock -locknow
+bindsym $mod+x exec xautolock -locknow
 bindsym $mod+Shift+x exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
-# exec swayidle \
-#     timeout 300 'swaylock -e -c 1a0a16' \
-#     timeout 600 'i3-msg "output * dpms off"' \
-#        resume 'i3-msg "output * dpms on"' \
-#     before-sleep 'swaylock -c 1a0a16'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 600 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
-
-### Input configuration
-
-# input "2:7:SynPS/2_Synaptics_TouchPad" {
-#     # dwt enabled
-#     tap enabled
-#     # natural_scroll enabled
-#     middle_emulation enabled
-# }
 
 ### Workspace configuration
-# for_window [workspace=2] layout tabbed
-for_window [class="Slack"] move container workspace 2
+workspace "1" output DP-0
+workspace "2" output DP-0
+workspace "3" output DVI-D-0
+
+for_window [class="Slack"] move container workspace 3
+for_window [class="vlc"] move container workspace 3
 
 ### Key bindings
 #
@@ -168,9 +141,6 @@ for_window [class="Slack"] move container workspace 2
 #
 # Scratchpad:
 #
-    # Sway has a "scratchpad", which is a bag of holding for windows.
-    # You can send windows there and get them back later.
-
     # Move the currently focused window to the scratchpad
     bindsym $mod+Shift+minus move scratchpad
 
@@ -236,8 +206,6 @@ client.background #1a0a16
 
 #
 # Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
     font pango:sans-serif 12, FontAwesome 12
@@ -251,8 +219,9 @@ bar {
         statusline #f2ead7
         background #240d19
         separator #9e0c46
-        inactive_workspace #9e0c46 #2c0d1a #9e0c46
         focused_workspace #e3006a #9e0c46 #f2ead7
+        inactive_workspace #9e0c46 #2c0d1a #9e0c46
         urgent_workspace #e3006a #d11b2d #ffffff
+        active_workspace #e3006a #2c0d1a #e3006a
     }
 }
