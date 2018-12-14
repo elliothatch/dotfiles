@@ -24,6 +24,7 @@ exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
 
 bindsym $mod+x exec xautolock -locknow
 bindsym $mod+Shift+x exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
+bindsym $mod+Control+Shift+x exec pkill xautolock
 
 ### Workspace configuration
 workspace "1" output DP-0
