@@ -1,0 +1,1 @@
+//icebox/fresh4less /mnt/fresh4less cifs rw,credentials=/etc/samba/credentials/fresh4less,iocharset=utf8,uid=ellioth,gid=ellioth,file_mode=0770,dir_mode=0770,x-systemd.automount 0 0
