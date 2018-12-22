@@ -32,7 +32,7 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 
-yay --no-prompt -S $(cat $DIR/core/aur-packages.txt | sed '/^#/ d' | tr '\n' ' ')
+yay -S $(cat $DIR/core/aur-packages.txt | sed '/^#/ d' | tr '\n' ' ')
 
 systemctl enable gdm
 

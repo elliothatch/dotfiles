@@ -12,6 +12,7 @@ neovim
 nftables
 openssh
 p7zip
+pacman-contrib
 python-virtualenv
 rsync
 smbclient
@@ -47,9 +48,6 @@ vlc
 
 # printer
 cups
-
-# mtp
-simple-mtpfs
 
 # xorg
 xclip

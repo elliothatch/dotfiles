@@ -1,2 +1,5 @@
 # power
 acpi
+
+# sway
+grim

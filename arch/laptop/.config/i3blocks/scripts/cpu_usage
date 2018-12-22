@@ -1,63 +1,39 @@
-#!/usr/bin/perl
+#!/usr/bin/env python3
 #
-# Copyright 2014 Pierre Mavro <deimos@deimos.fr>
-# Copyright 2014 Vivien Didelot <vivien@didelot.org>
-# Copyright 2014 Andreas Guldstrand <andreas.guldstrand@gmail.com>
-#
+# Copyright 2018 Elliot Hatch <elliot.hatch@gmail.com>
 # Licensed under the terms of the GNU GPL v3, or any later version.
+#
+# Displays CPU usage for all cores with mpstat
 
-use strict;
-use warnings;
-use utf8;
-use Getopt::Long;
+import re
+import os
+from subprocess import check_output
+import json
 
-# default values
-my $t_warn = $ENV{T_WARN} || 50;
-my $t_crit = $ENV{T_CRIT} || 80;
-my $cpu_usage = -1;
-my $decimals = $ENV{DECIMALS} || 2;
-my $label = $ENV{LABEL} || "";
+def color(time):
+    if time >= critPercent:
+        return 'color="{}"'.format(critColor)
+    elif time >= warnPercent:
+        return 'color="{}"'.format(warnColor)
+    else:
+        return ""
 
-sub help {
-    print "Usage: cpu_usage [-w <warning>] [-c <critical>] [-d <decimals>]\n";
-    print "-w <percent>: warning threshold to become yellow\n";
-    print "-c <percent>: critical threshold to become red\n";
-    print "-d <decimals>:  Use <decimals> decimals for percentage (default is $decimals) \n"; 
-    exit 0;
-}
+warnPercent = 50
+warnColor = "#FFFC00"
 
-GetOptions("help|h" => \&help,
-           "w=i"    => \$t_warn,
-           "c=i"    => \$t_crit,
-           "d=i"    => \$decimals,
-);
+critPercent = 80
+critColor = "#FF0000"
 
-# Get CPU usage
-$ENV{LC_ALL}="en_US"; # if mpstat is not run under en_US locale, things may break, so make sure it is
-open (MPSTAT, 'mpstat 1 1 |') or die;
-while (<MPSTAT>) {
-    if (/^.*\s+(\d+\.\d+)[\s\x00]?$/) {
-        $cpu_usage = 100 - $1; # 100% - %idle
-        last;
-    }
-}
-close(MPSTAT);
+status = check_output(['mpstat', '-P', 'ALL', '-o', 'JSON', '1' ,'1'], universal_newlines=True)
 
-$cpu_usage eq -1 and die 'Can\'t find CPU information';
+if not status:
+    exit(1)
 
-# Print short_text, full_text
-print "${label}";
-printf "%.${decimals}f%%\n", $cpu_usage;
-print "${label}";
-printf "%.${decimals}f%%\n", $cpu_usage;
+data = json.loads(status)
+cpu_loads = data["sysstat"]["hosts"][0]["statistics"][0]["cpu-load"]
+cpus = {cpu["cpu"]: 100 - cpu["idle"] for cpu in cpu_loads}
+long_times_str = " | ".join(["<span {}>{:.2f}</span>".format(color(time), time) for cpu, time in cpus.items() if cpu != "-1"])
+short_times_str = " | ".join(["<span {}>{:.0f}</span>".format(color(time), time) for cpu, time in cpus.items() if cpu != "-1"])
 
-# Print color, if needed
-if ($cpu_usage >= $t_crit) {
-    print "#FF0000\n";
-    exit 33;
-} elsif ($cpu_usage >= $t_warn) {
-    print "#FFFC00\n";
-}
-
-exit 0;
-
+print(long_times_str)
+print(short_times_str)

@@ -2,6 +2,9 @@ cmst
 nvm
 ranger-git
 slack-desktop
+ 
+# mtp
+simple-mtpfs
 
 # wm
 i3blocks-git

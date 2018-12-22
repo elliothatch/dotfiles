@@ -26,6 +26,7 @@ set $filemanager $term --name "filemanager" -t "Files" -e "$SHELL -c ranger"
 #
 # Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
 output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill scale 2
+#output * bg ~/Pictures/bg-gradient.png fill scale 2
 #
 # Example configuration:
 #
@@ -35,14 +36,19 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill s
 
 ### Notifications
 exec mako --background-color "#9e0c46" --text-color "#f2ead7" --border-color "#e3006a"
-exec slack
+exec --no-startup-id slack
+exec --no-startup-id udiskie
 
+set $LOCK_IMG_FILE $XDG_RUNTIME_DIR/screen_locked.png
+set $lock grim -s 0.25 $LOCK_IMG_FILE && convert $LOCK_IMG_FILE -blur 0x1 $LOCK_IMG_FILE && swaylock -e -i $LOCK_IMG_FILE
 ### Idle configuration
 exec swayidle \
-    timeout 300 'swaylock -e -c 1a0a16' \
+    timeout 300 "$lock" \
     timeout 600 'swaymsg "output * dpms off"' \
        resume 'swaymsg "output * dpms on"' \
     before-sleep 'swaylock -c 1a0a16'
+
+bindsym $mod+x exec $lock
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 600 seconds, and turn your screens back on when
@@ -60,6 +66,7 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
 ### Workspace configuration
 for_window [workspace=2] layout tabbed
 for_window [class="Slack"] move container workspace 3
+for_window [class="vlc"] move container workspace 3
 
 ### Key bindings
 #
@@ -184,6 +191,7 @@ for_window [class="Slack"] move container workspace 3
     # show the file manager scratchpad
     for_window [app_id="filemanager"] floating enable, resize set 680 720, move scratchpad
     exec $filemanager
+
     bindsym $mod+z [app_id="filemanager"] scratchpad show
     bindsym $mod+Shift+z exec $filemanager #; [app_id="filemanager"] scratchpad show
 #
@@ -254,13 +262,16 @@ bar {
     # status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
     status_command SCRIPT_DIR=~/.config/i3blocks/scripts i3blocks
 
+    separator_symbol "|"
+
     colors {
         statusline #f2ead7
         background #240d19
-        separator #9e0c46
-        inactive_workspace #9e0c46 #2c0d1a #9e0c46
+        separator #e3006a
         focused_workspace #e3006a #9e0c46 #f2ead7
+        inactive_workspace #9e0c46 #2c0d1a #9e0c46
         urgent_workspace #e3006a #d11b2d #ffffff
+        active_workspace #e3006a #2c0d1a #e3006a
     }
 }
 
