@@ -1,0 +1,14 @@
+{
+	"apikey": "",
+	"domains": [
+		{
+			"domain": "fresh4less.org",
+			"records": [
+				{
+					"name": "icebox",
+					"type": "A"
+				}
+			]
+		}
+	]
+}

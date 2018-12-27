@@ -1,0 +1,9 @@
+[Unit]
+Description=Update icebox.fresh4less.org DNS hourly
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
