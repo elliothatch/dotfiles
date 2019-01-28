@@ -1,0 +1,2 @@
+gcc-xtensa-esp32-elf-bin
+ncurses5-compat-libs

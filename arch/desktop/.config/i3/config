@@ -22,9 +22,9 @@ exec --no-startup-id udiskie
 ### Idle configuration
 exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
 
-bindsym $mod+x exec xautolock -locknow
-bindsym $mod+Shift+x exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
-bindsym $mod+Control+Shift+x exec pkill xautolock
+bindsym $mod+x exec notify-send -t 2000 "Locking..." xautolock -locknow || xautolock -time 5 -locker "$SHELL -c lockscreen" && xautolock -locknow
+bindsym $mod+Shift+x exec --no-startup-id  notify-send -t 2000 "Autolock enabled" && xautolock -time 5 -locker "$SHELL -c lockscreen"
+bindsym $mod+Control+Shift+x exec pkill xautolock && notify-send -t 2000 "Autolock disabled"
 
 ### Workspace configuration
 workspace "1" output DP-0

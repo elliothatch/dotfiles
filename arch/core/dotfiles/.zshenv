@@ -16,3 +16,4 @@ export GOPATH=~/go
 export FZF_DEFAULT_COMMAND='ag -l --hidden --path-to-ignore $HOME/.config/ag/.ignore'
 
 export I3BLOCKS_SCRIPT_DIR=$HOME/.config/i3blocks/scripts
+export IDF_PATH=$HOME/esp/esp-idf

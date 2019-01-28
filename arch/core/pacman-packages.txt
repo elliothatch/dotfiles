@@ -1,6 +1,7 @@
 atool
 connman
 dialog
+exfat-utils
 firefox
 fzf
 gdm

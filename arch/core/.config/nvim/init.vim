@@ -53,6 +53,9 @@ Plug 'sheerun/vim-polyglot'
 "Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'mustache/vim-mustache-handlebars'
 
+" tags
+Plug 'c0r73x/neotags.nvim', {'do': 'make'}
+
 " typescript
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 "Plug 'mhartington/nvim-typescript', {'commit': 'b1d61b22d2459f1f62ab256f564b52d05626440a'}
@@ -83,6 +86,19 @@ let g:deoplete#enable_at_startup = 1
 " let g:nvim_typescript#_server_path = 'node_modules\\.bin\\tsserver'
 
 let g:neomake_html_enabled_makers = []
+let g:neomake_c_enabled_makers  = ['makeprg']
+let g:neomake_cpp_enabled_makers  = ['makeprg']
+
+
+
+" let esp32Maker = {'name': 'esp32 c compiler'}
+" function! esp32Maker.get_list_entries(jobinfo) abort
+"       return [
+"         \ {'text': 'Some error', 'lnum': 1, 'bufnr': a:jobinfo.bufnr},
+"         \ {'text': 'Some warning', 'type': 'W', 'lnum': 2, 'col': 1,
+"         \  'length': 5, 'filename': '/path/to/file'},
+"         \ ]
+"   endfunction
 
 "let g:tagbar_type_css = {
 "\ 'ctagstype' : 'Css',
@@ -158,6 +174,9 @@ nnoremap <leader>gL :tabe %<CR>:NeomakeDisableTab<CR>:Glog<CR>:botright copen<CR
 nnoremap <leader>gd :tabe %<CR>:NeomakeDisableTab<CR>:Gdiff<CR>
 nnoremap <leader>gb :tabe %<CR>:NeomakeDisableTab<CR>:Gblame<CR>
 
+" build project
+nnoremap <leader>b :Neomake<cr>
+
 " format json
 nnoremap <leader>fj :%! python -m json.tool<CR>
 vnoremap <leader>fj :! python -m json.tool<CR>
@@ -203,7 +222,31 @@ set textwidth=0                 " disable automatic word wrap
 set completeopt+=noinsert       " auto-select first omnicomplete result
 set mouse=a                     " enable mouse
 " }}}
-" Clipboard settings {{{
+"  - Make settings {{{
+" set errorformat+=%f:%l:%c:\ %trror:\ %m
+" neotags
+let g:neotags_ignore = [
+		\ 'text',
+		\ 'nofile',
+		\ 'mail',
+		\ 'qf',
+		\ 'fzf'
+		\ ]
+" let g:neotags_events_update = ['BufWritePost', 'BufReadPre']
+" let g:neotags_ctags_args = [
+" 		\ '--fields=+l',
+" 		\ '--c-kinds=+p',
+" 		\ '--c++-kinds=+p',
+" 		\ '--sort=yes',
+" 		\ '--extras=+q'
+" 		\ ]
+
+" let g:neotags_directory = '~/.vim_tags'
+if isdirectory($IDF_PATH)
+    set path+=$IDF_PATH/components/**1/include
+endif
+" }}}
+"  - Clipboard settings {{{
 set clipboard+=unnamedplus
 " let g:clipboard = {
 " 	\'name': 'wl-clipboard',
@@ -322,6 +365,27 @@ set statusline+=%p%%\  "row %
 "set statusline+=%P\ \                      "Modified? Readonly? Top/bot.
 " }}}
 " Autocommands {{{
+function! RemoveBufferIfPreview()
+    if &previewwindow
+        set nobuflisted
+    endif
+endf
+
+function! LoadIncludes()
+	let l:PreReadIncludePaths = systemlist('cat ' . expand('%p') . ' | grep "#include" | sed -e ''s/.*"\(.*\)".*/\1/'' | sed -e ''s/.*<\(.*\)>.*/\1/''')
+	" neotags needs some time on each buffer before it triggers ctags?
+	" neovim ofetn doesn't even display the tab or buffers
+	execute 'tabnew'
+	for filePath in l:PreReadIncludePaths
+		execute 'sfind ' . filePath
+		execute 'sleep 10m'
+		execute 'bd'
+		" let l:tagFile = g:neotags_directory . '/' . substitute(filePath, '/\//', '__', 'g')
+		" call system('ctags ' . join(g:neotags_ctags_args, ' ') . ' -f "' . l:tagFile . '" "' . filePath . '"')
+	endfor
+	execute 'sleep 400m'
+	execute 'tabc'
+endf
 augroup myautocmds
 	" automatically add the current extension to 'gf' paths
 	autocmd!
@@ -332,6 +396,11 @@ augroup myautocmds
 	autocmd FileType qf set nobuflisted
 	" use spaces instead of tabs in certain filetypes
 	autocmd FileType typescript execute 'setl expandtab'
+	" don't add preview window buffers to buffer list
+	autocmd BufEnter * call RemoveBufferIfPreview()
+	" autocmd BufReadPre * call PreReadIncludes()
+	" autocmd BufEnter c,cpp call LoadIncludes()
+	" autocmd FileType c,cpp set makeprg=BATCH_BUILD=1\ make
 augroup END
 
 " }}}
@@ -356,6 +425,10 @@ map <tab> %
 
 " clear search highlight
 nnoremap <silent> <leader>, :nohlsearch<CR>
+
+" load all c/c++ #include directives into buffers on another tab, so neotags
+" indexes them, then close the tab.
+nnoremap <leader>L :call LoadIncludes()<cr>
 
 " }}}
 "  - Buffers {{{
@@ -447,6 +520,10 @@ nnoremap ]l :lnext<cr>
 nnoremap [l :lprevious<cr>
 nnoremap ]L :llast<cr>
 nnoremap [L :lfirst<cr>
+
+" preview window
+nnoremap <leader>m <C-w>}
+nnoremap <leader>pc :pclose!<cr>
 
 " puts quickfix files in args
 command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
