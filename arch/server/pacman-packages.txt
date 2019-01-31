@@ -1,5 +1,10 @@
+# file server
 btrfs-progs
 samba
+
+# build server
+docker
+jenkins
 
 # vpn
 easy-rsa
