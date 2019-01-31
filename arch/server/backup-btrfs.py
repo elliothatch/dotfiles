@@ -56,6 +56,8 @@ snapshotPath = os.path.join(sys.argv[2], date.today().strftime('%Y-%m-%d'))
 
 # create snapshot
 try:
+    if not os.path.exists(sys.argv[2]):
+        os.makedirs(sys.argv[2])
     print('Creating snapshot {}'.format(snapshotPath))
     check_output(['btrfs', 'subvolume', 'snapshot', '-r', targetPath, snapshotPath], universal_newlines=True)
     # status = check_output(['mkdir', snapshotPath])

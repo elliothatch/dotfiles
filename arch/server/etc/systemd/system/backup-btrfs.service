@@ -1,6 +1,6 @@
 [Unit]
-Description=Makes a backup snapshot of the subvolume and deletes expired backups
+Description=Makes a backup snapshot of the samba subvolume and deletes expired backups
 
 [Service]
 Type=oneshot
-ExecStart=/home/ellioth/backup-btrfs.py %i /srv/backup/%i
+ExecStart=backup-btrfs /srv/samba /srv/backup/samba

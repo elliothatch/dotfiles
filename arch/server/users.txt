@@ -1,0 +1,6 @@
+ellioth
+wish
+noahp
+
+[groups]
+staff = ellioth,wish,noahp

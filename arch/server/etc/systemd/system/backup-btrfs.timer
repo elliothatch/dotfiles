@@ -1,8 +1,8 @@
 [Unit]
-Description=Automated snapshotting of the samba filesystem.
+Description=Automated daily snapshotting of the btrfs filesystem.
 
 [Timer]
-OnCalendar=%i
+OnCalendar=daily
 Persistent=true
 
 [Install]
