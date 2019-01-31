@@ -1,0 +1,9 @@
+[Unit]
+Description=Automated snapshotting of the samba filesystem.
+
+[Timer]
+OnCalendar=%i
+Persistent=true
+
+[Install]
+WantedBy=timers.target
