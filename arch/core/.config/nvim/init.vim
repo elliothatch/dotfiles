@@ -61,6 +61,9 @@ Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 "Plug 'mhartington/nvim-typescript', {'commit': 'b1d61b22d2459f1f62ab256f564b52d05626440a'}
 " Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
 
+" c
+Plug 'vim-scripts/headerguard'
+
 " nyaovim
 Plug 'rhysd/nyaovim-markdown-preview'
 
