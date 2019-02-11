@@ -1,6 +1,8 @@
+brandonw
 ellioth
-wish
 noahp
+samdamana
+wish
 
 [groups]
-staff = ellioth,wish,noahp
+staff = brandonw,ellioth,noahp,samdamana,wish

@@ -1,5 +1,6 @@
 #!/bin/bash
 # usage: create-client-cert [client-user]
+cd /etc/easy-rsa
 easyrsa gen-req "$1" nopass
 easyrsa sign-req client "$1"
 
