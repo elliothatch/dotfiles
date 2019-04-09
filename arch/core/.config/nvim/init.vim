@@ -18,9 +18,19 @@ Plug 'neomake/neomake'
 
 " editor
 "Plug 'scrooloose/nerdcommenter'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'tag': '4.0-serial' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'tag': '4.0-serial' }
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+
 Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-commentary'
+
+" coc extensions
+Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -40,6 +50,7 @@ Plug 'machakann/vim-highlightedyank'
 " uses ctags (https://github.com/universal-ctags/ctags)
 "Plug 'majutsushi/tagbar'
 
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'chrisbra/Colorizer'
 
 Plug 'mbbill/undotree'
@@ -48,16 +59,17 @@ Plug 'mbbill/undotree'
 "Plug 'pangloss/vim-javascript'
 Plug 'sheerun/vim-polyglot'
 "Plug 'mxw/vim-jsx'
-"Plug 'leafgarland/typescript-vim'
+" Plug 'leafgarland/typescript-vim'
 "Plug 'rust-lang/rust.vim'
 "Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'mustache/vim-mustache-handlebars'
 
 " tags
-Plug 'c0r73x/neotags.nvim', {'do': 'make'}
+" Plug 'c0r73x/neotags.nvim', {'do': 'make'}
+Plug 'liuchengxu/vista.vim'
 
 " typescript
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 "Plug 'mhartington/nvim-typescript', {'commit': 'b1d61b22d2459f1f62ab256f564b52d05626440a'}
 " Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
 
@@ -65,7 +77,7 @@ Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'vim-scripts/headerguard'
 
 " nyaovim
-Plug 'rhysd/nyaovim-markdown-preview'
+" Plug 'rhysd/nyaovim-markdown-preview'
 
 "Plug 'D:/workspace/nyaovim-color-picker'
 
@@ -83,7 +95,7 @@ call plug#end()
 let g:neomake_open_list = 2
 
 " Shougo/deoplete.nvim
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 
 " elliothatch/nvim-typescript
 " let g:nvim_typescript#_server_path = 'node_modules\\.bin\\tsserver'
@@ -92,6 +104,55 @@ let g:neomake_html_enabled_makers = []
 let g:neomake_c_enabled_makers  = ['makeprg']
 let g:neomake_cpp_enabled_makers  = ['makeprg']
 
+" neoclide/coc
+"
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+nnoremap <silent> <leader>tm :call <SID>show_documentation()<CR>
+nmap <silent> <leader>tr <Plug>(coc-references)
+nmap <silent> <leader>tR <Plug>(coc-rename)
+nmap <silent> <leader>td <Plug>(coc-definition)
+nmap <silent> <leader>tD <Plug>(coc-type-definition)
+nmap <silent> <leader>ti <Plug>(coc-implementation)
+
+" nnoremap <leader>tt :TSType<CR>
+" nnoremap <leader>ti :TSImport<CR>
+" nnoremap <leader>ts :TSTypePreview<CR>
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" liuchengxu/vista
+let g:vista_default_executive = 'coc'
+
+nnoremap <leader>to :Vista!!<cr>
+nnoremap <leader>tf :Vista finder<cr>
 
 
 " let esp32Maker = {'name': 'esp32 c compiler'}
@@ -203,12 +264,12 @@ nnoremap <expr> <leader>S/ 'AckFromSearch ' . expand('%:p:h') . '<cr>'
 
 " elliothatch/nvim-typescript
 
-nnoremap <leader>td :TSDef<CR>
-nnoremap <leader>tD :TSTypeDef<CR>
-nnoremap <leader>tt :TSType<CR>
-nnoremap <leader>ti :TSImport<CR>
-nnoremap <leader>tm :TSDoc<CR>
-nnoremap <leader>ts :TSTypePreview<CR>
+" nnoremap <leader>td :TSDef<CR>
+" nnoremap <leader>tD :TSTypeDef<CR>
+" nnoremap <leader>tt :TSType<CR>
+" nnoremap <leader>ti :TSImport<CR>
+" nnoremap <leader>tm :TSDoc<CR>
+" nnoremap <leader>ts :TSTypePreview<CR>
 
 " }}}
 " Editor Settings {{{
