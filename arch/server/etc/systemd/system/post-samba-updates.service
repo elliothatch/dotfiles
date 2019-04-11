@@ -1,0 +1,7 @@
+[Unit]
+Description=Post changes to the Samba filesystem to Slack
+After=backup-btrfs.service
+
+[Service]
+Type=oneshot
+ExecStart=post-samba-updates

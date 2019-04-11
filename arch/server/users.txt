@@ -3,6 +3,7 @@ ellioth
 noahp
 samdamana
 wish
+yarobear
 
 [groups]
-staff = brandonw,ellioth,noahp,samdamana,wish
+staff = brandonw,ellioth,noahp,samdamana,wish,yarobear

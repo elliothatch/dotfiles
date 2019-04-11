@@ -1,0 +1,9 @@
+[Unit]
+Description=Post changes to the Samba filesystem to Slack
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target
