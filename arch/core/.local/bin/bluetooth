@@ -1,0 +1,26 @@
+#!/bin/bash
+rfkill unblock bluetooth
+bluetoothctl power on
+echo '### Press CTRL_C to end device scan ###'
+bluetoothctl scan on
+MAC=$(bluetoothctl devices | fzf | awk '{print $2}')
+# MAC=$(cat <(bluetoothctl devices) <(bluetoothctl scan on 2>&1) | fzf | awk '{print $2}')
+while :
+do
+# | xargs -d '\n' bluetoothctl pair 
+	INFO=$(bluetoothctl info $MAC)
+	echo "$INFO" | grep --color -E "Paired|Trusted|Connected|$"
+	PAIRED=$(echo "$INFO" | grep Paired | sed 's/.*: //')
+	TRUSTED=$(echo "$INFO" | grep Trusted | sed 's/.*: //')
+	CONNECTED=$(echo "$INFO" | grep Connected | sed 's/.*: //')
+
+	PAIRCMD=$(test "$PAIRED" = "yes" && echo "remove" || echo "pair")
+	TRUSTCMD=$(test "$TRUSTED" = "yes" && echo "untrust" || echo "trust")
+	CONNECTCMD=$(test "$CONNECTED" = "yes" && echo "disconnect" || echo "connect")
+
+	ACTION=$(echo -e "Exit\n$CONNECTCMD\n$TRUSTCMD\n$PAIRCMD" | fzf --no-sort --height 6)
+	if [ "$ACTION" = "Exit" ]; then
+		exit 0
+	fi
+	bluetoothctl $ACTION $MAC
+done
