@@ -20,6 +20,7 @@ smbclient
 sysstat
 termite
 the_silver_searcher
+trash-cli
 udiskie
 udisks2
 unzip

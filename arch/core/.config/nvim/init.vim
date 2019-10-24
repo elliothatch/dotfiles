@@ -46,6 +46,7 @@ Plug 'nelstrom/vim-markdown-folding'
 "Plug 'vim-airline/vim-airline-themes'
 Plug 'elliothatch/burgundy.vim'
 Plug 'machakann/vim-highlightedyank'
+" Plug 'joelstrouts/swatch.vim'
 
 " uses ctags (https://github.com/universal-ctags/ctags)
 "Plug 'majutsushi/tagbar'
@@ -132,6 +133,10 @@ nmap <silent> <leader>tR <Plug>(coc-rename)
 nmap <silent> <leader>td <Plug>(coc-definition)
 nmap <silent> <leader>tD <Plug>(coc-type-definition)
 nmap <silent> <leader>ti <Plug>(coc-implementation)
+nmap <silent> <leader>t[ <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>t] <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>t/ :CocList outline<CR>
+nmap <silent> <leader>te :CocList diagnostics<CR>
 
 " nnoremap <leader>tt :TSType<CR>
 " nnoremap <leader>ti :TSImport<CR>
@@ -150,6 +155,10 @@ endfunction
 
 " liuchengxu/vista
 let g:vista_default_executive = 'coc'
+" let g:vista_executive_for = {
+" \ 'c': 'ctags',
+" \ 'cpp': 'ctags',
+" \}
 
 nnoremap <leader>to :Vista!!<cr>
 nnoremap <leader>tf :Vista finder<cr>
@@ -327,7 +336,7 @@ set clipboard+=unnamedplus
 " }}}
 "  - Folding {{{
 
-set foldlevelstart=0
+set foldlevelstart=2
 
 " focus the current line (close all folds except this one, then center the
 " screen)
@@ -465,6 +474,8 @@ augroup myautocmds
 	" autocmd BufReadPre * call PreReadIncludes()
 	" autocmd BufEnter c,cpp call LoadIncludes()
 	" autocmd FileType c,cpp set makeprg=BATCH_BUILD=1\ make
+	
+	autocmd FileType c,cpp execute 'setl makeprg=idf.py\ build'
 augroup END
 
 " }}}

@@ -83,3 +83,16 @@ source /usr/share/nvm/init-nvm.sh
 
 # shift-tab to reverse list selection
 bindkey '^[[Z' reverse-menu-complete
+
+# load IDF environment when entering project directory
+autoload -U add-zsh-hook
+load-local-conf() {
+     # check sdkconfig file exists:
+     if [[ -f sdkconfig && -d .git && -f $IDF_PATH/export.sh ]]; then
+     	 source $IDF_PATH/export.sh
+     fi
+}
+add-zsh-hook chpwd load-local-conf
+
+# launch ranger
+alias cd-ranger='ranger --choosedir=$HOME/.local/share/ranger/choosedir; LASTDIR=`cat $HOME/.local/share/ranger/choosedir`; cd "$LASTDIR"'

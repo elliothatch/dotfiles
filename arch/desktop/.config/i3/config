@@ -20,11 +20,11 @@ exec --no-startup-id slack
 exec --no-startup-id udiskie
 
 ### Idle configuration
-exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
+# exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
 
-bindsym $mod+x exec notify-send -t 2000 "Locking..." xautolock -locknow || xautolock -time 5 -locker "$SHELL -c lockscreen" && xautolock -locknow
-bindsym $mod+Shift+x exec --no-startup-id  notify-send -t 2000 "Autolock enabled" && xautolock -time 5 -locker "$SHELL -c lockscreen"
-bindsym $mod+Control+Shift+x exec pkill xautolock && notify-send -t 2000 "Autolock disabled"
+# bindsym $mod+x exec notify-send -t 2000 "Locking..." xautolock -locknow || xautolock -time 5 -locker "$SHELL -c lockscreen" && xautolock -locknow
+# bindsym $mod+Shift+x exec --no-startup-id  notify-send -t 2000 "Autolock enabled" && xautolock -time 5 -locker "$SHELL -c lockscreen"
+# bindsym $mod+Control+Shift+x exec pkill xautolock && notify-send -t 2000 "Autolock disabled"
 
 ### Workspace configuration
 workspace "1" output DP-0
@@ -204,6 +204,9 @@ client.unfocused #9e0c46 #1a0a16 #9e0c46 #d11b2d #9e0c46
 client.urgent #d11b2d #e3006a #ffffff #d11b2d #d11b2d 
 client.placeholder #9e0c46 #1a0a16 #9e0c46 #d11b2d #9e0c46 
 client.background #1a0a16
+
+# font pango:sans-serif 12, FontAwesome 12
+# font pango:DejaVuSans 10
 
 #
 # Status Bar:
