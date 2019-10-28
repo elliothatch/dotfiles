@@ -1,0 +1,25 @@
+#!/bin/bash
+# enable mouse tracking
+echo -e "\e[?1000;1006;1015h"
+# hide cursor
+tput civis
+cal
+
+MONTH=$(($(date "+%m")-1))
+YEAR=$(date "+%Y")
+
+# there is a small bug--readmouse doesn't exit when the subscript exits until it tries to push data through the pipe. we exit on button DOWN so the button UP event causes the script to complete
+readmouse | \
+while read INPUT; do
+	case "$INPUT" in
+		 "BUTTON0 DOWN") exit;;
+		 "BUTTON2 DOWN") exit;;
+		 "WHEELUP") if [[ $MONTH == "11" ]]; then YEAR=$(($YEAR+1)); fi; MONTH=$((($MONTH+1)%12)); cal "$(($MONTH+1))" "$YEAR";;
+		 "WHEELDOWN") if [[ $MONTH == "0" ]]; then YEAR=$(($YEAR-1)); fi; MONTH=$((($MONTH+12-1)%12)); cal "$(($MONTH+1))" "$YEAR";;
+	 esac
+done
+
+# restore cursor
+tput cnorm
+# disable mouse tracking
+echo -e "\e[?1000;1006;1015l"

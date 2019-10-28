@@ -10,7 +10,7 @@ import os
 from subprocess import check_output
 
 if "BLOCK_BUTTON" in os.environ and os.environ["BLOCK_BUTTON"] == '1':
-    check_output(['swaymsg', 'exec', 'cmst -d'])
+    check_output(['i3-msg', 'exec', 'cmst -d'])
 
 long_format = "<span color='{}'><span font='FontAwesome'>\uf1eb</span>{}[{}]</span>"
 short_format = "<span color='{}'><span font='FontAwesome'>\uf1eb</span>{}</span>"

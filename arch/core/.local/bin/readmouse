@@ -1,0 +1,49 @@
+#!/bin/bash
+# enables xterm mouse tracking and converts mouse inputs to line separated strings for each mouse event
+# NOTE: i3 seems to ignore the first mousewheel event after focus
+INPUT=""
+echo -e "\e[?1000;1006;1015h"
+
+STR=""
+MOUSEEVENT="NONE"
+
+while [[ true ]]; do
+	read -sn1 INPUT
+	if [[ $INPUT == "" ]]; then
+		STR=$INPUT
+		MOUSEEVENT="NONE"
+	else
+		STR=$STR$INPUT
+	fi
+
+	if [[ $STR == "[<0;" ]]; then
+		MOUSEEVENT="BUTTON0"
+	elif [[ $STR == "[<1;" ]]; then
+		MOUSEEVENT="BUTTON1"
+	elif [[ $STR == "[<2;" ]]; then
+		MOUSEEVENT="BUTTON2"
+	elif [[ $STR == "[<64;" ]]; then
+		MOUSEEVENT="WHEELUP"
+	elif [[ $STR == "[<65;" ]]; then
+		MOUSEEVENT="WHEELDOWN"
+	fi
+
+	if [[ $MOUSEEVENT =~ "BUTTON" ]]; then
+		if [[ $INPUT == "M" ]]; then
+			echo "$MOUSEEVENT DOWN"
+		elif [[ $INPUT == "m" ]]; then
+			echo "$MOUSEEVENT UP"
+		fi
+	elif [[ $MOUSEEVENT == "WHEELUP" ]]; then
+		if [[ $INPUT == "M" ]]; then
+			echo "$MOUSEEVENT"
+		fi
+	elif [[ $MOUSEEVENT == "WHEELDOWN" ]]; then
+		if [[ $INPUT == "M" ]]; then
+			echo "$MOUSEEVENT"
+		fi
+	fi
+done
+
+# disable mouse tracking
+echo -e "\e[?1000;1006;1015l"
