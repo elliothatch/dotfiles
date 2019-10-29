@@ -18,6 +18,7 @@ exec --no-startup-id feh --bg-scale ~/Pictures/bg-gradient.jpg
 exec --no-startup-id compton -b
 exec --no-startup-id slack
 exec --no-startup-id udiskie
+exec --no-startup-id dropbox
 
 ### Idle configuration
 # exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
