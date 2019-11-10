@@ -116,7 +116,8 @@ interval=1
 # Date Time
 #
 [time]
-command=date '+%a %D %r'
+# command=date '+%a %D %r'; test $BLOCK_BUTTON -eq 1 && i3-msg exec "termite --name 'calendar-widget' -t 'calendar' -e \"$SHELL -c 'cal && promptclick'\""  
+command=date '+%a %D %r'; test $BLOCK_BUTTON -eq 1 && swaymsg exec "termite --name 'calendar-widget' -t 'calendar' -e \"$SHELL -c 'cal-widget'\""
 interval=1
 
 # Generic media player support

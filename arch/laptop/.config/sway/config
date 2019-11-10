@@ -38,6 +38,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill s
 exec mako --background-color "#9e0c46" --text-color "#f2ead7" --border-color "#e3006a"
 exec --no-startup-id slack
 exec --no-startup-id udiskie
+exec --no-startup-id dropbox
 
 set $LOCK_IMG_FILE $XDG_RUNTIME_DIR/screen_locked.png
 set $lock grim -s 0.25 $LOCK_IMG_FILE && convert $LOCK_IMG_FILE -blur 0x1 $LOCK_IMG_FILE && swaylock -e -i $LOCK_IMG_FILE
@@ -201,6 +202,9 @@ for_window [class="vlc"] move container workspace 3
 
     bindsym $mod+z [app_id="filemanager"] scratchpad show
     bindsym $mod+Shift+z exec $filemanager #; [app_id="filemanager"] scratchpad show
+
+	# i3bar widgets
+	for_window [app_id="calendar-widget"] floating enable, resize set 160 170, move position 1120 -23, border pixel 1
 #
 # Resizing containers:
 #
