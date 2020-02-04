@@ -60,7 +60,8 @@ Plug 'mbbill/undotree'
 "Plug 'pangloss/vim-javascript'
 Plug 'sheerun/vim-polyglot'
 "Plug 'mxw/vim-jsx'
-" Plug 'leafgarland/typescript-vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 "Plug 'rust-lang/rust.vim'
 "Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'mustache/vim-mustache-handlebars'
@@ -91,6 +92,9 @@ call plug#end()
 "
 "let g:airline_powerline_fonts = 1
 "let g:airline_extensions = ['tabline']
+
+" sheerun/vim-polyglot
+let g:polyglot_disabled = ['typescript']
 
 " neomake/neomake
 let g:neomake_open_list = 2
@@ -159,6 +163,9 @@ let g:vista_default_executive = 'coc'
 " \ 'c': 'ctags',
 " \ 'cpp': 'ctags',
 " \}
+
+" disable icons since I don't use nerdfonts
+let g:vista#renderer#enable_icon = 0
 
 nnoremap <leader>to :Vista!!<cr>
 nnoremap <leader>tf :Vista finder<cr>
@@ -422,7 +429,7 @@ colorscheme burgundy
 set statusline=
 set statusline+=[%n]                                  "buffernr
 " TODO: change the color for modified
-set statusline+=%#DiffChange#%m%r%w%*                           " modified/readonly
+set statusline+=%#Todo#%m%r%w%*                           " modified/readonly
 "set statusline+=%#LineNr#%{fugitive#statusline()}%*             " git branch
 set statusline+=%#LineNr#%{fugitive#head()}%*             " git branch
 set statusline+=\ %<%F\                                "File+path
