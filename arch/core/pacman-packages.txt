@@ -54,6 +54,11 @@ cups
 # xorg
 xclip
 
+# nodejs
+nodejs
+npm
+yarn
+
 # other
 # bluez
 # openvpn

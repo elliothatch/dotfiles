@@ -1,5 +1,5 @@
 cmst
-nvm
+fnm-bin
 ranger-git
 slack-desktop
  
