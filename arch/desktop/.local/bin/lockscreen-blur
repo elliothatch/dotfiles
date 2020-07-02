@@ -1,0 +1,15 @@
+#!/bin/sh
+
+IMG_FILE=$XDG_RUNTIME_DIR/screen_locked.png
+# Take a screenshot
+scrot -z $IMG_FILE
+
+# Blur the screenshot
+convert $IMG_FILE -resize 25% -blur 0x2 -resize 400% $IMG_FILE
+# convert $IMG_FILE -blur 0x5 $IMG_FILE
+
+# Lock screen displaying this image.
+i3lock -i $IMG_FILE
+
+# Turn the screen off after a delay.
+# sleep 60; pgrep i3lock && xset dpms force off

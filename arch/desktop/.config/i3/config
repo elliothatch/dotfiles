@@ -21,11 +21,16 @@ exec --no-startup-id udiskie
 exec --no-startup-id dropbox
 
 ### Idle configuration
+# unfortunately, xautolock doesn't detect if you are watching video, etc, so it is disabled for now
 # exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
 
 # bindsym $mod+x exec notify-send -t 2000 "Locking..." xautolock -locknow || xautolock -time 5 -locker "$SHELL -c lockscreen" && xautolock -locknow
 # bindsym $mod+Shift+x exec --no-startup-id  notify-send -t 2000 "Autolock enabled" && xautolock -time 5 -locker "$SHELL -c lockscreen"
 # bindsym $mod+Control+Shift+x exec pkill xautolock && notify-send -t 2000 "Autolock disabled"
+
+bindsym $mod+x exec $term --name "lockscreen " -t "Lockscreen" -e "$SHELL -c 'lockscreen'"
+for_window [instance="lockscreen"] floating enable, move scratchpad
+for_window [instance="screensaver"] floating enable, fullscreen toggle global
 
 ### Workspace configuration
 workspace "1" output DP-0
