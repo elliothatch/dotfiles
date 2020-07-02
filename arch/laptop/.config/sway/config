@@ -40,27 +40,32 @@ exec --no-startup-id slack
 exec --no-startup-id udiskie
 exec --no-startup-id dropbox
 
-set $LOCK_IMG_FILE $XDG_RUNTIME_DIR/screen_locked.png
-set $lock grim -s 0.25 $LOCK_IMG_FILE && convert $LOCK_IMG_FILE -blur 0x1 $LOCK_IMG_FILE && swaylock -e -i $LOCK_IMG_FILE
+#set $LOCK_IMG_FILE $XDG_RUNTIME_DIR/screen_locked.png
+#set $lock grim -s 0.25 $LOCK_IMG_FILE && convert $LOCK_IMG_FILE -blur 0x1 $LOCK_IMG_FILE && swaylock -e -i $LOCK_IMG_FILE
+
+set $lock $term --name "lockscreen" -t "Lockscreen" -e "$SHELL -c 'lockscreen'"
+for_window [app_id="lockscreen"] floating enable, move scratchpad
+for_window [app_id="screensaver"] floating enable, fullscreen toggle global
+
 ### Idle configuration
-exec swayidle \
-    timeout 300 "$lock" \
-    timeout 600 'swaymsg "output * dpms off"' \
-       resume 'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -c 1a0a16'
-
-bindsym $mod+x exec $lock
-
-bindsym $mod+Shift+x exec --no-startup-id exec swayidle \
-    timeout 300 "$lock" \
-    timeout 600 'swaymsg "output * dpms off"' \
-       resume 'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -c 1a0a16'
-bindsym $mod+Control+Shift+x exec pkill swayidle
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 600 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
+exec swayidle \
+    timeout 300 '$lock' \
+    timeout 600 'swaymsg "output * dpms off"' \
+       resume 'swaymsg "output * dpms on"' #\
+#    before-sleep 'swaylock -c 1a0a16'
+
+bindsym $mod+x exec $lock
+
+bindsym $mod+Shift+x exec --no-startup-id exec swayidle \
+    timeout 300 '$lock' \
+    timeout 600 'swaymsg "output * dpms off"' \
+       resume 'swaymsg "output * dpms on"' #\
+#    before-sleep 'swaylock -c 1a0a16'
+bindsym $mod+Control+Shift+x exec pkill swayidle
 
 ### Input configuration
 

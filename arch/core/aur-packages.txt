@@ -8,3 +8,6 @@ simple-mtpfs
 
 # wm
 i3blocks-git
+
+# screensaver
+pipes.sh

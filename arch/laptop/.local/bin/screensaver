@@ -1,0 +1,2 @@
+#!/bin/sh
+swaymsg "exec $TERMCMD --name 'screensaver' -t 'Screensaver' -e \"$SHELL -c 'pipes.sh -p 12 -R -r 10000 -f 30'\"" > /dev/null

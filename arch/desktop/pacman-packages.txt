@@ -8,4 +8,7 @@ xautolock
 xclip
 xorg-xinput
 
+# lockscreen
+xtrlock
+
 nvidia

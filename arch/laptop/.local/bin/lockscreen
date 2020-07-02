@@ -1,0 +1,9 @@
+#!/bin/sh
+screensaver
+swaylock -c 00000000
+swaymsg '[app_id="screensaver"] kill' > /dev/null
+# sway puts the focus on the top-level when closing a fullscreen application, which is annoying
+sleep 0.05
+swaymsg 'focus child' > /dev/null
+swaymsg 'focus child' > /dev/null
+swaymsg 'focus child' > /dev/null
