@@ -141,6 +141,7 @@ nmap <silent> <leader>t[ <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>t] <Plug>(coc-diagnostic-prev)
 nmap <silent> <leader>t/ :CocList outline<CR>
 nmap <silent> <leader>te :CocList diagnostics<CR>
+nmap <silent> <leader>ta :CocAction<CR>
 
 " nnoremap <leader>tt :TSType<CR>
 " nnoremap <leader>ti :TSImport<CR>
@@ -476,6 +477,8 @@ augroup myautocmds
 	autocmd FileType qf set nobuflisted
 	" use spaces instead of tabs in certain filetypes
 	autocmd FileType typescript execute 'setl expandtab'
+	autocmd FileType typescript execute 'setl expandtab'
+	autocmd FileType typescript execute 'nnoremap <buffer> <silent> <leader>tI :CocCommand tsserver.organizeImports<cr>'
 	" don't add preview window buffers to buffer list
 	autocmd BufEnter * call RemoveBufferIfPreview()
 	" autocmd BufReadPre * call PreReadIncludes()
