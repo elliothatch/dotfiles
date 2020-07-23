@@ -2,8 +2,9 @@ brandonw
 ellioth
 noahp
 samdamana
+veyla
 wish
 yarobear
 
 [groups]
-staff = brandonw,ellioth,noahp,samdamana,wish,yarobear
+staff = brandonw,ellioth,noahp,samdamana,veyla,wish,yarobear

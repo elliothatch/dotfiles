@@ -25,7 +25,7 @@ set $filemanager $term --name "filemanager" -t "Files" -e "$SHELL -c ranger"
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill scale 2
+output * bg /home/ellioth/Pictures/bg-gradient-laptop.jpg fill scale 2
 #output * bg ~/Pictures/bg-gradient.png fill scale 2
 #
 # Example configuration:

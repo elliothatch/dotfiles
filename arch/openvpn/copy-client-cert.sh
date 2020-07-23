@@ -6,3 +6,4 @@ cp /etc/easy-rsa/pki/ca.crt $TARGETDIR/ca.crt
 cp /etc/openvpn/server/ta.key $TARGETDIR/ta.key
 cp /etc/easy-rsa/pki/private/"$1".key $TARGETDIR/client.key 
 cp /etc/easy-rsa/pki/issued/"$1".crt  $TARGETDIR/client.crt 
+chown ellioth:ellioth $TARGETDIR/*
