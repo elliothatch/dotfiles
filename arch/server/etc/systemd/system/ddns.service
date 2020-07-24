@@ -3,4 +3,4 @@ Description=Updates the Digital Ocean DNS for icebox.fresh4less.org if it has ch
 
 [Service]
 Type=oneshot
-ExecStart=/home/ellioth/build/digitalocean-dynamic-dns-ip/digitalocean-dynamic-ip
+ExecStart=/home/ellioth/build/digitalocean-dynamic-dns-ip/digitalocean-dynamic-dns-ip

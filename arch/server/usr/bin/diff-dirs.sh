@@ -17,9 +17,9 @@ diff -U 0 <(find $DIR1 -printf ':%y:%P\n') <(find $DIR2 -printf ':%y:%P\n') | gr
 	 | awk -F':' '
 		{ pathLen=split($3, path, "/"); out=$1 " " }
 		{ for(i = 1; i < pathLen; i++) { if(i == pathLen - 1) { out = out "└──" } else { out = out "│  " } } }
-		 $2 == "d" {out = out "🗀 " }
-		# $2 == "d" {out = out "📁 " }
-		 $2 == "f" {out = out " " }
+		# $2 == "d" {out = out "🗀 " }
+		$2 == "d" {out = out "📁 " }
+		$2 == "f" {out = out " " }
 		#$2 == "f" {out = out "🗎 " }
 		{ out = out path[pathLen] }
 		{ for( i = 1; i < length(lastOut) && i < length(out); i++) {

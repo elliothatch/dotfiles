@@ -1,5 +1,7 @@
+bill
 brandonw
 ellioth
+khatch
 noahp
 samdamana
 veyla
@@ -7,4 +9,4 @@ wish
 yarobear
 
 [groups]
-staff = brandonw,ellioth,noahp,samdamana,veyla,wish,yarobear
+staff = bill,brandonw,ellioth,khatch,noahp,samdamana,veyla,wish,yarobear
