@@ -3,10 +3,11 @@ brandonw
 ellioth
 khatch
 noahp
+rory
 samdamana
 veyla
 wish
 yarobear
 
 [groups]
-staff = bill,brandonw,ellioth,khatch,noahp,samdamana,veyla,wish,yarobear
+staff = bill,brandonw,ellioth,khatch,noahp,rory,samdamana,veyla,wish,yarobear
