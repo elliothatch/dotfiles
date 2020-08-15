@@ -1,0 +1,12 @@
+[Unit]
+Description=Killing Floor 2 Game Server
+
+[Service]
+Type=simple
+WorkingDirectory=/srv/data/kf2
+User=kf2-server
+Group=kf2-server
+ExecStart=/srv/data/kf2/Binaries/Win64/KFGameSteamServer.bin.x86_64 kf-bioticslab
+
+[Install]
+WantedBy=multi-user.target
