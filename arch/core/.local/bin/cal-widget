@@ -5,7 +5,7 @@ echo -e "\e[?1000;1006;1015h"
 tput civis
 cal
 
-MONTH=$(($(date "+%m")-1))
+MONTH=$((10#$(date "+%m")-1))
 YEAR=$(date "+%Y")
 
 # there is a small bug--readmouse doesn't exit when the subscript exits until it tries to push data through the pipe. we exit on button DOWN so the button UP event causes the script to complete

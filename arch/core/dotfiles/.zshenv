@@ -22,5 +22,5 @@ export IDF_PATH=$HOME/esp/esp-idf
 export PATH=~/.fnm:$PATH
 eval "`fnm env --multi`"
 
-export PATH=$PATH:$(yarn global bin)
+export PATH=$PATH:$HOME/.yarn/bin
 
