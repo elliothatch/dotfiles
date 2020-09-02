@@ -1,0 +1,6 @@
+#!/bin/sh
+# usage: exec-toggle <instance_name> <command...>
+# executes or kills a process with sway to toggle it on or off
+app_id="$1"
+shift 1
+swaymsg "[app_id=\"$app_id\"] kill" > /dev/null || "$@"
