@@ -1,0 +1,6 @@
+#!/bin/sh
+# usage: exec-toggle <instance_name> <command...>
+# executes or kills a process with i3 to toggle it on or off
+instance="$1"
+shift 1
+xprop -name "$instance" > /dev/null 2> /dev/null && i3-msg "[instance=\"$instance\"] kill" > /dev/null || "$@" > /dev/null

@@ -32,6 +32,10 @@ bindsym $mod+x exec $term --name "lockscreen " -t "Lockscreen" -e "$SHELL -c 'lo
 for_window [instance="lockscreen"] floating enable, move scratchpad
 for_window [instance="screensaver"] floating enable, fullscreen toggle global
 
+# process manager
+bindsym $mod+Escape exec exec-toggle "processmanager" $term --name "processmanager" -t "Process Manager" -e "$SHELL -c 'bpytop'"
+for_window [instance="processmanager"] floating enable, resize set 1080 720
+
 ### Workspace configuration
 workspace "1" output DP-0
 workspace "2" output DP-0

@@ -4,3 +4,4 @@ __pycache__
 arch/core/.config/nvim/.netrwhist
 arch/core/.config/nvim/rplugin.vim
 arch/core/.config/vlc/vlc-qt-interface.conf
+arch/core/.config/bpytop/error.log

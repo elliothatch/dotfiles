@@ -1,3 +1,6 @@
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 export TERMCMD=termite
 
 # export VISUAL=nvim-gui
@@ -6,9 +9,6 @@ export EDITOR=nvim
 
 export PAGER=less
 export LESS=RM
-
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
 
 export PATH=$PATH:~/.local/bin
 
@@ -23,4 +23,3 @@ export PATH=~/.fnm:$PATH
 eval "`fnm env --multi`"
 
 export PATH=$PATH:$HOME/.yarn/bin
-

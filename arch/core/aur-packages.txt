@@ -1,3 +1,4 @@
+bpytop
 cmst
 fnm-bin
 ranger-git
