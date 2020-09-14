@@ -15,7 +15,7 @@ set $term termite -t termite
 # desktop background
 exec --no-startup-id feh --bg-scale ~/Pictures/bg-gradient.jpg
 
-exec --no-startup-id compton -b
+exec --no-startup-id picom -b
 exec --no-startup-id slack
 exec --no-startup-id udiskie
 exec --no-startup-id dropbox
@@ -64,6 +64,9 @@ for_window [class="vlc"] move container workspace 3
     # Change normal to inverse to use left mouse button for resizing and right
     # mouse button for dragging.
     floating_modifier $mod
+
+    # close window by middle clicking on toolbar
+    bindsym --release button2 kill
 
     # reload the configuration file
     bindsym $mod+Control+Shift+c reload

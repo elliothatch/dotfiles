@@ -1,4 +1,6 @@
 xrandr --output DVI-D-0 --mode 1680x1050 --pos 3440x152 --rotate normal --output HDMI-1-2 --off --output HDMI-1-1 --off --output VGA-1-1 --off --output HDMI-0 --off --output DP-5 --off --output DP-4 --off --output DP-3 --off --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3440x1440 --pos 0x0 --rotate normal
-xinput set-prop 'Logitech G Pro Gaming Mouse' 'Coordinate Transformation Matrix' 2.200000, 0.000000, 0.000000, 0.000000, 2.200000, 0.000000, 0.000000, 0.000000, 1.000000 
+
+xinput set-prop 'Logitech G Pro Gaming Mouse' 'libinput Accel Profile Enabled' 0, 1
+xinput set-prop 'Logitech G Pro Gaming Mouse' 'libinput Accel Speed' 0.09
 
 export PATH=$PATH:~/.local/bin
