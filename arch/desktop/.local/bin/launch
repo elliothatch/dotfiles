@@ -1,2 +1,5 @@
 #!/bin/sh
-i3-msg exec "$@"
+# usage: launch <exec> [options...]
+executable="$1"
+shift 1
+i3-msg exec "$executable" "$@"

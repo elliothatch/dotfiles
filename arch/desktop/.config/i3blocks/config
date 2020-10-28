@@ -49,6 +49,10 @@ interval=43200 # 12 hours
 ##PREFIX=
 ##SUFFIX="B/s"
 
+[bandwidth]
+instance=enp3s0
+interval=1
+
 # CPU usage
 #
 # The script may be called with -w and -c switches to specify thresholds,

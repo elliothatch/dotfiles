@@ -94,7 +94,7 @@ call plug#end()
 "let g:airline_extensions = ['tabline']
 
 " sheerun/vim-polyglot
-let g:polyglot_disabled = ['typescript']
+let g:polyglot_disabled = ['typescript', 'csv']
 
 " neomake/neomake
 let g:neomake_open_list = 2
@@ -262,6 +262,9 @@ nnoremap <leader>b :Neomake<cr>
 nnoremap <leader>fj :%! python -m json.tool<CR>
 vnoremap <leader>fj :! python -m json.tool<CR>
 
+" convert (format) to hex
+nnoremap <expr> <leader>fh :%!od -A x -t x1z -v<CR>
+
 " mileszs/ack.vim
 let g:ackprg = 'ag --nogroup --nocolor --column --hidden --path-to-ignore ' . g:HomeDir . '.config/ag/.ignore'
 "vnoremap <Leader>av :<C-u>let cmd = "Ack! " . VAck() <bar> call histadd("cmd", cmd) <bar> execute cmd<CR>
@@ -270,13 +273,13 @@ let g:ackprg = 'ag --nogroup --nocolor --column --hidden --path-to-ignore ' . g:
 nnoremap <expr> <leader>ss InputOrCancel('Ack! ',    '[ack]: ',     '') . '<cr>'
 nnoremap <expr> <leader>sl InputOrCancel('LAck ',    '[ack]\|L: '), '') . '<cr>'
 nnoremap <expr> <leader>sf InputOrCancel('AckFile ', '[ack]\|F: '), '') . '<cr>'
-nnoremap <expr> <leader>s/ 'AckFromSearch ' . '<cr>'
+nnoremap <expr> <leader>s/ ':AckFromSearch ' . '<cr>'
 
 " search from current buffer path
 nnoremap <expr> <leader>Ss InputOrCancel('Ack! ',    '[ack\|b]: ',    ' ' . expand('%:p:h')) . '<cr>'
 nnoremap <expr> <leader>Sl InputOrCancel('LAck ',    '[ack\|b]\|L: ', ' ' . expand('%:p:h')) . '<cr>'
 nnoremap <expr> <leader>Sf InputOrCancel('AckFile ', '[ack\|b]\|F: ', ' ' . expand('%:p:h')) . '<cr>'
-nnoremap <expr> <leader>S/ 'AckFromSearch ' . expand('%:p:h') . '<cr>'
+nnoremap <expr> <leader>S/ ':AckFromSearch ' . expand('%:p:h') . '<cr>'
 
 
 " elliothatch/nvim-typescript
