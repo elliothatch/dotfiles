@@ -1,0 +1,9 @@
+[Unit]
+Description=Daily rclone samba to azure cloud storage
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

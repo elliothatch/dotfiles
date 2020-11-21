@@ -42,6 +42,9 @@ sudo cp $DIR/etc/systemd/system/backup-btrfs.timer /etc/systemd/system
 sudo systemctl start backup-btrfs.timer
 sudo systemctl enable backup-btrfs.timer
 
+sudo systemctl start backup-azure.timer
+sudo systemctl enable backup-azure.timer
+
 # copy samba update script. manually add the secret slack webhook URL after copy
 sudo cp $DIR/usr/bin/post-samba-updates.sh /usr/bin/post-samba-updates
 

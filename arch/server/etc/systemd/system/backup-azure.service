@@ -1,0 +1,6 @@
+[Unit]
+Description=rclone samba to azure cloud storage
+
+[Service]
+Type=oneshot
+ExecStart=rclone sync -P /srv/samba azure-icebox-backup:/srv/samba
