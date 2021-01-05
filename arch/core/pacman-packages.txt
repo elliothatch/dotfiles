@@ -8,6 +8,7 @@ gdm
 git
 highlight
 htop
+ncdu
 neofetch
 neovim
 nftables
@@ -58,6 +59,9 @@ xclip
 nodejs
 npm
 yarn
+
+# aur
+namcap
 
 # other
 # bluez

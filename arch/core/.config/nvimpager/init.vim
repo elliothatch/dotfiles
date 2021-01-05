@@ -16,6 +16,8 @@ endfunc
 
 nnoremap . :call SynStack()<cr>
 
+let g:polyglot_disabled = ['typescript', 'csv']
+
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'elliothatch/burgundy.vim'
@@ -32,8 +34,6 @@ call plug#end()
 set termguicolors
 colorscheme burgundy
 
-
-let g:polyglot_disabled = ['typescript', 'csv']
 
 hi DiffAdded guifg=#8bf792 guibg=#1a0a16 guisp=#0a4a19 gui=NONE ctermfg=120 ctermbg=234 cterm=NONE
 hi DiffRemoved guifg=#d11b2d guibg=#1a0a16 guisp=#630512 gui=NONE ctermfg=160 ctermbg=234 cterm=NONE
