@@ -5,9 +5,14 @@ let g:HomeDir='/home/ellioth/'
 " python support setup
 let g:python3_host_prog=g:HomeDir . '.local/virtualenvs/neovim3/bin/python'
 let g:python_host_prog=g:HomeDir . '.local/virtualenvs/neovim2/bin/python'
+
+" sheerun/vim-polyglot
+let g:polyglot_disabled = ['typescript', 'csv']
 " }}}
+
 " Plugins {{{
 call plug#begin('~/.local/share/nvim/plugged')
+
 
 " core
 "Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -93,8 +98,6 @@ call plug#end()
 "let g:airline_powerline_fonts = 1
 "let g:airline_extensions = ['tabline']
 
-" sheerun/vim-polyglot
-let g:polyglot_disabled = ['typescript', 'csv']
 
 " neomake/neomake
 let g:neomake_open_list = 2

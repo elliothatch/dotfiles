@@ -7,7 +7,10 @@ export TERMCMD=termite
 export VISUAL=nvim
 export EDITOR=nvim
 
-export PAGER=less
+#alias nvimpager='nvim -u $HOME/.config/nvimpager/init.vim'
+
+alias nvimpager='nvimpager -p'
+export PAGER='nvimpager -p'
 export LESS=RM
 
 export PATH=$PATH:~/.local/bin

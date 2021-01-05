@@ -16,9 +16,10 @@ set $term termite -t termite
 exec --no-startup-id feh --bg-scale ~/Pictures/bg-gradient.jpg
 
 exec --no-startup-id picom -b
+exec --no-startup-id discord
+exec --no-startup-id syncthingtray
 exec --no-startup-id slack
 exec --no-startup-id udiskie
-exec --no-startup-id dropbox
 exec --no-startup-id xmousepasteblock
 
 ### Idle configuration
@@ -43,6 +44,7 @@ workspace "2" output DP-0
 workspace "3" output DVI-D-0
 
 for_window [class="Slack"] move container workspace 3
+for_window [class="discord"] move container workspace 3
 for_window [class="vlc"] move container workspace 3
 
 ### Key bindings
@@ -230,6 +232,8 @@ client.background #1a0a16
 bar {
     position top
     font pango:sans-serif 12, FontAwesome 12
+
+	tray_output DP-0
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
