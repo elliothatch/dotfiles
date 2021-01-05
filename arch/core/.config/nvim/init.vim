@@ -24,7 +24,7 @@ Plug 'neomake/neomake'
 " editor
 "Plug 'scrooloose/nerdcommenter'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'tag': '4.0-serial' }
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-commentary'
@@ -97,7 +97,6 @@ call plug#end()
 "
 "let g:airline_powerline_fonts = 1
 "let g:airline_extensions = ['tabline']
-
 
 " neomake/neomake
 let g:neomake_open_list = 2

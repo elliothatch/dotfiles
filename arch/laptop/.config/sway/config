@@ -37,8 +37,9 @@ output * bg /home/ellioth/Pictures/bg-gradient-laptop.jpg fill scale 2
 ### Notifications
 exec mako --background-color "#9e0c46" --text-color "#f2ead7" --border-color "#e3006a"
 exec --no-startup-id slack
+exec --no-startup-id discord
 exec --no-startup-id udiskie
-exec --no-startup-id dropbox
+exec --no-startup-id syncthingtray
 
 #set $LOCK_IMG_FILE $XDG_RUNTIME_DIR/screen_locked.png
 #set $lock grim -s 0.25 $LOCK_IMG_FILE && convert $LOCK_IMG_FILE -blur 0x1 $LOCK_IMG_FILE && swaylock -e -i $LOCK_IMG_FILE
@@ -83,6 +84,7 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
 ### Workspace configuration
 for_window [workspace=2] layout tabbed
 for_window [class="Slack"] move container workspace 3
+for_window [class="discord"] move container workspace 3
 for_window [class="vlc"] move container workspace 3
 
 ### Key bindings
