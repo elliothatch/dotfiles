@@ -3,6 +3,9 @@
         <filesystemType>basic</filesystemType>
         <device id="DJOAW6C-P3U2DXP-XGXCKBG-RIIZPOQ-CTTMVTD-JAAHCOC-GVMAM2K-3TFTRQ6" introducedBy=""></device>
         <device id="PGRKREK-IQL25DP-GKZOTKA-BGKZHK5-L5DN3YF-VKONK37-KBZGMGD-XLBSKQC" introducedBy=""></device>
+        <device id="PZSLSOC-MWNDRNL-LTO3Q3C-ZXQINOF-KKP5L4Q-WZ6C2WU-5FID7UC-WPCDJQ4" introducedBy=""></device>
+        <device id="U5CQLC6-FJZQ6T3-NX55OW2-Z7634KK-MMMX62J-UJFYOVA-AJB25H3-MU5KSQM" introducedBy=""></device>
+        <device id="VU7QE6N-5QPWPSF-KFX7EWM-6ZBNEO6-FDJBD7A-PIV33K3-BLA6WAU-YTSF5AZ" introducedBy=""></device>
         <device id="7TRWADW-DZJRDPJ-QRN7DZQ-UJEHBWC-H6XBSNE-3IUYXOW-3EAOAQ3-ZQFP3QC" introducedBy=""></device>
         <minDiskFree unit="%">1</minDiskFree>
         <versioning>
@@ -91,6 +94,7 @@
     <folder id="samba-ellioth" label="ellioth" path="/srv/samba/ellioth/sync" type="sendreceive" rescanIntervalS="3600" fsWatcherEnabled="true" fsWatcherDelayS="10" ignorePerms="true" autoNormalize="true">
         <filesystemType>basic</filesystemType>
         <device id="PGRKREK-IQL25DP-GKZOTKA-BGKZHK5-L5DN3YF-VKONK37-KBZGMGD-XLBSKQC" introducedBy=""></device>
+        <device id="U5CQLC6-FJZQ6T3-NX55OW2-Z7634KK-MMMX62J-UJFYOVA-AJB25H3-MU5KSQM" introducedBy=""></device>
         <device id="7TRWADW-DZJRDPJ-QRN7DZQ-UJEHBWC-H6XBSNE-3IUYXOW-3EAOAQ3-ZQFP3QC" introducedBy=""></device>
         <minDiskFree unit="%">1</minDiskFree>
         <versioning>
@@ -209,6 +213,7 @@
     <folder id="samba-samdamana" label="samdamana" path="/srv/samba/samdamana/sync" type="sendreceive" rescanIntervalS="3600" fsWatcherEnabled="true" fsWatcherDelayS="10" ignorePerms="true" autoNormalize="true">
         <filesystemType>basic</filesystemType>
         <device id="PGRKREK-IQL25DP-GKZOTKA-BGKZHK5-L5DN3YF-VKONK37-KBZGMGD-XLBSKQC" introducedBy=""></device>
+        <device id="VU7QE6N-5QPWPSF-KFX7EWM-6ZBNEO6-FDJBD7A-PIV33K3-BLA6WAU-YTSF5AZ" introducedBy=""></device>
         <minDiskFree unit="%">1</minDiskFree>
         <versioning>
             <cleanupIntervalS>0</cleanupIntervalS>
@@ -267,6 +272,39 @@
     <folder id="samba-yarobear" label="yarobear" path="/srv/samba/yarobear/sync" type="sendreceive" rescanIntervalS="3600" fsWatcherEnabled="true" fsWatcherDelayS="10" ignorePerms="true" autoNormalize="true">
         <filesystemType>basic</filesystemType>
         <device id="PGRKREK-IQL25DP-GKZOTKA-BGKZHK5-L5DN3YF-VKONK37-KBZGMGD-XLBSKQC" introducedBy=""></device>
+        <device id="PZSLSOC-MWNDRNL-LTO3Q3C-ZXQINOF-KKP5L4Q-WZ6C2WU-5FID7UC-WPCDJQ4" introducedBy=""></device>
+        <minDiskFree unit="%">1</minDiskFree>
+        <versioning>
+            <cleanupIntervalS>0</cleanupIntervalS>
+        </versioning>
+        <copiers>0</copiers>
+        <pullerMaxPendingKiB>0</pullerMaxPendingKiB>
+        <hashers>0</hashers>
+        <order>random</order>
+        <ignoreDelete>false</ignoreDelete>
+        <scanProgressIntervalS>0</scanProgressIntervalS>
+        <pullerPauseS>0</pullerPauseS>
+        <maxConflicts>10</maxConflicts>
+        <disableSparseFiles>false</disableSparseFiles>
+        <disableTempIndexes>false</disableTempIndexes>
+        <paused>false</paused>
+        <weakHashThresholdPct>25</weakHashThresholdPct>
+        <markerName>.stfolder</markerName>
+        <copyOwnershipFromParent>false</copyOwnershipFromParent>
+        <modTimeWindowS>0</modTimeWindowS>
+        <maxConcurrentWrites>0</maxConcurrentWrites>
+        <disableFsync>false</disableFsync>
+        <blockPullOrder>standard</blockPullOrder>
+        <copyRangeMethod>standard</copyRangeMethod>
+        <caseSensitiveFS>false</caseSensitiveFS>
+        <junctionsAsDirs>false</junctionsAsDirs>
+    </folder>
+    <folder id="samnelliot" label="samnelliot" path="/srv/samba/syncthing/samnelliot" type="sendreceive" rescanIntervalS="3600" fsWatcherEnabled="true" fsWatcherDelayS="10" ignorePerms="false" autoNormalize="true">
+        <filesystemType>basic</filesystemType>
+        <device id="PGRKREK-IQL25DP-GKZOTKA-BGKZHK5-L5DN3YF-VKONK37-KBZGMGD-XLBSKQC" introducedBy=""></device>
+        <device id="U5CQLC6-FJZQ6T3-NX55OW2-Z7634KK-MMMX62J-UJFYOVA-AJB25H3-MU5KSQM" introducedBy=""></device>
+        <device id="VU7QE6N-5QPWPSF-KFX7EWM-6ZBNEO6-FDJBD7A-PIV33K3-BLA6WAU-YTSF5AZ" introducedBy=""></device>
+        <device id="7TRWADW-DZJRDPJ-QRN7DZQ-UJEHBWC-H6XBSNE-3IUYXOW-3EAOAQ3-ZQFP3QC" introducedBy=""></device>
         <minDiskFree unit="%">1</minDiskFree>
         <versioning>
             <cleanupIntervalS>0</cleanupIntervalS>
@@ -302,6 +340,30 @@
         <maxRequestKiB>0</maxRequestKiB>
     </device>
     <device id="PGRKREK-IQL25DP-GKZOTKA-BGKZHK5-L5DN3YF-VKONK37-KBZGMGD-XLBSKQC" name="icebox" compression="metadata" introducer="false" skipIntroductionRemovals="false" introducedBy="">
+        <address>dynamic</address>
+        <paused>false</paused>
+        <autoAcceptFolders>false</autoAcceptFolders>
+        <maxSendKbps>0</maxSendKbps>
+        <maxRecvKbps>0</maxRecvKbps>
+        <maxRequestKiB>0</maxRequestKiB>
+    </device>
+    <device id="PZSLSOC-MWNDRNL-LTO3Q3C-ZXQINOF-KKP5L4Q-WZ6C2WU-5FID7UC-WPCDJQ4" name="yarobear" compression="always" introducer="false" skipIntroductionRemovals="false" introducedBy="">
+        <address>dynamic</address>
+        <paused>false</paused>
+        <autoAcceptFolders>false</autoAcceptFolders>
+        <maxSendKbps>0</maxSendKbps>
+        <maxRecvKbps>0</maxRecvKbps>
+        <maxRequestKiB>0</maxRequestKiB>
+    </device>
+    <device id="U5CQLC6-FJZQ6T3-NX55OW2-Z7634KK-MMMX62J-UJFYOVA-AJB25H3-MU5KSQM" name="ellioth-laptop-aspire-s7" compression="always" introducer="false" skipIntroductionRemovals="false" introducedBy="">
+        <address>dynamic</address>
+        <paused>false</paused>
+        <autoAcceptFolders>false</autoAcceptFolders>
+        <maxSendKbps>0</maxSendKbps>
+        <maxRecvKbps>0</maxRecvKbps>
+        <maxRequestKiB>0</maxRequestKiB>
+    </device>
+    <device id="VU7QE6N-5QPWPSF-KFX7EWM-6ZBNEO6-FDJBD7A-PIV33K3-BLA6WAU-YTSF5AZ" name="samdamana" compression="always" introducer="false" skipIntroductionRemovals="false" introducedBy="">
         <address>dynamic</address>
         <paused>false</paused>
         <autoAcceptFolders>false</autoAcceptFolders>

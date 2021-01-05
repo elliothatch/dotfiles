@@ -3,4 +3,4 @@ Description=rclone samba to azure cloud storage
 
 [Service]
 Type=oneshot
-ExecStart=rclone sync -P /srv/samba azure-icebox-backup:/srv/samba
+ExecStart=rclone sync -P --exclude 'fresh4less/Video/**' /srv/samba azure-icebox-backup:/srv/samba

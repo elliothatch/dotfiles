@@ -20,6 +20,6 @@ export I3BLOCKS_SCRIPT_DIR=$HOME/.config/i3blocks/scripts
 export IDF_PATH=$HOME/esp/esp-idf
 
 export PATH=~/.fnm:$PATH
-eval "`fnm env --multi`"
+eval "`fnm env`"
 
 export PATH=$PATH:$HOME/.yarn/bin
