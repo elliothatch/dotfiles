@@ -1,7 +1,1 @@
 light
-
-# sway-wm
-mako-git
-sway-git
-wl-clipboard-git
-wlroots-git

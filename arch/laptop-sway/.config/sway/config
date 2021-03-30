@@ -1,0 +1,300 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+set $term termite -t termite
+# Your preferred application launcher
+# Note: it's recommended that you pass the final command to sway
+# set $menu $term -e "$SHELL -c \"execs | fzf | xargs swaymsg exec\""
+set $menu $term --name "launcher" -t "Launch application" -e "$SHELL -c 'execs | fzf | xargs swaymsg exec'"
+
+set $filemanager $term --name "filemanager" -t "Files" -e "$SHELL -c ranger"
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
+output * bg /home/ellioth/Pictures/bg-gradient-laptop.jpg fill scale 2
+#output * bg ~/Pictures/bg-gradient.png fill scale 2
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+### Notifications
+exec mako --background-color "#9e0c46" --text-color "#f2ead7" --border-color "#e3006a"
+# exec --no-startup-id slack
+# exec --no-startup-id discord
+# exec --no-startup-id udiskie
+# exec --no-startup-id syncthingtray
+
+#set $LOCK_IMG_FILE $XDG_RUNTIME_DIR/screen_locked.png
+#set $lock grim -s 0.25 $LOCK_IMG_FILE && convert $LOCK_IMG_FILE -blur 0x1 $LOCK_IMG_FILE && swaylock -e -i $LOCK_IMG_FILE
+
+set $lock $term --name "lockscreen" -t "Lockscreen" -e "$SHELL -c 'lockscreen'"
+for_window [app_id="lockscreen"] floating enable, move scratchpad
+for_window [app_id="screensaver"] floating enable, fullscreen toggle global
+
+### Idle configuration
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 600 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+# exec swayidle \
+#     timeout 300 '$lock' \
+#     timeout 600 'swaymsg "output * dpms off"' \
+#        resume 'swaymsg "output * dpms on"' #\
+#    before-sleep 'swaylock -c 1a0a16'
+
+bindsym $mod+x exec $lock
+
+bindsym $mod+Shift+x exec --no-startup-id notify-send -t 2000 "Autolock enabled" && swayidle \
+    timeout 300 '$lock' \
+    timeout 600 'swaymsg "output * dpms off"' \
+       resume 'swaymsg "output * dpms on"' #\
+#    before-sleep 'swaylock -c 1a0a16'
+bindsym $mod+Control+Shift+x exec pkill swayidle && notify-send -t 2000 "Autolock disabled"
+
+# process manager
+bindsym $mod+Escape exec $SHELL -c "exec-toggle 'processmanager' $term --name 'processmanager' -t 'Process Manager' -e \\"$SHELL -c 'bpytop'\\""
+for_window [app_id="processmanager"] floating enable, resize set 1080 720
+
+### Input configuration
+
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+    # dwt enabled
+    tap enabled
+    # natural_scroll enabled
+    middle_emulation enabled
+}
+
+### Workspace configuration
+for_window [workspace=2] layout tabbed
+for_window [class="Slack"] move container workspace 3
+for_window [class="discord"] move container workspace 3
+for_window [class="vlc"] move container workspace 3
+
+### Key bindings
+#
+# Basics:
+#
+    # start a terminal
+    bindsym $mod+Return exec $term
+
+    # kill focused window
+    bindsym $mod+Shift+q kill
+
+    # start your launcher
+    bindsym $mod+d exec $menu
+    for_window [app_id="launcher"] floating enable
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # reload the configuration file
+    bindsym $mod+Control+Shift+c reload
+
+    # clipboard helpers
+    bindsym $mod+Shift+c exec $SHELL -c wl2xclip
+    bindsym $mod+Shift+v exec $SHELL -c xclip2wl
+
+    # exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # _move_ the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+    # switch to workspace
+    bindsym $mod+1 workspace 1
+    bindsym $mod+2 workspace 2
+    bindsym $mod+3 workspace 3
+    bindsym $mod+4 workspace 4
+    bindsym $mod+5 workspace 5
+    bindsym $mod+6 workspace 6
+    bindsym $mod+7 workspace 7
+    bindsym $mod+8 workspace 8
+    bindsym $mod+9 workspace 9
+    bindsym $mod+0 workspace 10
+    # move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace 1
+    bindsym $mod+Shift+2 move container to workspace 2
+    bindsym $mod+Shift+3 move container to workspace 3
+    bindsym $mod+Shift+4 move container to workspace 4
+    bindsym $mod+Shift+5 move container to workspace 5
+    bindsym $mod+Shift+6 move container to workspace 6
+    bindsym $mod+Shift+7 move container to workspace 7
+    bindsym $mod+Shift+8 move container to workspace 8
+    bindsym $mod+Shift+9 move container to workspace 9
+    bindsym $mod+Shift+0 move container to workspace 10
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # move focus to the parent container
+    bindsym $mod+a focus parent
+    bindsym $mod+Shift+a focus child
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+
+    # show the file manager scratchpad
+    for_window [app_id="filemanager"] floating enable, resize set 680 720, move scratchpad
+    exec $filemanager
+
+    bindsym $mod+z [app_id="filemanager"] scratchpad show
+    bindsym $mod+Shift+z exec $filemanager #; [app_id="filemanager"] scratchpad show
+
+	# i3bar widgets
+	for_window [app_id="calendar-widget"] floating enable, resize set 160 170, move position 1120 -23, border pixel 1
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    bindsym $left+Shift resize shrink width 100px
+    bindsym $down+Shift resize grow height 100px
+    bindsym $up+Shift resize shrink height 100px
+    bindsym $right+Shift resize grow width 100px
+
+    # ditto, with arrow keys
+    bindsym Left+Shift resize shrink width 100px
+    bindsym Down+Shift resize grow height 100px
+    bindsym Up+Shift resize shrink height 100px
+    bindsym Right+Shift resize grow width 100px
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Media buttons:
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q -D pulse sset Master 5%- unmute
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q -D pulse sset Master 5%+ unmute
+bindsym XF86AudioMute exec --no-startup-id amixer -q -D pulse sset Master toggle
+
+# Brightness buttons
+bindsym XF86MonBrightnessUp exec light -A 10
+bindsym XF86MonBrightnessDown exec light -U 10
+# bindsym XF86MonBrightnessUp exec [[ $(light) -lt 15 ]] && light -A 2 || light -A 10
+# bindsym XF86MonBrightnessDown exec [[ $(light) -lt 15 ]] && light -U 2 || light -U 10
+
+# colors
+client.focused #9e0c46 #9e0c46 #f2ead7 #d11b2d #9e0c46 
+client.focused_inactive #9e0c46 #2c0d1a #e3006a #d11b2d #9e0c46 
+client.unfocused #9e0c46 #1a0a16 #9e0c46 #d11b2d #9e0c46 
+client.urgent #d11b2d #e3006a #ffffff #d11b2d #d11b2d 
+client.placeholder #9e0c46 #1a0a16 #9e0c46 #d11b2d #9e0c46 
+client.background #1a0a16
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position top
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    # status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+    status_command SCRIPT_DIR=~/.config/i3blocks/scripts i3blocks
+
+    separator_symbol "|"
+
+    colors {
+        statusline #f2ead7
+        background #240d19
+        separator #e3006a
+        focused_workspace #e3006a #9e0c46 #f2ead7
+        inactive_workspace #9e0c46 #2c0d1a #9e0c46
+        urgent_workspace #e3006a #d11b2d #ffffff
+        active_workspace #e3006a #2c0d1a #e3006a
+    }
+}
+
+include /etc/sway/config.d/*

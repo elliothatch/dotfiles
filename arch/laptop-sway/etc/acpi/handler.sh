@@ -1,11 +1,11 @@
 #!/bin/bash
 # Default acpi script that takes an entry for all actions
 uid="$(id -u ellioth)"
-export I3SOCK="/run/user/${uid}/i3/ipc-socket.$(pgrep -x i3)"
+export I3SOCK="/run/user/${uid}/i3/ipc-socket.${uid}.$(pgrep -x i3)"
 case "$1" in
     button/power)
         case "$2" in
-            PBTN|PWRF) i3-msg "exec i3-nagbar -t warning -m 'Shutdown the system?' -b 'Shutdown' 'poweroff' -b 'Logout' 'i3-msg exit' -b 'Suspend' 'systemctl suspend'"
+            PBTN|PWRF) swaymsg "exec swaynag -t warning -m 'Shutdown the system?' -b 'Shutdown' 'poweroff' -b 'Logout' 'swaymsg exit' -b 'Suspend' 'systemctl suspend'"
                 logger 'PowerButton pressed'
                 ;;
             *)
