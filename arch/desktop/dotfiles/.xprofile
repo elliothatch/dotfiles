@@ -1,5 +1,11 @@
-xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Tapping Enabled' 1
-xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Profile Enabled' 0, 1
-xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Speed' 1
+xrandr --output DVI-D-0 --mode 1680x1050 --pos 3440x152 --rotate normal --output HDMI-1-2 --off --output HDMI-1-1 --off --output VGA-1-1 --off --output HDMI-0 --off --output DP-5 --off --output DP-4 --off --output DP-3 --off --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3440x1440 --pos 0x0 --rotate normal
+
+xinput set-prop 'Logitech G Pro Gaming Mouse' 'libinput Accel Profile Enabled' 0, 1
+xinput set-prop 'Logitech G Pro Gaming Mouse' 'libinput Accel Speed' 0.09
+
+xsetwacom set 'Wacom Intuos S 2 Pen stylus' MapToOutput 3440x1440+0+0
+xsetwacom set 'Wacom Intuos S 2 Pen stylus' Area 0 0 15200 6263
+
+xinput set-prop 'Logitech G Pro Gaming Mouse' 'libinput Accel Speed' 0.09
 
 export PATH=$PATH:~/.local/bin

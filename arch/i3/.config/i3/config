@@ -13,7 +13,7 @@ set $right l
 set $term termite -t termite
 
 # desktop background
-exec --no-startup-id feh --bg-scale ~/Pictures/bg-gradient-laptop.jpg
+exec --no-startup-id feh --bg-scale ~/Pictures/bg-gradient.jpg
 
 exec --no-startup-id picom -b
 exec --no-startup-id discord
@@ -36,10 +36,12 @@ for_window [instance="screensaver"] floating enable, fullscreen toggle global
 
 # process manager
 bindsym $mod+Escape exec exec-toggle "processmanager" $term --name "processmanager" -t "Process Manager" -e "$SHELL -c 'bpytop'"
-for_window [instance="processmanager"] floating enable, resize set 1620 1080, move position center
+for_window [instance="processmanager"] floating enable, resize set 1080 720
 
 ### Workspace configuration
-for_window [workspace=2] layout tabbed
+workspace "1" output DP-0
+workspace "2" output DP-0
+workspace "3" output DVI-D-0
 
 for_window [class="Slack"] move container workspace 3
 for_window [class="discord"] move container workspace 3
@@ -164,7 +166,7 @@ for_window [class="vlc"] move container workspace 3
     bindsym $mod+minus scratchpad show
 
     # show the file manager scratchpad
-    for_window [instance="filemanager"] floating enable, resize set 1620 1080, move position center, move scratchpad
+    for_window [instance="filemanager"] floating enable, resize set 1080 720, move scratchpad
     exec $term --name "filemanager" -t "Files" -e "$SHELL -c ranger"
 
     bindsym $mod+z [instance="filemanager"] scratchpad show
@@ -214,11 +216,6 @@ bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q -D pulse sset Master
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q -D pulse sset Master 5%+ unmute
 bindsym XF86AudioMute exec --no-startup-id amixer -q -D pulse sset Master toggle
 
-# Brightness buttons
-bindsym XF86MonBrightnessUp exec light -A 10
-bindsym XF86MonBrightnessDown exec light -U 10
-
-
 # colors
 client.focused #9e0c46 #9e0c46 #f2ead7 #d11b2d #9e0c46 
 client.focused_inactive #9e0c46 #2c0d1a #e3006a #d11b2d #9e0c46 
@@ -229,17 +226,15 @@ client.background #1a0a16
 
 # font pango:sans-serif 12, FontAwesome 12
 # font pango:DejaVuSans 10
-
-# font pango:Monospace 14
-font pango:Monospace 10
-# font pango:sans-serif 9
-# for_window [class=".*"] title_format "<span size='10000'>%title</span>"
+font pango:sans-serif 12
 
 #
 # Status Bar:
 bar {
     position top
-    font pango:Monospace, FontAwesome 10
+    font pango:sans-serif, FontAwesome 12
+
+	tray_output DP-0
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
