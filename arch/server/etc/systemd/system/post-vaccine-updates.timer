@@ -1,0 +1,9 @@
+[Unit]
+Description=Post changes to vaccine HTML to Slack
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target

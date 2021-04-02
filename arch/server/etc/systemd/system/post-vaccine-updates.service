@@ -1,0 +1,6 @@
+[Unit]
+Description=Post changes to vaccine HTML to Slack
+
+[Service]
+Type=oneshot
+ExecStart=post-vaccine-updates

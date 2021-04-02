@@ -54,6 +54,9 @@ sudo cp $DIR/etc/systemd/system/post-samba-updates.timer /etc/systemd/system
 sudo systemctl start post-samba-updates.timer
 sudo systemctl enable post-samba-updates.timer
 
+# public http server
+sudo systemctl start ngingx
+sudo systemctl enable ngingx
 
 # link custom scripts
 $DIR/link.sh

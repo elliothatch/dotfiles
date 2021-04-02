@@ -2,7 +2,7 @@
 Description=Daily rclone samba to azure cloud storage
 
 [Timer]
-OnCalendar=daily
+OnCalendar=weekly
 Persistent=true
 
 [Install]

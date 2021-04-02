@@ -1,0 +1,131 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>docs | icebox</title>
+
+		<link rel="stylesheet" href="/css/main.css">
+	</head>
+	<body>
+		<header>
+			<h1>icebox documentation</h1>
+			<nav>
+				<a href="/">icebox</a>
+				<a href="/files">files</a>
+				<a href="/docs">docs</a>
+			</nav>
+		</header>
+		<main>
+			<section id="backups">
+				<h1>backups</h1>
+				<h2>local snapshot</h2>
+				<p>The server makes a local snapshot of the filesystem every night at midnight. Older snapshots are deleted using a rolling retention policy.</p>
+				<table>
+					<tr><th>Snapshot</th><th>Retention Duration</th></tr>
+					<tr><td>Daily</td><td>7 days</td></tr>
+					<tr><td>First day of the week</td><td>4 weeks</td></tr>
+					<tr><td>First day of the month</td><td>12 months</td></tr>
+					<tr><td>First day of the year</td><td>2 years</td></tr>
+				</table>
+
+				<h2>cloud backups</h2>
+				<p>The server maintains a weekly backup of all files in the Samba fileshare (including sync) to Azure cloud storage, in case the Icebox suffers a catastrophic failure. Cloud storage does not store previous snapshots, so you will not be able to recover any deleted files.</p>
+			</section>
+			<section id="syncthing">
+				<h1>syncthing</h1>
+				<p>Syncthing is a file-syncing utility like Dropbox; you can create a folder on your local device and share it with the icebox. Then when you modify a file, it's automatically synchronized with the icebox the next time you have an internet connection. This doesn't require an active connection to the VPN or fileshare.</p>
+				<p>In your Samba fileshare you will find a <code>sync</code> directory, where the synced files are stored. You can also copy files into sync directly through the Samba fileshare and they will appear in your sync folder.</p>
+
+
+				<h2>setup</h2>
+				<ol>
+					<li>Click Actions-&gt;Show ID and send me your Device ID (this is not a secret, you can post this in the icebox channel)</li>
+					<li>Click "Add remote device" and complete the dialog with the following settings:</li>
+					<dl>
+						<dt>Device ID</dt><dd>PGRKREK-IQL25DP-GKZOTKA-BGKZHK5-L5DN3YF-VKONK37-KBZGMGD-XLBSKQC</dd>
+						<dt>Device Name</dt><dd>icebox</dd>
+						<dt>Enable Introducer and Auto Accept</dt>
+						<dt>Addresses</dt><dd>tcp://icebox.fresh4less.org:22000</dd>
+						<dt>Compression</dt><dd>All Data</dd>
+					</dl>
+					<li>Notify me when you are set up and I will add your Device to the icebox, which will enable syncing.</li>
+				</ol>
+
+				<h2>adding shared folders</h2>
+				<p>You can create shared folders with one or more users by adding their Syncthing ID as a remote device, then creating a new Syncthing folder and sharing it with them.</p>
+				<p>By default, the icebox is not included in shared folder synchronization, so your shared folder will only sync when both devices are online and connected to each other.</p>
+				<p>By sharing the folder to the icebox device, you allow syncing to occur at any time, regardless of device connectivity.</p>
+				<p>If you share a folder with the icebox, let me know so I can enable syncing.</p>
+			</section>
+			<section id="fileshare">
+				<h1>fileshare (samba)</h1>
+				<p>The icebox uses Samba to provide file sharing services. You must first set up the VPN before you can access the fileshare. You can connect to it using your operating system's remote network drive capabilities.</p>
+				<p>Every icebox user has access to fresh4less share.</p>
+
+				<h2>setup (windows)</h2>
+				<ol>
+					<li>Open This PC and select the Computer tab</li>
+					<li>Right click the background and select Map Network Drive</li>
+					<li>To add your personal share, set Folder to:
+					<pre>
+\\10.200.200.0\YOUR_USERNAME
+					</pre>
+					To add the shared fresh4less share, set Folder to:
+					<pre>
+\\10.200.200.0\fresh4less
+					</pre>
+					</li>
+				</ol>
+			</section>
+			<section id="vpn">
+				<h1>wireguard vpn</h1>
+				<p>Wireguard encrypts network traffic between your computer and the icebox, enabling secure filesharing through the Samba fileshare.</p>
+				<h2>windows setup</h2>
+				<ol>
+					<li>Download <a href="https://www.wireguard.com/install/">Wireguard</a></li>
+					<li>Create a new network interface called icebox by clicking the +.</li>
+					<li>Replace the configuration with the following:
+						<pre><code>
+	[Interface]
+	PrivateKey = PEER_PRIVATE_KEY
+	Address = PEER_VPN_IP
+
+	[Peer]
+	PublicKey = bHymDyvFiUz2kQyHiNikyZ453cKwo5XQKmUgpO9HtQo=
+	AllowedIPs = 10.200.200.0/24
+	Endpoint = icebox.fresh4less.org:51820
+						</code></pre>
+
+					</li>
+					<li>PEER_PRIVATE_KEY is unique to you and will already be in the generated configuration file.</li>
+					<li>Message me and I will provide you a value to replace PEER_VPN_ID.</li>
+				</ol>
+			</section>
+			<section id="public-file-sharing">
+				<h1>public file sharing (http)</h1>
+				<p>Your personal Samba fileshare and the fresh4less share each contain a folder named public. All files and folders placed here are viewable on the internet and can be shared with a link.</p>
+				<p>You can browse public files on the <a href="http://icebox.fresh4less.org/files/">files</a> page.</p>
+
+				<h2>unlisted files</h2>
+				<p>Your public folder also contains an 'unlisted' folder. Files placed here can be shared with a direct link, but will not appear when browsing <a href="http://icebox.fresh4less.org/files/">files</a>.</p>
+				<p>Unlisted directories and subdirectories do not list their contents.</p>
+				<p class="warning">Unlisted URLs are not obfuscated and may be vulnerable to <a href="https://owasp.org/www-community/attacks/Forced_browsing">forced browsing attacks</a>.</p>
+				<p>The server hides all files and folders containing the word 'unlisted' in their name. There is nothing special about the 'unlisted' folder itself.</p>
+
+				<h2>URL format</h2>
+				<pre><code>http://icebox.fresh4less.org/files/$USERNAME/$FILE
+				</code></pre>
+				<h3>examples</h3>
+				<ul>
+					<li><a href="http://icebox.fresh4less.org/files/ellioth/hello.txt">http://icebox.fresh4less.org/files/ellioth/hello.txt</a></li>
+					<li><a href="http://icebox.fresh4less.org/files/ellioth/pictures/autumn.jpg">http://icebox.fresh4less.org/files/ellioth/pictures/autumn.jpg</a></li>
+					<li><a href="http://icebox.fresh4less.org/files/ellioth/unlisted/rat-secret.txt">http://icebox.fresh4less.org/files/ellioth/unlisted/rat-secret.txt</a></li>
+					<li><a href="http://icebox.fresh4less.org/files/ellioth/unlisted/codes/1.txt">http://icebox.fresh4less.org/files/ellioth/unlisted/codes/1.txt</a></li>
+				</ul>
+
+			</section>
+		</main>
+	</body>
+</html>
