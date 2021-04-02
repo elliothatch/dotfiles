@@ -1,0 +1,12 @@
+#!/bin/sh
+# by morgan - https://git.m3y.tech/morganmsrn/dotfiles/src/branch/main/i3blocks/scripts/bandwidth
+
+INTERFACE="${BLOCK_INSTANCE}" 
+
+TX=$(cat /sys/class/net/$INTERFACE/statistics/tx_bytes)
+RX=$(cat /sys/class/net/$INTERFACE/statistics/rx_bytes)
+
+RX=$(echo "scale=1; $RX/1024/1024" | bc )
+TX=$(echo "scale=1; $TX/1024/1024" | bc )
+
+echo "▼ $RX MB ▲ $TX MB"

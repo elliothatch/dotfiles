@@ -1,14 +1,1 @@
-# xorg
-arandr
-dunst
-feh
-i3
-scrot
-xautolock
-xclip
-xorg-xinput
-
-# lockscreen
-xtrlock
-
 nvidia

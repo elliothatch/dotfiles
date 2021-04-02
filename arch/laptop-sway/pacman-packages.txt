@@ -1,0 +1,8 @@
+# power
+acpi
+acpid
+
+# sway
+grim
+swaylock
+swayidle

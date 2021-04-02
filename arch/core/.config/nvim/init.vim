@@ -477,7 +477,7 @@ augroup myautocmds
 	autocmd!
 	autocmd BufNewFile,BufRead * execute 'setl suffixesadd+=.' . expand('%:e')
 	" make  '-' part of words in css files
-	autocmd FileType css,sass execute 'setl iskeyword+=-'
+	autocmd FileType css,sass,scss execute 'setl iskeyword+=-'
 	" skip quickfix list on :bn
 	autocmd FileType qf set nobuflisted
 	" use spaces instead of tabs in certain filetypes

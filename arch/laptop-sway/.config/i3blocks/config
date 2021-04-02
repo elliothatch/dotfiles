@@ -37,10 +37,6 @@ interval=43200 # 12 hours
 command=[ $(yay -Qua | wc -l) -gt 0 ] && echo $(yay -Qua | wc -l) AUR updates
 interval=43200 # 12 hours
 
-[bandwidth]
-instance=wlp1s0
-interval=1
-
 # Disk I/O
 # [disk-io]
 ##command=$SCRIPT_DIR/disk-io -w 3 -M -P 0
@@ -121,7 +117,7 @@ interval=1
 #
 [time]
 # command=date '+%a %D %r'; test $BLOCK_BUTTON -eq 1 && i3-msg exec "termite --name 'calendar-widget' -t 'calendar' -e \"$SHELL -c 'cal && promptclick'\""  
-command=date '+%a %D %r'; test $BLOCK_BUTTON -eq 1 && i3-msg exec "termite --name 'calendar-widget' -t 'calendar' -e \"$SHELL -c 'cal-widget'\""
+command=date '+%a %D %r'; test $BLOCK_BUTTON -eq 1 && swaymsg exec "termite --name 'calendar-widget' -t 'calendar' -e \"$SHELL -c 'cal-widget'\""
 interval=1
 
 # Generic media player support
