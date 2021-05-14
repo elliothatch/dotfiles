@@ -1,3 +1,4 @@
+alacritty
 atool
 connman
 dialog
@@ -19,7 +20,6 @@ python-virtualenv
 rsync
 smbclient
 sysstat
-termite
 the_silver_searcher
 trash-cli
 udiskie

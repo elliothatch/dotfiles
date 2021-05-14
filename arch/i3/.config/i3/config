@@ -10,7 +10,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term termite -t termite
+set $term alacritty
 
 # desktop background
 exec --no-startup-id feh --bg-scale ~/Pictures/bg-gradient.jpg
@@ -30,12 +30,12 @@ exec --no-startup-id xmousepasteblock
 # bindsym $mod+Shift+x exec --no-startup-id  notify-send -t 2000 "Autolock enabled" && xautolock -time 5 -locker "$SHELL -c lockscreen"
 # bindsym $mod+Control+Shift+x exec pkill xautolock && notify-send -t 2000 "Autolock disabled"
 
-bindsym $mod+x exec $term --name "lockscreen " -t "Lockscreen" -e "$SHELL -c 'lockscreen'"
+bindsym $mod+x exec $term --class "lockscreen" -t "Lockscreen" -e "$SHELL" -c 'lockscreen'
 for_window [instance="lockscreen"] floating enable, move scratchpad
 for_window [instance="screensaver"] floating enable, fullscreen toggle global
 
 # process manager
-bindsym $mod+Escape exec exec-toggle "processmanager" $term --name "processmanager" -t "Process Manager" -e "$SHELL -c 'bpytop'"
+bindsym $mod+Escape exec exec-toggle "processmanager" $term --class "processmanager" -t "Process Manager" -e "$SHELL" -c 'bpytop'
 for_window [instance="processmanager"] floating enable, resize set 1080 720
 
 ### Workspace configuration
@@ -58,7 +58,7 @@ for_window [class="vlc"] move container workspace 3
     bindsym $mod+Shift+q kill
 
     # start your launcher
-    bindsym $mod+d exec $term --name "launcher" -t "Launch application" -e "$SHELL -c 'execs | fzf | xargs i3-msg exec'"
+    bindsym $mod+d exec $term --class "launcher" -t "Launch application" -e "$SHELL" -c 'execs | fzf | xargs i3-msg exec'
     for_window [instance="launcher"] floating enable
 
     # Drag floating windows by holding down $mod and left mouse button.
@@ -167,13 +167,13 @@ for_window [class="vlc"] move container workspace 3
 
     # show the file manager scratchpad
     for_window [instance="filemanager"] floating enable, resize set 1080 720, move scratchpad
-    exec $term --name "filemanager" -t "Files" -e "$SHELL -c ranger"
+    exec $term --class "filemanager" -t "Files" -e "$SHELL" -c ranger
 
     bindsym $mod+z [instance="filemanager"] scratchpad show
-    bindsym $mod+Shift+z exec $term --name "filemanager" -t "Files" -e "$SHELL -c ranger" #; [instance="filemanager"] scratchpad show
+    bindsym $mod+Shift+z exec $term --class "filemanager" -t "Files" -e "$SHELL" -c ranger #; [instance="filemanager"] scratchpad show
 
 # i3bar widgets
-for_window [instance="calendar-widget"] floating enable, resize set 160 160, move position mouse, border pixel 1
+for_window [instance="calendar-widget"] floating enable, resize set 160 170, move position mouse, border pixel 1
 
 # Resizing containers:
 #

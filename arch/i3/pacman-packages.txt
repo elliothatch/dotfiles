@@ -6,6 +6,7 @@ i3
 scrot
 xautolock
 xclip
+xdotool
 xorg-xinput
 
 # lockscreen

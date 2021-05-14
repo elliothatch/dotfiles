@@ -121,7 +121,7 @@ interval=1
 #
 [time]
 # command=date '+%a %D %r'; test $BLOCK_BUTTON -eq 1 && i3-msg exec "termite --name 'calendar-widget' -t 'calendar' -e \"$SHELL -c 'cal && promptclick'\""  
-command=date '+%a %D %r'; test $BLOCK_BUTTON -eq 1 && i3-msg exec "termite --name 'calendar-widget' -t 'calendar' -e \"$SHELL -c 'cal-widget'\""
+command=date '+%a %D %r'; test $BLOCK_BUTTON -eq 1 && i3-msg exec "exec-toggle calendar-widget alacritty --class 'calendar-widget' -t 'calendar' -e \"$SHELL\" -c 'cal-widget'"
 interval=1
 
 # Generic media player support
