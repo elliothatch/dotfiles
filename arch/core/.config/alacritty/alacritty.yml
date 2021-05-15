@@ -103,7 +103,7 @@
 
 # Font configuration
 font:
-  size: 8
+  size: 9
   # Normal (roman) font face
   #normal:
     # Font family
