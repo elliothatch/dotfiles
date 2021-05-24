@@ -35,15 +35,18 @@ makepkg -si
 
 ./$DIR/install-yay.sh $DIR/core/aur-packages.txt 
 
-systemctl enable gdm
-
-# enable firewall
-systemctl enable nftables
-
-# enable printer
-systemctl enable org.cups.cupsd.service
-
 # set up yubikey https://support.yubico.com/support/solutions/articles/15000006449-using-your-u2f-yubikey-with-linux
 curl https://raw.githubusercontent.com/Yubico/libu2f-host/master/70-u2f.rules > /etc/udev/rules.d/70-u2f.rules
 
+# enable services
+# ntp
+systemctl enable systemd-timesyncd
+# login
+systemctl enable gdm
+# firewall
+systemctl enable nftables
+# printer
+systemctl enable org.cups.cupsd.service
 # systemctl enable dropbox@ellioth
+# syncthing
+systemctl enable syncthing@ellioth
