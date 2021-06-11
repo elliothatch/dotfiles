@@ -307,6 +307,7 @@ set undofile                    " save undo history to file
 set textwidth=0                 " disable automatic word wrap
 set completeopt+=noinsert       " auto-select first omnicomplete result
 set mouse=a                     " enable mouse
+set title                       " set window title
 " }}}
 "  - Make settings {{{
 " set errorformat+=%f:%l:%c:\ %trror:\ %m
@@ -592,6 +593,10 @@ noremap <C-h> <C-w><Left>
 
 " diff current window
 nnoremap <leader>d :diffthis<cr>
+"}}}
+"  - Folding {{{
+"  Fold comments
+noremap <silent> <leader>zc :set foldmethod=expr<cr>:set foldexpr=synIDattr(synID(v:lnum,strlen(getline(v:lnum)),1),'name')=~?'comment'?'1':getline(v:lnum)=~'^\\s*$'?'=':'0'<cr>zM<cr>
 "}}}
 "  - Quickfix List {{{
 nnoremap <leader>co :botright copen<cr>
