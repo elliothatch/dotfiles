@@ -512,7 +512,7 @@ map <space><space> <leader><leader>
 "map \\ <localleader><localleader>
 
 nnoremap <leader>w :w<cr>
-map <tab> %
+" map <tab> %
 
 " clear search highlight
 nnoremap <silent> <leader>, :nohlsearch<CR>

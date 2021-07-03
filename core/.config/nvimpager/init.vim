@@ -5,6 +5,8 @@ vmap b <PageUp>
 set ignorecase
 set smartcase
 
+set clipboard+=unnamedplus
+
 nnoremap <silent>, :nohlsearch<CR>
 
 function! SynStack()

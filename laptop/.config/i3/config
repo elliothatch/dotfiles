@@ -15,7 +15,7 @@ set $term alacritty
 # desktop background
 exec --no-startup-id feh --bg-scale ~/Pictures/bg-gradient-laptop.jpg
 
-exec --no-startup-id picom -b
+exec --no-startup-id picom -b --experimental-backends --backend glx
 exec --no-startup-id discord
 exec --no-startup-id syncthingtray
 exec --no-startup-id slack

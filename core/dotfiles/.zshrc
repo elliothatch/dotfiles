@@ -40,6 +40,20 @@ setopt complete_in_word
 
 REPORTTIME=5
 
+### Set title to pwd
+# case $TERM in
+  # xterm*)
+    precmd () {
+		print -Pn "\e]0;%~ %(?..\$%?)\a"
+    }
+    # ;;
+# esac
+
+### Set title to command name
+preexec () {
+	print -Pn "\e]0;$1\a"
+}
+
 ### Prompt
 
 PROMPT="%{%(!.$fg_bold[red].$fg_bold[green])%}%n@%m%{$reset_color%} %{$fg_bold[blue]%}%~%{$reset_color%} %(!.!!.$) "
