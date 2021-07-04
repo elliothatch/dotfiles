@@ -7,6 +7,9 @@ ranger-git
 signal-desktop
 slack-desktop
 syncthingtray
+
+# fonts
+ttf-juliamono
  
 # mtp
 simple-mtpfs

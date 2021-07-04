@@ -34,7 +34,7 @@ zsh
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
-ttf-dejavu
+ttf-bitstream-vera
 ttf-font-awesome
 
 # audio

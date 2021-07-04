@@ -32,6 +32,8 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'hrsh7th/nvim-compe'
 
+Plug 'nvim-lua/lsp-status.nvim'
+
 " coc extensions
 " Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 " Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
@@ -506,24 +508,6 @@ set termguicolors
 set inccommand=split " live substitution with search matches shown in split
 colorscheme burgundy
 
-" statusline
-set statusline=
-set statusline+=[%n]                                  "buffernr
-" TODO: change the color for modified
-set statusline+=%#Todo#%m%r%w%*                           " modified/readonly
-"set statusline+=%#LineNr#%{fugitive#statusline()}%*             " git branch
-set statusline+=%#LineNr#%{fugitive#head()}%*             " git branch
-set statusline+=\ %<%F\                                "File+path
-set statusline+=%*\ %=\  "divider
-set statusline+=%{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
-set statusline+=%{SpinnerText()}\      "Encoding
-set statusline+=%{(&bomb?\",BOM\":\"\")}            "Encoding2
-set statusline+=[%{&ff}]\                              "FileFormat (dos/unix..)
-set statusline+=%y\                                  "FileType
-set statusline+=0x%04B\          "character under cursor
-set statusline+=%l:%v\  "row:col
-set statusline+=%p%%\  "row %
-"set statusline+=%P\ \                      "Modified? Readonly? Top/bot.
 " }}}
 " Autocommands {{{
 function! RemoveBufferIfPreview()
@@ -581,6 +565,56 @@ augroup END
 " LSP {{{
 lua << EOF
 local nvim_lsp = require('lspconfig')
+ -- configure diagnostic marks
+-- vim.fn.sign_define("LspDiagnosticsSignError",
+--     {text = "", texthl = "GruvboxRed"})
+-- vim.fn.sign_define("LspDiagnosticsSignWarning",
+--     {text = "", texthl = "GruvboxYellow"})
+-- vim.fn.sign_define("LspDiagnosticsSignInformation",
+--     {text = "", texthl = "GruvboxBlue"})
+-- vim.fn.sign_define("LspDiagnosticsSignHint",
+--     {text = "", texthl = "GruvboxAqua"})
+vim.fn.sign_define("LspDiagnosticsSignError",
+    {text = "✖"})
+vim.fn.sign_define("LspDiagnosticsSignWarning",
+    {text = "❗"})
+vim.fn.sign_define("LspDiagnosticsSignInformation",
+    {text = "🛈"})
+vim.fn.sign_define("LspDiagnosticsSignHint",
+    {text = "❓"})
+
+local lsp_status = require('lsp-status')
+
+lsp_status.config({
+	status_symbol = '',
+	indicator_errors = '✖ ',
+	indicator_warnings = '❗',
+	indicator_info = '🛈 ',
+	indicator_hint = '❓',
+	indicator_ok = '✔',
+	indicator_separator = '',
+	component_separator = ' | ',
+
+	-- status_symbol = '',
+	-- indicator_errors = '',
+	-- indicator_warnings = '',
+	-- indicator_info = ' ',
+	-- indicator_hint = '',
+	-- indicator_ok = '✔',
+	-- indicator_separator = ' ',
+
+
+	-- status_symbol = '',
+	-- indicator_errors = ' ',
+	-- indicator_warnings = '⚠',
+	-- indicator_info = '🛈 ',
+	-- indicator_hint = '⚠ ',
+	--indicator_ok = '✓',
+})
+lsp_status.register_progress()
+
+local capabilities = vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
@@ -612,7 +646,11 @@ buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 buf_set_keymap('n', '<leader>tE', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 buf_set_keymap("n", "<leader>t=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
+lsp_status.on_attach(client, bufnr)
 end
+
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- for k,v in pairs(lsp_status.capabilities) do capabilities[k] = v end
 
 local function setup_servers()
   require'lspinstall'.setup()
@@ -623,6 +661,7 @@ local function setup_servers()
     flags = {
     	debounce_text_changes = 150,
 		},
+	capabilities = capabilities,
 	-- TOOD: update diagnostics on write, rather than exit-insert
 	-- handlers = {
 	-- 	["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -709,6 +748,34 @@ vim.cmd("command! LspInstallMissing lua lsp_install_missing()")
 vim.cmd("command! LspListInstalled lua lsp_list_installed()")
 
 EOF
+
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
+  endif
+
+  return ''
+endfunction
+
+" statusline
+set statusline=
+set statusline+=[%n]                                  "buffernr
+" TODO: change the color for modified
+set statusline+=%#Todo#%m%r%w%*                           " modified/readonly
+"set statusline+=%#LineNr#%{fugitive#statusline()}%*             " git branch
+set statusline+=%#LineNr#%{fugitive#head()}%*             " git branch
+set statusline+=\ %<%F\                                "File+path
+set statusline+=%*\ %=\  "divider
+set statusline+=%{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
+set statusline+=%{SpinnerText()}\      "Encoding
+set statusline+=%{(&bomb?\",BOM\":\"\")}            "Encoding2
+set statusline+=[%{&ff}]\                              "FileFormat (dos/unix..)
+set statusline+=%y\                                  "FileType
+set statusline+=0x%04B\          "character under cursor
+set statusline+=%l:%v\  "row:col
+set statusline+=%p%%\  "row %
+set statusline+=%#Todo#%{LspStatus()}%*
+"set statusline+=%P\ \                      "Modified? Readonly? Top/bot.
 
 " }}}
 " Bindings {{{
