@@ -9,7 +9,6 @@ let g:python_host_prog=g:HomeDir . '.local/virtualenvs/neovim2/bin/python'
 " sheerun/vim-polyglot
 let g:polyglot_disabled = ['typescript', 'csv']
 " }}}
-
 " Plugins {{{
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -24,18 +23,22 @@ Plug 'neomake/neomake'
 " editor
 "Plug 'scrooloose/nerdcommenter'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'tag': '4.0-serial' }
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-commentary'
 
+Plug 'neovim/nvim-lspconfig'
+Plug 'kabouzeid/nvim-lspinstall'
+Plug 'hrsh7th/nvim-compe'
+
 " coc extensions
-Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -91,6 +94,76 @@ Plug 'vim-scripts/headerguard'
 call plug#end()
 " }}}
 "  - Options {{{
+" 'hrsh7th/nvim-compe'
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true
+let g:compe.debug = v:false
+let g:compe.min_length = 1
+" let g:compe.preselect = 'always'
+let g:compe.preselect = 'never'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.resolve_timeout = 800
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
+
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.calc = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+" let g:compe.source.vsnip = v:true
+let g:compe.source.ultisnips = v:true
+let g:compe.source.luasnip = v:true
+let g:compe.source.emoji = v:true
+
+inoremap <silent><expr> <C-Space> compe#complete()
+lua << EOF
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  -- elseif vim.fn['vsnip#available'](1) == 1 then
+  --   return t "<Plug>(vsnip-expand-or-jump)"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  -- elseif vim.fn['vsnip#jumpable'](-1) == 1 then
+  --   return t "<Plug>(vsnip-jump-prev)"
+  else
+    -- If <S-Tab> is not working in your terminal, change it to <C-h>
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+EOF
+
 " vim-airline/vim-airline
 "let g:airline#extensions#tabline#enabled = 1
 "let g:airline_theme='luna'
@@ -115,11 +188,11 @@ let g:neomake_cpp_enabled_makers  = ['makeprg']
 "
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -127,30 +200,30 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> for trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-nnoremap <silent> <leader>tm :call <SID>show_documentation()<CR>
-nmap <silent> <leader>tr <Plug>(coc-references)
-nmap <silent> <leader>tR <Plug>(coc-rename)
-nmap <silent> <leader>td <Plug>(coc-definition)
-nmap <silent> <leader>tD <Plug>(coc-type-definition)
-nmap <silent> <leader>ti <Plug>(coc-implementation)
-nmap <silent> <leader>t[ <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>t] <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>t/ :CocList outline<CR>
-nmap <silent> <leader>te :CocList diagnostics<CR>
-nmap <silent> <leader>ta :CocAction<CR>
+" nnoremap <silent> <leader>tm :call <SID>show_documentation()<CR>
+" nmap <silent> <leader>tr <Plug>(coc-references)
+" nmap <silent> <leader>tR <Plug>(coc-rename)
+" nmap <silent> <leader>td <Plug>(coc-definition)
+" nmap <silent> <leader>tD <Plug>(coc-type-definition)
+" nmap <silent> <leader>ti <Plug>(coc-implementation)
+" nmap <silent> <leader>t[ <Plug>(coc-diagnostic-next)
+" nmap <silent> <leader>t] <Plug>(coc-diagnostic-prev)
+" nmap <silent> <leader>t/ :CocList outline<CR>
+" nmap <silent> <leader>te :CocList diagnostics<CR>
+" nmap <silent> <leader>ta :CocAction<CR>
 
 " nnoremap <leader>tt :TSType<CR>
 " nnoremap <leader>ti :TSImport<CR>
 " nnoremap <leader>ts :TSTypePreview<CR>
 
 " Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
 function! s:show_documentation()
   if &filetype == 'vim'
@@ -161,7 +234,7 @@ function! s:show_documentation()
 endfunction
 
 " liuchengxu/vista
-let g:vista_default_executive = 'coc'
+" let g:vista_default_executive = 'coc'
 " let g:vista_executive_for = {
 " \ 'c': 'ctags',
 " \ 'cpp': 'ctags',
@@ -305,7 +378,8 @@ set ignorecase                  " ignore case in search
 set smartcase                   " case sensitive when using capital letters
 set undofile                    " save undo history to file
 set textwidth=0                 " disable automatic word wrap
-set completeopt+=noinsert       " auto-select first omnicomplete result
+" set completeopt+=noinsert       " auto-select first omnicomplete result
+set completeopt=menuone,noselect
 set mouse=a                     " enable mouse
 set title                       " set window title
 " }}}
@@ -484,7 +558,7 @@ augroup myautocmds
 	" use spaces instead of tabs in certain filetypes
 	autocmd FileType typescript execute 'setl expandtab'
 	autocmd FileType typescript execute 'setl expandtab'
-	autocmd FileType typescript execute 'nnoremap <buffer> <silent> <leader>tI :CocCommand tsserver.organizeImports<cr>'
+	" autocmd FileType typescript execute 'nnoremap <buffer> <silent> <leader>tI :CocCommand tsserver.organizeImports<cr>'
 	" don't add preview window buffers to buffer list
 	autocmd BufEnter * call RemoveBufferIfPreview()
 	" autocmd BufReadPre * call PreReadIncludes()
@@ -503,6 +577,139 @@ augroup ft_vim
     au FileType help setlocal textwidth=78
 	au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
 augroup END
+" }}}
+" LSP {{{
+lua << EOF
+local nvim_lsp = require('lspconfig')
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+--Enable completion triggered by <c-x><c-o>
+buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+-- Mappings.
+local opts = { noremap=true, silent=true }
+
+-- See `:help vim.lsp.*` for documentation on any of the below functions
+-- buf_set_keymap('n', '<leader>td', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+buf_set_keymap('n', '<leader>td', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+buf_set_keymap('n', '<leader>tm', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+buf_set_keymap('n', '<leader>ti', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+-- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+-- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+-- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+-- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+buf_set_keymap('n', '<leader>tD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+buf_set_keymap('n', '<leader>tR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+buf_set_keymap('n', '<leader>ta', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+buf_set_keymap('n', '<leader>tr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+buf_set_keymap('n', '<leader>te', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+buf_set_keymap('n', '<leader>tE', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+buf_set_keymap("n", "<leader>t=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+end
+
+local function setup_servers()
+  require'lspinstall'.setup()
+  local servers = require'lspinstall'.installed_servers()
+  for _, server in pairs(servers) do
+    require'lspconfig'[server].setup{
+    on_attach = on_attach,
+    flags = {
+    	debounce_text_changes = 150,
+		},
+	-- TOOD: update diagnostics on write, rather than exit-insert
+	-- handlers = {
+	-- 	["textDocument/publishDiagnostics"] = vim.lsp.with(
+	-- 	vim.lsp.diagnostic.on_publish_diagnostics, {
+	-- 		}
+	-- 	),
+    }
+  end
+end
+
+setup_servers()
+
+-- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+require'lspinstall'.post_install_hook = function ()
+  setup_servers() -- reload installed servers
+  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+end
+
+
+-- require'lspconfig'.tsserver.setup{}
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+-- local servers = { "pyright", "rust_analyzer", "tsserver" }
+-- local servers = { "tsserver" }
+-- for _, lsp in ipairs(servers) do
+-- 	nvim_lsp[lsp].setup {
+-- 		on_attach = on_attach,
+-- 		flags = {
+-- 			debounce_text_changes = 150,
+-- 			}
+-- 		}
+-- end
+
+
+
+local langs = {
+	'bash',
+	'cmake',
+	'cpp',
+	'css',
+	--'tailwindcss',
+	'dockerfile',
+	'go',
+	'html',
+	'json',
+	'latex',
+	'lua',
+	'php',
+	'python',
+	'ruby',
+	'typescript',
+	'vim',
+	'yaml',
+}
+
+function _G.set_difference(a, b)
+    local aa = {}
+    for k,v in pairs(a) do aa[v]=true end
+    for k,v in pairs(b) do aa[v]=nil end
+    local ret = {}
+    local n = 0
+    for k,v in pairs(a) do
+        if aa[v] then n=n+1 ret[n]=v end
+    end
+    return ret
+end
+
+function _G.lsp_list_installed()
+	local servers = require'lspinstall'.installed_servers()
+	print(vim.inspect(servers))
+end
+
+function _G.lsp_install_missing()
+	local servers = require'lspinstall'.installed_servers()
+	local needInstall = set_difference(langs, servers)
+	print("Installing: " .. vim.inspect(needInstall))
+	for _, lang in ipairs(needInstall) do
+		require'lspinstall'.install_server(lang)
+	end
+end
+
+vim.cmd("command! LspInstallMissing lua lsp_install_missing()")
+vim.cmd("command! LspListInstalled lua lsp_list_installed()")
+
+EOF
+
 " }}}
 " Bindings {{{
 map <space> <leader>
