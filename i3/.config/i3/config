@@ -173,7 +173,7 @@ for_window [class="vlc"] move container workspace 3
     bindsym $mod+Shift+z exec $term --class "filemanager" -t "Files" -e "$SHELL" -c ranger #; [instance="filemanager"] scratchpad show
 
 # i3bar widgets
-for_window [instance="calendar-widget"] floating enable, resize set 160 170, move position mouse, border pixel 1
+for_window [instance="calendar-widget"] floating enable, resize set 170 180, move position mouse, border pixel 1
 
 # Resizing containers:
 #
