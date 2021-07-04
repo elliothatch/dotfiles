@@ -57,6 +57,7 @@ Plug 'nelstrom/vim-markdown-folding'
 Plug 'elliothatch/burgundy.vim'
 Plug 'machakann/vim-highlightedyank'
 " Plug 'joelstrouts/swatch.vim'
+Plug 'dstein64/nvim-scrollview'
 
 " uses ctags (https://github.com/universal-ctags/ctags)
 "Plug 'majutsushi/tagbar'
@@ -115,9 +116,11 @@ let g:compe.documentation = v:true
 
 let g:compe.source = {}
 let g:compe.source.path = v:true
-let g:compe.source.buffer = v:true
+let g:compe.source.buffer = {}
+let g:compe.source.buffer.menu = '[B]'
 let g:compe.source.calc = v:true
-let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lsp = {}
+let g:compe.source.nvim_lsp.menu = '[L]'
 let g:compe.source.nvim_lua = v:true
 " let g:compe.source.vsnip = v:true
 let g:compe.source.ultisnips = v:true
@@ -508,6 +511,9 @@ set termguicolors
 set inccommand=split " live substitution with search matches shown in split
 colorscheme burgundy
 
+" Extended custom colors
+hi ScrollView guifg=#f2c9db guibg=#4a1027 guisp=#4a1027 gui=NONE ctermfg=224 ctermbg=237 cterm=NONE
+
 " }}}
 " Autocommands {{{
 function! RemoveBufferIfPreview()
@@ -564,6 +570,38 @@ augroup END
 " }}}
 " LSP {{{
 lua << EOF
+-- require('vim.lsp.protocol').CompletionItemKind = {
+--     '', -- Text
+--     '', -- Method
+--     '', -- Function
+--     '', -- Constructor
+--     '', -- Field
+--     '', -- Variable
+--     '', -- Class
+--     'ﰮ', -- Interface
+--     '', -- Module
+--     '', -- Property
+--     '', -- Unit
+--     '', -- Value
+--     '了', -- Enum
+--     '', -- Keyword
+--     '﬌', -- Snippet
+--     '', -- Color
+--     '', -- File
+--     '', -- Reference
+--     '', -- Folder
+--     '', -- EnumMember
+--     '', -- Constant
+--     '', -- Struct
+--     '', -- Event
+--     'ﬦ', -- Operator
+--     '', -- TypeParameter
+-- }
+
+-- require('vim.lsp.protocol').CompletionItemKind[2] = 'λ' -- Method
+-- require('vim.lsp.protocol').CompletionItemKind[3] = 'λ' -- Function
+-- require('vim.lsp.protocol').CompletionItemKind[4] = 'λ' -- Constructor
+
 local nvim_lsp = require('lspconfig')
  -- configure diagnostic marks
 -- vim.fn.sign_define("LspDiagnosticsSignError",
@@ -585,15 +623,21 @@ vim.fn.sign_define("LspDiagnosticsSignHint",
 
 local lsp_status = require('lsp-status')
 
+local indicator_ok = '✔'
+local component_separator = ' | '
+
 lsp_status.config({
+	kind_labels = vim.g.completion_customize_lsp_label,
 	status_symbol = '',
 	indicator_errors = '✖ ',
 	indicator_warnings = '❗',
 	indicator_info = '🛈 ',
 	indicator_hint = '❓',
-	indicator_ok = '✔',
+	indicator_ok = indicator_ok,
 	indicator_separator = '',
-	component_separator = ' | ',
+	component_separator = component_separator,
+	-- disable everything except current_function, we build the diagnostics pane separately so it can be positioned separately in the statusline
+	diagnostics = false,
 
 	-- status_symbol = '',
 	-- indicator_errors = '',
@@ -615,38 +659,75 @@ lsp_status.register_progress()
 
 local capabilities = vim.tbl_extend('keep', vim.lsp.protocol.make_client_capabilities(), lsp_status.capabilities)
 
+function _G.lsp_status_function()
+	local current_function = vim.b.lsp_current_function
+	if current_function and current_function ~= '' then
+		return '(' .. current_function .. ')'
+	end
+
+	return ''
+end
+
+function _G.lsp_status_diagnostics()
+	local errors = require('lsp-status').status_errors()
+	local warnings = require('lsp-status').status_warnings()
+	local info = require('lsp-status').status_info()
+	local hints = require('lsp-status').status_hints()
+	local progress = require('lsp-status').status_progress()
+
+	local status_parts = {}
+
+	if errors then
+		table.insert(status_parts, errors)
+	end
+	if warnings then
+		table.insert(status_parts, warnings)
+	end
+	if info then
+		table.insert(status_parts, info)
+	end
+	if hints then
+		table.insert(status_parts, hints)
+	end
+	local base_status = vim.trim(table.concat(status_parts, component_separator) .. ' ' .. progress)
+
+	if base_status ~= '' then return ' ' .. base_status .. ' ' end
+	return ' ' .. indicator_ok .. ' '
+end
+
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+	local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
---Enable completion triggered by <c-x><c-o>
-buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+	--Enable completion triggered by <c-x><c-o>
+	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
--- Mappings.
-local opts = { noremap=true, silent=true }
+	-- Mappings.
+	local opts = { noremap=true, silent=true }
 
--- See `:help vim.lsp.*` for documentation on any of the below functions
--- buf_set_keymap('n', '<leader>td', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-buf_set_keymap('n', '<leader>td', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-buf_set_keymap('n', '<leader>tm', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-buf_set_keymap('n', '<leader>ti', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
--- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
--- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
--- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
--- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-buf_set_keymap('n', '<leader>tD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-buf_set_keymap('n', '<leader>tR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-buf_set_keymap('n', '<leader>ta', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-buf_set_keymap('n', '<leader>tr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-buf_set_keymap('n', '<leader>te', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-buf_set_keymap('n', '<leader>tE', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-buf_set_keymap("n", "<leader>t=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+	-- See `:help vim.lsp.*` for documentation on any of the below functions
+	-- buf_set_keymap('n', '<leader>td', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+	buf_set_keymap('n', '<leader>td', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+	buf_set_keymap('n', '<leader>tm', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+	buf_set_keymap('n', '<leader>ti', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+	-- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+	-- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+	-- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+	-- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+	buf_set_keymap('n', '<leader>tD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+	buf_set_keymap('n', '<leader>tR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+	buf_set_keymap('n', '<leader>ta', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+	buf_set_keymap('n', '<leader>tr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+	buf_set_keymap('n', '<leader>te', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+	buf_set_keymap('n', '<leader>tE', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+	buf_set_keymap("n", "<leader>t=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
-lsp_status.on_attach(client, bufnr)
+	lsp_status.on_attach(client, bufnr)
 end
 
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -749,9 +830,15 @@ vim.cmd("command! LspListInstalled lua lsp_list_installed()")
 
 EOF
 
+function! LspStatusFunction() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+	  return luaeval("lsp_status_function()")
+  endif
+endfunction
+
 function! LspStatus() abort
   if luaeval('#vim.lsp.buf_get_clients() > 0')
-    return luaeval("require('lsp-status').status()")
+    return luaeval("lsp_status_diagnostics()")
   endif
 
   return ''
@@ -766,15 +853,16 @@ set statusline+=%#Todo#%m%r%w%*                           " modified/readonly
 set statusline+=%#LineNr#%{fugitive#head()}%*             " git branch
 set statusline+=\ %<%F\                                "File+path
 set statusline+=%*\ %=\  "divider
+set statusline+=%{LspStatusFunction()}\ 
+set statusline+=%#Todo#%{LspStatus()}%*\ 
 set statusline+=%{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
-set statusline+=%{SpinnerText()}\      "Encoding
 set statusline+=%{(&bomb?\",BOM\":\"\")}            "Encoding2
 set statusline+=[%{&ff}]\                              "FileFormat (dos/unix..)
 set statusline+=%y\                                  "FileType
+" set statusline+=%{SpinnerText()}
 set statusline+=0x%04B\          "character under cursor
 set statusline+=%l:%v\  "row:col
 set statusline+=%p%%\  "row %
-set statusline+=%#Todo#%{LspStatus()}%*
 "set statusline+=%P\ \                      "Modified? Readonly? Top/bot.
 
 " }}}

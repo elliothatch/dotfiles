@@ -30,6 +30,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'mustache/vim-mustache-handlebars'
+Plug 'dstein64/nvim-scrollview'
 
 call plug#end()
 
@@ -40,6 +41,8 @@ colorscheme burgundy
 hi DiffAdded guifg=#8bf792 guibg=#1a0a16 guisp=#0a4a19 gui=NONE ctermfg=120 ctermbg=234 cterm=NONE
 hi DiffRemoved guifg=#d11b2d guibg=#1a0a16 guisp=#630512 gui=NONE ctermfg=160 ctermbg=234 cterm=NONE
 hi diffFile guifg=#f0bf69 guibg=NONE guisp=NONE gui=NONE ctermfg=221 ctermbg=NONE cterm=NONE
+
+hi ScrollView guifg=#f2c9db guibg=#4a1027 guisp=#4a1027 gui=NONE ctermfg=224 ctermbg=237 cterm=NONE
 
 let g:colorizer_auto_filetype='css,html,scss,sass'
 
