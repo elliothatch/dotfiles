@@ -79,7 +79,11 @@ Plug 'mustache/vim-mustache-handlebars'
 
 " tags
 " Plug 'c0r73x/neotags.nvim', {'do': 'make'}
-Plug 'liuchengxu/vista.vim'
+" Plug 'liuchengxu/vista.vim'
+" lsp symbol outline. i may use this more if they implement ability to
+" customize symbols, filter outline to certain types of symbols (just classes
+" and functions, etc
+Plug 'simrat39/symbols-outline.nvim'
 
 " typescript
 " Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
@@ -246,10 +250,10 @@ endfunction
 " \}
 
 " disable icons since I don't use nerdfonts
-let g:vista#renderer#enable_icon = 0
+" let g:vista#renderer#enable_icon = 0
 
-nnoremap <leader>to :Vista!!<cr>
-nnoremap <leader>tf :Vista finder<cr>
+" nnoremap <leader>to :Vista!!<cr>
+" nnoremap <leader>tf :Vista finder<cr>
 
 
 " let esp32Maker = {'name': 'esp32 c compiler'}
@@ -514,6 +518,12 @@ colorscheme burgundy
 " Extended custom colors
 hi ScrollView guifg=#f2c9db guibg=#4a1027 guisp=#4a1027 gui=NONE ctermfg=224 ctermbg=237 cterm=NONE
 
+hi FocusedSymbol gui=bold,italic cterm=bold,italic
+
+" hi WildMenu guifg=#f7f7f7 guibg=#611835 guisp=#611835 gui=NONE ctermfg=15 ctermbg=52 cterm=NONE
+
+" hi LineNr guifg=#9e0c46 guibg=#240d19 guisp=#240d19 gui=NONE ctermfg=125 ctermbg=235 cterm=NONE
+
 " }}}
 " Autocommands {{{
 function! RemoveBufferIfPreview()
@@ -556,6 +566,10 @@ augroup myautocmds
 	" autocmd FileType c,cpp set makeprg=BATCH_BUILD=1\ make
 	
 	autocmd FileType c,cpp execute 'setl makeprg=idf.py\ build'
+
+	" simrat39/symbols-outline.nvim
+	" outline uses comment highlight group for vertical pipes, turn off italics
+	autocmd FileType Outline execute 'hi Comment gui=NONE cterm=NONE'
 augroup END
 
 " }}}
@@ -570,6 +584,24 @@ augroup END
 " }}}
 " LSP {{{
 lua << EOF
+vim.g.symbols_outline = {
+    highlight_hovered_item = true,
+    show_guides = true,
+    auto_preview = true,
+    position = 'right',
+    show_numbers = false,
+    show_relative_numbers = false,
+    show_symbol_details = true,
+    keymaps = {
+        close = "<Esc>",
+        goto_location = "<Cr>",
+        focus_location = "o",
+        hover_symbol = "<C-space>",
+        rename_symbol = "r",
+        code_actions = "a",
+    },
+    lsp_blacklist = {},
+}
 -- require('vim.lsp.protocol').CompletionItemKind = {
 --     '', -- Text
 --     '', -- Method
@@ -727,6 +759,13 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', '<leader>tE', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 	buf_set_keymap("n", "<leader>t=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
+	buf_set_keymap("n", "<leader>to", "<cmd>SymbolsOutline<CR>", opts)
+
+	-- highlight symbol under cursor
+    vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
+    vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
+    vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
+
 	lsp_status.on_attach(client, bufnr)
 end
 
@@ -834,6 +873,8 @@ function! LspStatusFunction() abort
   if luaeval('#vim.lsp.buf_get_clients() > 0')
 	  return luaeval("lsp_status_function()")
   endif
+
+  return ''
 endfunction
 
 function! LspStatus() abort
