@@ -761,10 +761,12 @@ local on_attach = function(client, bufnr)
 
 	buf_set_keymap("n", "<leader>to", "<cmd>SymbolsOutline<CR>", opts)
 
-	-- highlight symbol under cursor
-    vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
-    vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
-    vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
+	if client.supports_method('textDocument/documentHighlight') then
+		-- highlight symbol under cursor
+		vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
+		vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
+		vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
+	end
 
 	lsp_status.on_attach(client, bufnr)
 end
