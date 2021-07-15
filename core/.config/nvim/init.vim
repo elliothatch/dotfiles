@@ -547,6 +547,31 @@ function! LoadIncludes()
 	execute 'sleep 400m'
 	execute 'tabc'
 endf
+
+function! FoldOutline(lnum)
+	let l:line = getline(v:lnum)
+	let l:nextline = getline(v:lnum + 1)
+
+	let l:linematch = matchstrpos(l:line,  '.*[├└]')
+	let l:nextlinematch = matchstrpos(l:nextline,  '.*[├└]')
+
+	let l:linelevel = 0
+	if l:linematch[2] >= 0
+		let l:linelevel = max([1, (l:linematch[2] - 2)/4 + 1])
+	endif
+
+	let l:nextlinelevel = 0
+	if l:nextlinematch[2] >= 0
+		let l:nextlinelevel = max([1, (l:nextlinematch[2] - 2)/4 + 1])
+	endif
+
+	if l:nextlinelevel > l:linelevel
+		return l:nextlinelevel
+	endif
+
+	return l:linelevel
+endfunction
+
 augroup myautocmds
 	" automatically add the current extension to 'gf' paths
 	autocmd!
@@ -570,6 +595,10 @@ augroup myautocmds
 	" simrat39/symbols-outline.nvim
 	" outline uses comment highlight group for vertical pipes, turn off italics
 	autocmd FileType Outline execute 'hi Comment gui=NONE cterm=NONE'
+	autocmd FileType Outline execute 'hi Folded guifg=#f2ead7 guibg=#1a0a16 guisp=#1a0a16 gui=NONE ctermfg=230 ctermbg=234 cterm=NONE'
+'
+'
+	autocmd FileType Outline execute 'setl foldlevel=1|setl foldexpr=FoldOutline(v:lnum)|setl foldmethod=expr'
 augroup END
 
 " }}}
