@@ -34,6 +34,10 @@ Plug 'hrsh7th/nvim-compe'
 
 Plug 'nvim-lua/lsp-status.nvim'
 
+" treesitter
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/playground'
+
 " coc extensions
 " Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 " Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
@@ -523,6 +527,13 @@ hi FocusedSymbol gui=bold,italic cterm=bold,italic
 " hi WildMenu guifg=#f7f7f7 guibg=#611835 guisp=#611835 gui=NONE ctermfg=15 ctermbg=52 cterm=NONE
 
 " hi LineNr guifg=#9e0c46 guibg=#240d19 guisp=#240d19 gui=NONE ctermfg=125 ctermbg=235 cterm=NONE
+"
+hi link TSProperty Normal
+hi link TSParameter Normal
+" hi link TSConstructor Identifier
+" hi link TSConstructor Function
+" hi link TSVariableBuiltin Identifier
+hi link TSImportSpecifier Normal
 
 " }}}
 " Autocommands {{{
@@ -813,7 +824,8 @@ local function setup_servers()
     	debounce_text_changes = 150,
 		},
 	capabilities = capabilities,
-	-- TOOD: update diagnostics on write, rather than exit-insert
+	-- TODO: update diagnostics on write, rather than exit-insert
+	-- TODO: language specific diagnostics filtering (block annoying errors)
 	-- handlers = {
 	-- 	["textDocument/publishDiagnostics"] = vim.lsp.with(
 	-- 	vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -897,6 +909,98 @@ end
 
 vim.cmd("command! LspInstallMissing lua lsp_install_missing()")
 vim.cmd("command! LspListInstalled lua lsp_list_installed()")
+
+-- treesitter ------------------------------------------------------------------
+require'nvim-treesitter.configs'.setup {
+	highlight = {
+	enable = true,
+	additional_vim_regex_highlighting = false,
+	},
+	indent = {
+	enable = true
+	},
+	incremental_selection = {
+	enable = true,
+	keymaps = {
+		init_selection = "gnn",
+		--node_incremental = "grn",
+		scope_incremental = "grc",
+		node_decremental = "grm",
+		},
+	},
+	-- I want to use import_specifier query as a capture because I want to override the default nvim-treesitter highlight for imports (@constructor -> TSConstructor). It assumes the imports are a constructor when they are capitalized, but I just want a highlight group for the imports (without guessing).
+	-- this doesn't work:
+	-- in .config/nvim/after/queries/typescript/highlights.scm:
+	-- (import_specifier) @importSpecifier
+	-- same with (type_annotation.nested_type_identifier)
+	-- custom_captures = {
+	-- 	['importSpecifier'] = 'TSImportSpecifier'
+	-- },
+	--ensure_installed = 'all'
+	--{
+		-- 'bash',
+		-- 'c',
+		-- 'c_sharp',
+		-- 'clojure',
+		-- 'cmake',
+		-- 'cpp',
+		-- 'css',
+		-- 'dockerfile',
+		-- 'gdscript'
+		-- 'go',
+		-- 'gomod',
+		-- 'haskell',
+		-- 'html',
+		-- 'java',
+		-- 'javascript',
+		-- 'jsdoc',
+		-- 'json',
+		-- 'jsonc',
+		-- 'latex',
+		-- 'lua',
+		-- 'php',
+		-- 'python',
+		-- 'r',
+		-- 'regex',
+		-- 'ruby',
+		-- 'rust',
+		-- 'scss',
+		-- 'tsx',
+		-- 'typescript',
+		-- 'yaml',
+
+		-- 'comment',
+		-- 'commonlisp',
+		-- 'elixir',
+		-- 'graphql',
+		-- 'ocaml',
+		-- 'Tree-sitter query language',
+		-- 'swift'
+	--}
+}
+ -- set foldmethod=expr
+ -- set foldexpr=nvim_treesitter#foldexpr()
+
+require "nvim-treesitter.configs".setup {
+  playground = {
+    enable = true,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = false, -- Whether the query persists across vim sessions
+    keybindings = {
+      toggle_query_editor = 'o',
+      toggle_hl_groups = 'i',
+      toggle_injected_languages = 't',
+      toggle_anonymous_nodes = 'a',
+      toggle_language_display = 'I',
+      focus_language = 'f',
+      unfocus_language = 'F',
+      update = 'R',
+      goto_node = '<cr>',
+      show_help = '?',
+    },
+  }
+}
 
 EOF
 

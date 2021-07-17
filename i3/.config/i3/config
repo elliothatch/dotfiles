@@ -58,6 +58,7 @@ for_window [class="vlc"] move container workspace 3
     bindsym $mod+Shift+q kill
 
     # start your launcher
+    # todo: just start launcher program
     bindsym $mod+d exec $term --class "launcher" -t "Launch application" -e "$SHELL" -c 'execs | fzf | xargs i3-msg exec'
     for_window [instance="launcher"] floating enable
 
