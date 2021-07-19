@@ -533,7 +533,6 @@ hi link TSParameter Normal
 " hi link TSConstructor Identifier
 " hi link TSConstructor Function
 " hi link TSVariableBuiltin Identifier
-hi link TSImportSpecifier Normal
 
 " }}}
 " Autocommands {{{
@@ -928,14 +927,12 @@ require'nvim-treesitter.configs'.setup {
 		node_decremental = "grm",
 		},
 	},
-	-- I want to use import_specifier query as a capture because I want to override the default nvim-treesitter highlight for imports (@constructor -> TSConstructor). It assumes the imports are a constructor when they are capitalized, but I just want a highlight group for the imports (without guessing).
-	-- this doesn't work:
-	-- in .config/nvim/after/queries/typescript/highlights.scm:
-	-- (import_specifier) @importSpecifier
-	-- same with (type_annotation.nested_type_identifier)
-	-- custom_captures = {
-	-- 	['importSpecifier'] = 'TSImportSpecifier'
-	-- },
+	custom_captures = {
+		-- remove the "constructor" highlight capture because nvim-treesitter annoyingly assumes any identifier starting with a capital letter is a constructor
+		-- this doesn't seem to work, so I removed the @constructor and @constant queries by invoking :TSEditQuery highlights and commenting out the relevant lines from ECMA
+		-- this hopefully won't be necessary after this issue is merged https://github.com/nvim-treesitter/nvim-treesitter/pull/1556
+		--['constructor'] = nil
+	},
 	--ensure_installed = 'all'
 	--{
 		-- 'bash',
