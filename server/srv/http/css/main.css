@@ -587,7 +587,7 @@ html {
 body {
   min-height: 100%;
   display: grid;
-  grid-template-rows: [header-start] auto [header-end main-start] 1fr [main-end footer-start] auto [body-end footer-end];
+  grid-template-rows: [header-start] auto [header-end aside-start] auto [aside-end main-start] 1fr [main-end footer-start] auto [body-end footer-end];
   grid-template-columns: [full-start] minmax(1em, 1fr) [main-start] minmax(0, 60em) [main-end] minmax(1em, 1fr) [full-end];
   background: #ffffff;
   color: #000000;
@@ -626,10 +626,15 @@ body > header nav a {
   margin-right: 0.4em;
 }
 
+body > aside {
+	grid-row: aside;
+	grid-column: main;
+	margin-top: 2em;
+}
+
 body > main {
   grid-row: main;
   grid-column: main;
-  margin-top: 2em;
   margin-bottom: 2em;
 }
 
@@ -673,7 +678,7 @@ h1 {
 }
 
 ul {
-  list-style-type: none;
+  list-style-type: circle;
 }
 
 article {

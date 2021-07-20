@@ -10,13 +10,24 @@
 	</head>
 	<body>
 		<header>
-			<h1>icebox documentation</h1>
+			<h1><a href="/">icebox documentation</a></h1>
 			<nav>
-				<a href="/">icebox</a>
 				<a href="/files">files</a>
 				<a href="/docs">docs</a>
 			</nav>
 		</header>
+		
+		<aside class="table-of-contents"> 
+			<h1>Table of Contents</h3>
+			<ul>
+				<li><a href="#backups">backups</a></li>
+				<li><a href="#syncthing">syncthing</a></li>
+				<li><a href="#fileshare">fileshare</a></li>
+				<li><a href="#vpn">vpn</a></li>
+				<li><a href="#public-file-sharing">public file sharing</a></li>
+			</ul>
+		</aside>
+
 		<main>
 			<section id="backups">
 				<h1>backups</h1>
@@ -32,6 +43,14 @@
 
 				<h2>cloud backups</h2>
 				<p>The server maintains a weekly backup of all files in the Samba fileshare (including sync) to Azure cloud storage, in case the Icebox suffers a catastrophic failure. Cloud storage does not store previous snapshots, so you will not be able to recover any deleted files.</p>
+
+				<div class="warning">
+				Files matching these patterns are excluded from cloud backup:
+				<ul>
+					<li>fresh4less/Video/**</li>
+					<li>node_modules/**</li>
+				</ul>
+				</div>
 			</section>
 			<section id="syncthing">
 				<h1>syncthing</h1>
