@@ -38,6 +38,9 @@ for_window [instance="screensaver"] floating enable, fullscreen toggle global
 bindsym $mod+Escape exec exec-toggle "processmanager" $term --class "processmanager" -t "Process Manager" -e "$SHELL" -c 'bpytop'
 for_window [instance="processmanager"] floating enable, resize set 1080 720
 
+# fzf context menus
+for_window [instance="fzfmenu"] floating enable, resize set 400 200, move position 2220 30
+
 ### Workspace configuration
 workspace "1" output DP-0
 workspace "2" output DP-0

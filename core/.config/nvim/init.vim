@@ -314,7 +314,7 @@ endfunction
 
 " neomake/neomake
 " automatically run on load and save
-call neomake#configure#automake('rw', 1000)
+"call neomake#configure#automake('rw', 1000)
 " }}}
 "  - Bindings {{{
 " scrooloose/nerdcommenter

@@ -1,18 +1,17 @@
 [global]
-    geometry = "800x5-0+0"
+    geometry = "800x5-10+30"
     padding = 5
     horizontal_padding = 5
     markup = "full"
     #word_wrap = true
-    frame_width = 1
+    frame_width = 3
     format = "%a: %s %b"
-    min_icon_size = 80
-    max_icon_size = 80
-    #mouse_left = "close_current"
-    #mouse_right = "do_action"
-    #mouse_middle = "close_all"
-    #  TODO: this doesn't work, fix fzf-menu to output result to initial parent
-    #dmenu = "/usr/bin/fzf-menu"
+    min_icon_size = 60
+    max_icon_size = 60
+    mouse_left_click = "do_action"
+    mouse_right_click = "close_current"
+    mouse_middle_click = "close_all"
+    dmenu = "/usr/bin/fzf-menu"
 
 
 [urgency_low]
