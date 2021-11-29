@@ -1,14 +1,19 @@
 {
-	"apikey": "",
-	"domains": [
-		{
-			"domain": "fresh4less.org",
-			"records": [
-				{
-					"name": "icebox",
-					"type": "A"
-				}
-			]
-		}
-	]
+  "apikey": "",
+  "doPageSize": 20,
+  "useIPv4": true,
+  "useIPv6": false,
+  "allowIPv4InIPv6": false,
+  "ipv4CheckUrl": "https://api.ipify.org/?format=text",
+  "domains": [
+        {
+                "domain": "fresh4less.org",
+                "records": [
+                        {
+                                "name": "icebox",
+                                "type": "A"
+                        }
+                ]
+    }
+  ]
 }
