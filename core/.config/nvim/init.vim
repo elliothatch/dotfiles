@@ -29,13 +29,13 @@ Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-commentary'
 
 Plug 'neovim/nvim-lspconfig'
-Plug 'kabouzeid/nvim-lspinstall'
+Plug 'williamboman/nvim-lsp-installer'
 Plug 'hrsh7th/nvim-compe'
 
 Plug 'nvim-lua/lsp-status.nvim'
 
 " treesitter
-Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 
 " coc extensions
@@ -792,10 +792,12 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', '<leader>tR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 	buf_set_keymap('n', '<leader>ta', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 	buf_set_keymap('n', '<leader>tr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-	buf_set_keymap('n', '<leader>te', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-	buf_set_keymap('n', '<leader>tE', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+	buf_set_keymap('n', '<leader>te', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+	buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+	buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next({})<CR>', opts)
+	buf_set_keymap('n', '[e', '<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>', opts)
+	buf_set_keymap('n', ']e', '<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<CR>', opts)
+	buf_set_keymap('n', '<leader>tE', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 	buf_set_keymap("n", "<leader>t=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 	buf_set_keymap("n", "<leader>to", "<cmd>SymbolsOutline<CR>", opts)
@@ -813,35 +815,27 @@ end
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- for k,v in pairs(lsp_status.capabilities) do capabilities[k] = v end
 
-local function setup_servers()
-  require'lspinstall'.setup()
-  local servers = require'lspinstall'.installed_servers()
-  for _, server in pairs(servers) do
-    require'lspconfig'[server].setup{
-    on_attach = on_attach,
-    flags = {
-    	debounce_text_changes = 150,
-		},
-	capabilities = capabilities,
-	-- TODO: update diagnostics on write, rather than exit-insert
-	-- TODO: language specific diagnostics filtering (block annoying errors)
-	-- handlers = {
-	-- 	["textDocument/publishDiagnostics"] = vim.lsp.with(
-	-- 	vim.lsp.diagnostic.on_publish_diagnostics, {
-	-- 		}
-	-- 	),
-    }
-  end
-end
+local lsp_installer = require("nvim-lsp-installer")
 
-setup_servers()
+-- Register a handler that will be called for all installed servers.
+-- Alternatively, you may also register handlers on specific server instances instead (see example below).
+lsp_installer.on_server_ready(function(server)
+    local opts = {
+    	on_attach = on_attach,
+    	flags = {
+    		debounce_text_changes = 150,
+		}
+	}
 
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
+    -- (optional) Customize the options passed to the server
+    -- if server.name == "tsserver" then
+    --     opts.root_dir = function() ... end
+    -- end
 
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    server:setup(opts)
+end)
 
 -- require'lspconfig'.tsserver.setup{}
 
@@ -858,27 +852,41 @@ end
 -- 		}
 -- end
 
+local lsp_installer = require "nvim-lsp-installer"
 
-
-local langs = {
-	'bash',
+local servers = {
+	'bashls',
+	'ccls',
+	'clangd',
 	'cmake',
-	'cpp',
-	'css',
-	--'tailwindcss',
-	'dockerfile',
-	'go',
+	'cssls',
+	'dockerls',
+	'gopls',
 	'html',
-	'json',
-	'latex',
-	'lua',
-	'php',
-	'python',
-	'ruby',
-	'typescript',
-	'vim',
-	'yaml',
+	'intelephense',
+	'jsonls',
+	'ltex',
+	'pylsp',
+	'solargraph',
+	'sqlls',
+	'sumneko_lua',
+	'tsserver',
+	'vimls',
+	'yamlls',
+	--'tailwindcss',
 }
+
+function _G.lsp_install_missing()
+	for _, name in pairs(servers) do
+		local server_is_found, server = lsp_installer.get_server(name)
+		if server_is_found then
+			if not server:is_installed() then
+				print("Installing " .. name)
+				server:install()
+			end
+		end
+	end
+end
 
 function _G.set_difference(a, b)
     local aa = {}
@@ -892,22 +900,7 @@ function _G.set_difference(a, b)
     return ret
 end
 
-function _G.lsp_list_installed()
-	local servers = require'lspinstall'.installed_servers()
-	print(vim.inspect(servers))
-end
-
-function _G.lsp_install_missing()
-	local servers = require'lspinstall'.installed_servers()
-	local needInstall = set_difference(langs, servers)
-	print("Installing: " .. vim.inspect(needInstall))
-	for _, lang in ipairs(needInstall) do
-		require'lspinstall'.install_server(lang)
-	end
-end
-
 vim.cmd("command! LspInstallMissing lua lsp_install_missing()")
-vim.cmd("command! LspListInstalled lua lsp_list_installed()")
 
 -- treesitter ------------------------------------------------------------------
 require'nvim-treesitter.configs'.setup {
