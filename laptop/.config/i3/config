@@ -39,7 +39,7 @@ bindsym $mod+Escape exec exec-toggle "processmanager" $term --class "processmana
 for_window [instance="processmanager"] floating enable, resize set 1620 1080, move position center
 
 # fzf context menus
-for_window [instance="fzfmenu"] floating enable, resize set 800 400, move position 1000 55
+for_window [instance="fzfmenu"] floating enable, resize set 800 400, move position 130 55
 
 ### Workspace configuration
 for_window [workspace=2] layout tabbed
