@@ -12,6 +12,7 @@
     mouse_right_click = "close_current"
     mouse_middle_click = "close_all"
     dmenu = "/usr/bin/fzf-menu"
+    font = "sans-serif 12"
 
 
 [urgency_low]

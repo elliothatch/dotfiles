@@ -1,4 +1,8 @@
-xrandr --output DVI-D-0 --mode 1680x1050 --pos 3440x152 --rotate normal --output HDMI-1-2 --off --output HDMI-1-1 --off --output VGA-1-1 --off --output HDMI-0 --off --output DP-5 --off --output DP-4 --off --output DP-3 --off --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3440x1440 --pos 0x0 --rotate normal
+# nvidia proprietary drivers
+#xrandr --output DVI-D-0 --mode 1680x1050 --pos 3440x152 --rotate normal --output HDMI-1-2 --off --output HDMI-1-1 --off --output VGA-1-1 --off --output HDMI-0 --off --output DP-5 --off --output DP-4 --off --output DP-3 --off --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3440x1440 --pos 0x0 --rotate normal
+
+# nouveau
+xrandr --output DP-3 --mode 3440x1440 --rate 59.97 --pos 0x0 --rotate normal --primary --output DVI-D-1 --mode 1680x1050 --pos 3440x152 --rate 59.95 --rotate normal
 
 xinput set-prop 'Logitech G Pro Gaming Mouse' 'libinput Accel Profile Enabled' 0, 1
 xinput set-prop 'Logitech G Pro Gaming Mouse' 'libinput Accel Speed' 0.09
