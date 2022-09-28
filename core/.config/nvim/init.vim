@@ -1016,7 +1016,7 @@ set statusline+=[%n]                                  "buffernr
 " TODO: change the color for modified
 set statusline+=%#Todo#%m%r%w%*                           " modified/readonly
 "set statusline+=%#LineNr#%{fugitive#statusline()}%*             " git branch
-set statusline+=%#LineNr#%{fugitive#head()}%*             " git branch
+set statusline+=%#LineNr#%{FugitiveHead()}%*             " git branch
 set statusline+=\ %<%F\                                "File+path
 set statusline+=%*\ %=\  "divider
 set statusline+=%{LspStatusFunction()}\ 

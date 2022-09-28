@@ -21,6 +21,7 @@ exec --no-startup-id syncthingtray
 exec --no-startup-id slack
 exec --no-startup-id udiskie
 exec --no-startup-id xmousepasteblock
+exec --no-startup-id signal-desktop
 
 ### Idle configuration
 # unfortunately, xautolock doesn't detect if you are watching video, etc, so it is disabled for now
@@ -55,6 +56,7 @@ workspace "3" output DVI-D-1
 for_window [class="Slack"] move container workspace 3
 for_window [class="discord"] move container workspace 3
 for_window [class="vlc"] move container workspace 3
+for_window [class="signal"] move container workspace 3
 
 ### Key bindings
 #
@@ -70,6 +72,9 @@ for_window [class="vlc"] move container workspace 3
     # todo: just start launcher program
     bindsym $mod+d exec $term --class "launcher" -t "Launch application" -e "$SHELL" -c 'execs | fzf | xargs i3-msg exec'
     for_window [instance="launcher"] floating enable
+
+    # launch screenshot tool
+    bindsym $mod+Shift+s exec flameshot gui
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -88,6 +93,10 @@ for_window [class="vlc"] move container workspace 3
     bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
     # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
     bindsym $mod+Shift+r restart
+
+	# reset monitor config
+	bindsym $mod+Control+Shift+r exec "xrandr --output DP-3 --mode 3440x1440 --rate 50 --pos 0x0 --rotate normal --primary --output DVI-D-1 --mode 1680x1050 --pos 3440x152 --rate 59.95 --rotate normal; sleep 0.5; xrandr --output DP-3 --mode 3440x1440 --rate 59.97 --pos 0x0 --rotate normal --primary --output DVI-D-1 --mode 1680x1050 --pos 3440x152 --rate 59.95 --rotate normal"
+
 #
 # Moving around:
 #

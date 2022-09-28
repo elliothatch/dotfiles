@@ -4,6 +4,7 @@ connman
 dialog
 exfat-utils
 firefox
+flameshot
 fzf
 gdm
 git
@@ -34,6 +35,8 @@ zsh
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
+otf-latin-modern
+otf-latinmodern-math
 ttf-bitstream-vera
 ttf-font-awesome
 

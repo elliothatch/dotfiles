@@ -1,5 +1,5 @@
 ﻿###
-###  vlc 3.0.16
+###  vlc 3.0.17.4
 ###
 
 ###
@@ -159,10 +159,10 @@
 [audioscrobbler] # Submission of played songs to last.fm
 
 # Username (string)
-#lastfm-username=
+lastfm-username=neurotischism
 
 # Password (string)
-#lastfm-password=
+lastfm-password=oZ74@V%1y*G&vTDsi$4O5AZT
 
 # Scrobbler URL (string)
 #scrobbler-url=post.audioscrobbler.com
@@ -240,20 +240,20 @@
 
 [access_srt] # SRT input
 
-# SRT chunk size (bytes) (integer)
-#chunk-size=1316
-
 # Return poll wait after timeout milliseconds (-1 = infinite) (integer)
 #poll-timeout=-1
 
 # SRT latency (ms) (integer)
-#latency=125
+#latency=120
 
 # Password for stream encryption (string)
 #passphrase=
 
 # Crypto key length in bytes (integer)
 #key-length=16
+
+#  SRT Stream ID (string)
+#streamid=
 
 [concat] # Concatenated inputs
 
@@ -495,6 +495,20 @@
 
 # Size (integer)
 #imem-size=0
+
+[cdda] # Audio CD input
+
+# Audio CD device (string)
+#cd-audio=/dev/sr0
+
+# Musicbrainz Server (string)
+#musicbrainz-server=musicbrainz.org
+
+# CDDB Server (string)
+#cddb-server=freedb.videolan.org
+
+# CDDB port (integer)
+#cddb-port=80
 
 [access_alsa] # ALSA audio capture
 
@@ -1151,13 +1165,13 @@
 #dither-depth=0
 
 # Desaturation strength (float)
-#desat-strength=0.750000
+#desat-strength=0.000000
 
 # Desaturation exponent (float)
-#desat-exponent=1.500000
+#desat-exponent=0.000000
 
 # Desaturation base (float)
-#desat-base=0.180000
+#desat-base=0.000000
 
 # Maximum brightness boost (float)
 #max-boost=0.000000
@@ -1693,20 +1707,26 @@
 
 [access_output_srt] # SRT stream output
 
-# SRT chunk size (bytes) (integer)
-#chunk-size=1316
-
 # Return poll wait after timeout milliseconds (-1 = infinite) (integer)
-#poll-timeout=100
+#poll-timeout=-1
 
 # SRT latency (ms) (integer)
-#latency=125
+#latency=120
 
 # Password for stream encryption (string)
 #passphrase=
 
+# SRT maximum payload size (bytes) (integer)
+#payload-size=1316
+
+# SRT maximum bandwidth ceiling (bytes) (integer)
+#bandwidth-overhead-limit=25
+
 # Crypto key length in bytes (integer)
 #key-length=16
+
+#  SRT Stream ID (string)
+#streamid=
 
 [http] # HTTP stream output
 
@@ -2662,10 +2682,10 @@
 #sout-x264-stats=x264_2pass.log
 
 # Default preset setting used (string)
-#sout-x264-preset=
+sout-x264-preset=ultrafast
 
 # Default tune setting used (string)
-#sout-x264-tune=
+sout-x264-tune=film
 
 # x264 advanced options (string)
 #sout-x264-options=
@@ -2727,9 +2747,6 @@
 
 # Frames Threads (integer)
 #dav1d-thread-frames=0
-
-# Tiles Threads (integer)
-#dav1d-thread-tiles=0
 
 [twolame] # Libtwolame audio encoder
 
@@ -3248,7 +3265,7 @@
 #sout-avi-subject=
 
 # Encoder (string)
-#sout-avi-encoder=VLC Media Player - 3.0.16 Vetinari
+#sout-avi-encoder=VLC Media Player - 3.0.17.4 Vetinari
 
 # Keywords (string)
 #sout-avi-keywords=
@@ -3498,7 +3515,7 @@ qt-privacy-ask=0
 [freetype] # Freetype2 font renderer
 
 # Font (string)
-#freetype-font=Serif Bold
+freetype-font=Bitstream Vera Sans
 
 # Monospace Font (string)
 #freetype-monofont=Monospace
@@ -3628,7 +3645,7 @@ qt-privacy-ask=0
 #audio-time-stretch=1
 
 # Audio output module (string)
-#aout=
+aout=any
 
 # Media role (string)
 #role=video
@@ -3766,7 +3783,7 @@ qt-privacy-ask=0
 #deinterlace-mode=auto
 
 # Video output module (string)
-#vout=
+vout=any
 
 # Video filter module (string)
 #video-filter=
@@ -4144,7 +4161,7 @@ metadata-network-access=1
 #intf=
 
 # Extra interface modules (string)
-#extraintf=
+extraintf=audioscrobbler
 
 # Control interfaces (string)
 #control=
