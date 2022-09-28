@@ -1,2 +1,3 @@
 #!/bin/sh
 echo -n "$PATH" | xargs -d: -I{} -r -- find -L {} -maxdepth 1 -mindepth 1 -type f -executable -printf '%P\n' | sort -u
+

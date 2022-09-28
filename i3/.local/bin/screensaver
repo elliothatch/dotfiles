@@ -1,2 +1,3 @@
 #!/bin/sh
-i3-msg "exec $TERMCMD --name 'screensaver' -t 'Screensaver' -e \"$SHELL -c 'pipes.sh -p 24 -R -r 50000 -f 30'\"" > /dev/null
+# -o font.offset.y=-1 removes the 1px gap between lines so the pipes are connected in alacritty
+i3-msg "exec $TERMCMD --class 'screensaver' -t 'Screensaver' -o font.offset.y=-1 -e "$SHELL" -c 'pipes.sh -p 24 -R -r 50000 -f 30'" > /dev/null
