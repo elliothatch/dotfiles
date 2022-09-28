@@ -3,6 +3,7 @@ brandonw
 daisuki
 ellioth
 khatch
+lily
 noahp
 rory
 samdamana
@@ -11,4 +12,4 @@ wish
 yarobear
 
 [groups]
-staff = bill,brandonw,daisuki,ellioth,khatch,noahp,rory,samdamana,veyla,wish,yarobear
+staff = bill,brandonw,daisuki,ellioth,khatch,lily,noahp,rory,samdamana,veyla,wish,yarobear

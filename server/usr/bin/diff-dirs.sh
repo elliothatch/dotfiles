@@ -3,7 +3,7 @@ DIR1="$(readlink -f "$1")"
 DIR2="$(readlink -f "$2")"
 
 >&2 echo "Comparing $DIR1 to $DIR2"
-diff -U 0 <(find $DIR1 -printf ':%y:%P\n') <(find $DIR2 -printf ':%y:%P\n') | grep -v -E '^(@@|---|\+\+\+)'\
+diff -U 0 <(find "$DIR1" -printf ':%y:%P\n') <(find "$DIR2" -printf ':%y:%P\n') | grep -v -E '^(@@|---|\+\+\+)'\
 	| awk -F':' 'BEGIN {}\
 	{ prevPathArrLen=split(prevPath, prevPathArr, "/"); pathArrLen=split($3, pathArr, "/"); }
 	{ for(i = 1; i <= prevPathArrLen && i <= pathArrLen; i++) { if(prevPathArr[i] != pathArr[i]) {break;} }

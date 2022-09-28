@@ -331,6 +331,36 @@
         <caseSensitiveFS>false</caseSensitiveFS>
         <junctionsAsDirs>false</junctionsAsDirs>
     </folder>
+    <folder id="samba-lily" label="lily" path="/srv/samba/lily/sync" type="sendreceive" rescanIntervalS="3600" fsWatcherEnabled="true" fsWatcherDelayS="10" ignorePerms="true" autoNormalize="true">
+        <filesystemType>basic</filesystemType>
+        <device id="TPWDI3S-J2ACBMG-F46QRBM-USNDNT7-ZYMAUMO-WK4DONU-DQ3F7GC-SGCKMQJ" introducedBy=""></device>
+        <device id="PGRKREK-IQL25DP-GKZOTKA-BGKZHK5-L5DN3YF-VKONK37-KBZGMGD-XLBSKQC" introducedBy=""></device>
+        <minDiskFree unit="%">1</minDiskFree>
+        <versioning>
+            <cleanupIntervalS>0</cleanupIntervalS>
+        </versioning>
+        <copiers>0</copiers>
+        <pullerMaxPendingKiB>0</pullerMaxPendingKiB>
+        <hashers>0</hashers>
+        <order>random</order>
+        <ignoreDelete>false</ignoreDelete>
+        <scanProgressIntervalS>0</scanProgressIntervalS>
+        <pullerPauseS>0</pullerPauseS>
+        <maxConflicts>10</maxConflicts>
+        <disableSparseFiles>false</disableSparseFiles>
+        <disableTempIndexes>false</disableTempIndexes>
+        <paused>false</paused>
+        <weakHashThresholdPct>25</weakHashThresholdPct>
+        <markerName>.stfolder</markerName>
+        <copyOwnershipFromParent>false</copyOwnershipFromParent>
+        <modTimeWindowS>0</modTimeWindowS>
+        <maxConcurrentWrites>0</maxConcurrentWrites>
+        <disableFsync>false</disableFsync>
+        <blockPullOrder>standard</blockPullOrder>
+        <copyRangeMethod>standard</copyRangeMethod>
+        <caseSensitiveFS>false</caseSensitiveFS>
+        <junctionsAsDirs>false</junctionsAsDirs>
+    </folder>
     <device id="DJOAW6C-P3U2DXP-XGXCKBG-RIIZPOQ-CTTMVTD-JAAHCOC-GVMAM2K-3TFTRQ6" name="rory" compression="always" introducer="false" skipIntroductionRemovals="false" introducedBy="">
         <address>dynamic</address>
         <paused>false</paused>
@@ -372,6 +402,14 @@
         <maxRequestKiB>0</maxRequestKiB>
     </device>
     <device id="7TRWADW-DZJRDPJ-QRN7DZQ-UJEHBWC-H6XBSNE-3IUYXOW-3EAOAQ3-ZQFP3QC" name="ellioth-desktop-linux" compression="always" introducer="false" skipIntroductionRemovals="false" introducedBy="">
+        <address>dynamic</address>
+        <paused>false</paused>
+        <autoAcceptFolders>false</autoAcceptFolders>
+        <maxSendKbps>0</maxSendKbps>
+        <maxRecvKbps>0</maxRecvKbps>
+        <maxRequestKiB>0</maxRequestKiB>
+    </device>
+    <device id="TPWDI3S-J2ACBMG-F46QRBM-USNDNT7-ZYMAUMO-WK4DONU-DQ3F7GC-SGCKMQJ" name="lily" compression="always" introducer="false" skipIntroductionRemovals="false" introducedBy="">
         <address>dynamic</address>
         <paused>false</paused>
         <autoAcceptFolders>false</autoAcceptFolders>
