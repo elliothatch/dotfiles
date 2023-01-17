@@ -827,6 +827,27 @@ lsp_installer.on_server_ready(function(server)
 		}
 	}
 
+	if server.name == "pylsp" then
+		opts.settings = {
+			pylsp = {
+				plugins = {
+					mccabe = {
+						enabled = false
+					},
+					pycodestyle = {
+						ignore = {
+							"E501", -- line exceeds max line length
+							"E226", -- missing whitespace around arithmetic operator
+							"E241", -- multiple spaces after ':'
+							"W503", -- line break before binary operator. this will soon be considered best practice
+							"E741", -- ambiguous variable name
+						}
+					}
+				}
+			}
+		}
+	end
+
     -- (optional) Customize the options passed to the server
     -- if server.name == "tsserver" then
     --     opts.root_dir = function() ... end
