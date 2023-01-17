@@ -94,6 +94,10 @@ Plug 'simrat39/symbols-outline.nvim'
 "Plug 'mhartington/nvim-typescript', {'commit': 'b1d61b22d2459f1f62ab256f564b52d05626440a'}
 " Plug 'elliothatch/nvim-typescript' " slightly modified old version that works on windows
 
+" debug
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+
 " c
 Plug 'vim-scripts/headerguard'
 
@@ -923,6 +927,8 @@ end
 
 vim.cmd("command! LspInstallMissing lua lsp_install_missing()")
 
+-- " }}}
+-- " treesitter {{{
 -- treesitter ------------------------------------------------------------------
 require'nvim-treesitter.configs'.setup {
 	highlight = {
@@ -1012,6 +1018,77 @@ require "nvim-treesitter.configs".setup {
     },
   }
 }
+
+-- " }}}
+-- " nvim-dap {{{
+local dap = require('dap')
+dap.adapters.python = {
+  type = 'executable';
+  command = 'python';
+  args = { '-m', 'debugpy.adapter' };
+}
+
+dap.configurations.python = {
+  {
+    -- The first three options are required by nvim-dap
+    type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
+    request = 'launch';
+    name = "Launch file";
+
+    -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+
+    program = "${file}"; -- This configuration will launch the current file if used.
+	pythonPath = function()
+		local cwd = vim.fn.getcwd()
+		  if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
+			return cwd .. '/venv/bin/python'
+		  elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
+			return cwd .. '/.venv/bin/python'
+		  else
+			return '/usr/bin/python'
+		  end
+	  end;
+  },
+  {
+    type = 'python';
+    request = 'launch';
+    name = "Run tests";
+
+	module = "unittest";
+	pythonPath = function()
+		local cwd = vim.fn.getcwd()
+		  if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
+			return cwd .. '/venv/bin/python'
+		  elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
+			return cwd .. '/.venv/bin/python'
+		  else
+			return '/usr/bin/python'
+		  end
+	end;
+  },
+}
+-- " }}}
+-- " nvim-dap {{{
+require("dapui").setup({
+  icons = {
+  	  expanded = "▾",
+  	  collapsed = "▸",
+  	  current_frame = "▸"
+  	  },
+  controls = {
+    icons = {
+		pause = "⏸",
+		play = "⏵",
+		step_into = "↓",
+		step_over = "↷",
+		step_out = "↑",
+		step_back = "⇤",
+		run_last = "⟲",
+		terminate = "⏹",
+    },
+  }
+})
+-- " }}}
 
 EOF
 
@@ -1141,7 +1218,7 @@ noremap <C-l> <C-w><Right>
 noremap <C-h> <C-w><Left>
 
 " diff current window
-nnoremap <leader>d :diffthis<cr>
+" nnoremap <leader>d :diffthis<cr>
 "}}}
 "  - Folding {{{
 "  Fold comments
@@ -1276,4 +1353,19 @@ augroup END
 "\';', ',', '.',  ':',
 "\'!', '='])
 "
+" }}}
+
+" nvim-dap {{{
+nnoremap <silent> <F5> <Cmd>lua require'dap'.continue()<CR>
+nnoremap <silent> <F10> <Cmd>lua require'dap'.step_over()<CR>
+nnoremap <silent> <F11> <Cmd>lua require'dap'.step_into()<CR>
+nnoremap <silent> <F12> <Cmd>lua require'dap'.step_out()<CR>
+nnoremap <silent> <leader>db <Cmd>lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <silent> <leader>dB <Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+nnoremap <silent> <leader>dl <Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+nnoremap <silent> <leader>dr <Cmd>lua require'dap'.repl.open()<CR>
+nnoremap <silent> <leader>dd <Cmd>lua require'dap'.run_last()<CR>
+" }}}
+" nvim-dap-ui {{{
+nnoremap <silent> <leader>do <Cmd>lua require'dapui'.open()<CR>
 " }}}
