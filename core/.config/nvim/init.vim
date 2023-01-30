@@ -399,6 +399,11 @@ set textwidth=0                 " disable automatic word wrap
 set completeopt=menuone,noselect
 set mouse=a                     " enable mouse
 set title                       " set window title
+
+" these are supposed to help with autocmd FileType not triggering but they
+" don't fix the issue
+" filetype plugin indent on
+" set shortmess-=F
 " }}}
 "  - Make settings {{{
 " set errorformat+=%f:%l:%c:\ %trror:\ %m
@@ -596,7 +601,7 @@ augroup myautocmds
 	autocmd FileType qf set nobuflisted
 	" use spaces instead of tabs in certain filetypes
 	autocmd FileType typescript execute 'setl expandtab'
-	autocmd FileType typescript execute 'setl expandtab'
+	" autocmd FileType typescript execute 'setl expandtab'
 	" autocmd FileType typescript execute 'nnoremap <buffer> <silent> <leader>tI :CocCommand tsserver.organizeImports<cr>'
 	" don't add preview window buffers to buffer list
 	autocmd BufEnter * call RemoveBufferIfPreview()
@@ -613,8 +618,13 @@ augroup myautocmds
 '
 '
 	autocmd FileType Outline execute 'setl foldlevel=1|setl foldexpr=FoldOutline(v:lnum)|setl foldmethod=expr'
+	" dap
+	autocmd FileType dap-repl lua require('dap.ext.autocompl').attach()
+	" dap-ui
+	" WHY DOESN'T dapui* work???
+	autocmd FileType dapui* setl statusline=[%n]%f
+	autocmd FileType dap-repl setl statusline=[%n]%f
 augroup END
-
 " }}}
 " Filetypes {{{
 augroup ft_vim
@@ -1022,6 +1032,7 @@ require "nvim-treesitter.configs".setup {
 -- " }}}
 -- " nvim-dap {{{
 local dap = require('dap')
+
 dap.adapters.python = {
   type = 'executable';
   command = 'python';
@@ -1034,6 +1045,7 @@ dap.configurations.python = {
     type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
     request = 'launch';
     name = "Launch file";
+	console = 'integratedTerminal';
 
     -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
 
@@ -1053,6 +1065,7 @@ dap.configurations.python = {
     type = 'python';
     request = 'launch';
     name = "Run tests";
+	console = 'integratedTerminal';
 
 	module = "unittest";
 	pythonPath = function()
@@ -1068,26 +1081,86 @@ dap.configurations.python = {
   },
 }
 -- " }}}
--- " nvim-dap {{{
-require("dapui").setup({
-  icons = {
-  	  expanded = "▾",
-  	  collapsed = "▸",
-  	  current_frame = "▸"
-  	  },
-  controls = {
-    icons = {
-		pause = "⏸",
-		play = "⏵",
-		step_into = "↓",
-		step_over = "↷",
-		step_out = "↑",
-		step_back = "⇤",
-		run_last = "⟲",
-		terminate = "⏹",
-    },
-  }
+-- " nvim-dap-ui {{{
+local dapui = require("dapui")
+dapui.setup({
+	icons = {
+		expanded = "▾",
+		collapsed = "▸",
+		current_frame = "▸"
+	},
+	controls = {
+		icons = {
+			pause = "⏸",
+			play = "⏵",
+			step_into = "↓",
+			step_over = "↷",
+			step_out = "↑",
+			step_back = "⇤",
+			run_last = "⟲",
+			terminate = "⏹",
+		},
+	},
+    layouts = { {
+        elements = { {
+            id = "breakpoints",
+            size = 0.2
+          }, {
+            id = "stacks",
+            size = 0.2
+          }, {
+            id = "watches",
+            size = 0.1
+          }, {
+            id = "scopes",
+            size = 0.5
+          } },
+        position = "left",
+        size = 40
+      }, {
+        elements = { {
+            id = "repl",
+            size = 0.5
+          }, {
+            id = "console",
+            size = 0.5
+          } },
+        position = "bottom",
+        size = 10
+      }, {
+        elements = { {
+            id = "console",
+            size = 1.0
+          } },
+        position = "bottom",
+        size = 10
+      } },
 })
+
+
+vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
+
+
+-- on launch, open the console
+dap.listeners.after['launch']['on_launch'] = function(session)
+	dapui.open(3)
+end
+
+-- on stop (e.g. hit breakpoint) open the debug panes
+dap.listeners.after['event_stopped']['on_stop'] = function(session, body)
+	dapui.close(3)
+	dapui.open(1)
+	dapui.open(2)
+end
+
+-- on process exit close the debug panes, but open the console to view debugee output
+dap.listeners.after['event_exited']['on_exit'] = function(session, body)
+	dapui.close(1)
+	dapui.close(2)
+	dapui.open(3)
+end
+	
+	
 -- " }}}
 
 EOF
@@ -1365,6 +1438,7 @@ nnoremap <silent> <leader>dB <Cmd>lua require'dap'.set_breakpoint(vim.fn.input('
 nnoremap <silent> <leader>dl <Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
 nnoremap <silent> <leader>dr <Cmd>lua require'dap'.repl.open()<CR>
 nnoremap <silent> <leader>dd <Cmd>lua require'dap'.run_last()<CR>
+nnoremap <silent> <leader>dc <Cmd>lua require'dap'.run_to_cursor()<CR>
 " }}}
 " nvim-dap-ui {{{
 nnoremap <silent> <leader>do <Cmd>lua require'dapui'.open()<CR>

@@ -1,7 +1,9 @@
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.zsh/.histfile
 HISTSIZE=1000
-SAVEHIST=1000
+SAVEHIST=995
+setopt SHARE_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
 setopt beep extendedglob nomatch
 unsetopt appendhistory autocd notify
 bindkey -v
@@ -39,6 +41,10 @@ zstyle ':completion:*' group-name ''
 setopt complete_in_word
 
 REPORTTIME=5
+
+# use history search completion on arrow up/down
+bindkey '\e[A' history-search-backward
+bindkey '\e[B' history-search-forward
 
 ### Set title to pwd
 # case $TERM in

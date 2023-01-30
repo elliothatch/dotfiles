@@ -69,3 +69,6 @@ namcap
 # other
 # bluez
 # openvpn
+
+# Debug Adapter Protocol
+python-debugpy
