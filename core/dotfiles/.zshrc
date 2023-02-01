@@ -2,7 +2,7 @@
 HISTFILE=~/.zsh/.histfile
 HISTSIZE=1000
 SAVEHIST=995
-setopt SHARE_HISTORY
+# setopt SHARE_HISTORY
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt beep extendedglob nomatch
 unsetopt appendhistory autocd notify
