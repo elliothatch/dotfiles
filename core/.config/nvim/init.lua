@@ -60,6 +60,38 @@ hi link TSParameter Normal
 " hi link TSVariableBuiltin Identifier
 ]])
 
+-- autocmds
+
+vim.cmd([[
+function! RemoveBufferIfPreview()
+    if &previewwindow
+        set nobuflisted
+    endif
+endf
+augroup myautocmds
+	autocmd!
+	" automatically add the current extension to 'gf' paths
+	autocmd BufNewFile,BufRead * execute 'setl suffixesadd+=.' . expand('%:e')
+	" make  '-' part of words in css files
+	autocmd FileType css,sass,scss execute 'setl iskeyword+=-'
+	" skip quickfix list on :bn
+	autocmd FileType qf set nobuflisted
+	" use spaces instead of tabs in certain filetypes
+	" autocmd FileType typescript execute 'setl expandtab'
+	" don't add preview window buffers to buffer list
+	autocmd BufEnter * call RemoveBufferIfPreview()
+
+	" WHY DOESN'T dapui* work???
+	autocmd FileType dapui* setl statusline=[%n]%f
+	autocmd FileType dap-repl setl statusline=[%n]%f
+
+	" outline uses comment highlight group for vertical pipes, turn off italics
+	" autocmd FileType Outline execute 'hi Comment gui=NONE cterm=NONE'
+	"  autocmd FileType Outline execute 'hi Folded guifg=#f2ead7 guibg=#1a0a16 guisp=#1a0a16 gui=NONE ctermfg=230 ctermbg=234 cterm=NONE'
+	" autocmd FileType Outline execute 'setl foldlevel=1|setl foldexpr=FoldOutline(v:lnum)|setl foldmethod=expr'
+augroup END
+]])
+
 -- Plugins
 vim.cmd([[
 call plug#begin('~/.local/share/nvim/plugged')
@@ -75,8 +107,14 @@ Plug 'tpope/vim-commentary'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-cmp'
 Plug 'nvim-lua/lsp-status.nvim'
+
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+Plug 'hrsh7th/nvim-cmp'
 
 " treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -118,6 +156,64 @@ Plug 'vim-scripts/headerguard'
 call plug#end()
 ]])
 
+-- hrsh7th/nvim-cmp (auto completion)
+local cmp = require'cmp'
+cmp.setup({
+	window = {
+		-- completion = cmp.config.window.bordered(),
+		-- documentation = cmp.config.window.bordered(),
+	},
+	mapping = cmp.mapping.preset.insert({
+		['<C-b>'] = cmp.mapping.scroll_docs(-4),
+		['<C-f>'] = cmp.mapping.scroll_docs(4),
+		['<C-Space>'] = cmp.mapping.complete(),
+		-- ['<C-e>'] = cmp.mapping.abort(),
+		['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		['<Tab>'] = cmp.mapping.select_next_item(),
+		['<S-Tab>'] = cmp.mapping.select_prev_item(),
+	}),
+	sources = cmp.config.sources(
+		{{ name = 'nvim_lsp' }},
+		{{ name = 'nvim_lsp_signature_help' }},
+		{{ name = 'buffer' }},
+		{{ name = 'path' }}
+	),
+	formatting = {
+		format = function(entry, vim_item)
+			vim_item.menu = ({
+				buffer = '[B]',
+				nvim_lsp = '[L]',
+				path = '[P]',
+			})[entry.source.name]
+			return vim_item
+		end
+	}
+})
+
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+--[[
+cmp.setup.cmdline({ '/', '?' }, {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = 'buffer' }
+	}
+})
+]]--
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+-- NOTE: extra slashes on path completion: https://github.com/hrsh7th/cmp-cmdline/issues/60
+cmp.setup.cmdline(':', {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources({
+		--{ name = 'path' }
+	}, {
+		{ name = 'cmdline' }
+	})
+})
+
+-- Set up lspconfig.
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 -- LSP
 require('mason').setup()
 require("mason-lspconfig").setup {
@@ -142,7 +238,7 @@ require("mason-lspconfig").setup {
 		-- 'phpactor',          -- PHP
 		'perlnavigator',     -- Perl
 		-- 'powershell_es',     -- Powershell
-		'pylsp',             -- Python (docs)
+		'pyright',             -- Python (docs)
 		-- 'r_language_server', -- R
 		-- 'solargraph',        -- Ruby
 		'rust_analyzer',     -- Rust
@@ -193,8 +289,6 @@ local lsp_on_attach = function(client, bufnr)
 	vim.keymap.set('n', '<leader>tr', vim.lsp.buf.references, bufopts)
 	vim.keymap.set('n', '<leader>t=', function() vim.lsp.buf.format { async = true } end, bufopts)
 
-	vim.keymap.set('n', '<leader>to', '<cmd>SymbolsOutline<CR>', bufopts)
-
 	if client.supports_method('textDocument/documentHighlight') then
 		-- highlight symbol under cursor
 		vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
@@ -210,6 +304,7 @@ require('mason-lspconfig').setup_handlers {
 	function (server_name) -- default handler (optional)
 		require('lspconfig')[server_name].setup {
 			on_attach = lsp_on_attach,
+			capabilities = capabilities,
 			flags = {
 				debounce_text_changes = 150,
 			}
@@ -219,6 +314,7 @@ require('mason-lspconfig').setup_handlers {
 	['pylsp'] = function ()
 		require('lspconfig')['pylsp'].setup {
 			on_attach = lsp_on_attach,
+			capabilities = capabilities,
 			settings = {
 				pylsp = {
 					plugins = {
@@ -339,24 +435,21 @@ function _G.lsp_status_diagnostics()
 end
 
 -- simrat39/symbols-outline.nvim
-vim.g.symbols_outline = {
-	highlight_hovered_item = true,
-	show_guides = true,
-	auto_preview = true,
-	position = 'right',
-	show_numbers = false,
-	show_relative_numbers = false,
-	show_symbol_details = true,
-	keymaps = {
-		close = "<Esc>",
-		goto_location = "<Cr>",
-		focus_location = "o",
-		hover_symbol = "<C-space>",
-		rename_symbol = "r",
-		code_actions = "a",
-	},
-	lsp_blacklist = {},
-}
+require('symbols-outline').setup({
+	auto_preview = true;
+	autofold_depth = 2;
+	fold_markers = { "▸", "▾" };
+	symbols = {
+		Component = { icon = "C" },
+		Constant = { icon = "C" },
+		Constructor = { icon = "C" },
+		File = { icon = "🗎" },
+		Fragment = { icon = "F" },
+		Interface = { icon = "I" },
+		Module = { icon = 'M' },
+		Variable = { icon = "V" },
+	}
+})
 
 -- Treesitter
 require'nvim-treesitter.configs'.setup {
@@ -421,14 +514,6 @@ require'nvim-treesitter.configs'.setup {
 		enable = true,
 	}
 }
-
--- Plugin settings
--- hrsh7th/nvim-cmp (auto completion)
---[[
-local cmp = require('cmp')
-cmp.setup({
-})
-]]--
 
 -- nvim-dap
 local dap = require('dap')
@@ -694,20 +779,69 @@ nnoremap <silent> <leader>dl <Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.
 nnoremap <silent> <leader>dr <Cmd>lua require'dap'.repl.open()<CR>
 nnoremap <silent> <leader>dd <Cmd>lua require'dap'.run_last()<CR>
 nnoremap <silent> <leader>dc <Cmd>lua require'dap'.run_to_cursor()<CR>
+
+" mileszs/ack.vim
+function! InputOrCancel(prefix, prompt, suffix)
+	call inputsave()
+	let l:result = input(a:prompt)
+	if l:result == ''
+		return '<cr>'
+	endif
+	call inputrestore()
+	let l:cmd = a:prefix . l:result . a:suffix
+	call histadd('cmd', l:cmd)
+	return ':' . l:cmd
+endfunc
+
+"nnoremap <expr> <leader>ss ':Ack! '          . input('[ack]: ')              . ' ' . expand('%:p:h') . '<cr>'
+nnoremap <expr> <leader>ss InputOrCancel('Ack! ',    '[ack]: ',     '') . '<cr>'
+nnoremap <expr> <leader>sl InputOrCancel('LAck ',    '[ack]\|L: '), '') . '<cr>'
+nnoremap <expr> <leader>sf InputOrCancel('AckFile ', '[ack]\|F: '), '') . '<cr>'
+nnoremap <expr> <leader>s/ ':AckFromSearch ' . '<cr>'
+
+" search from current buffer path
+nnoremap <expr> <leader>Ss InputOrCancel('Ack! ',    '[ack\|b]: ',    ' ' . expand('%:p:h')) . '<cr>'
+nnoremap <expr> <leader>Sl InputOrCancel('LAck ',    '[ack\|b]\|L: ', ' ' . expand('%:p:h')) . '<cr>'
+nnoremap <expr> <leader>Sf InputOrCancel('AckFile ', '[ack\|b]\|F: ', ' ' . expand('%:p:h')) . '<cr>'
+nnoremap <expr> <leader>S/ ':AckFromSearch ' . expand('%:p:h') . '<cr>'
+
+" puts quickfix files in args
+command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
+function! QuickfixFilenames()
+  " Building a hash ensures we get each buffer only once
+  let l:buffer_numbers = {}
+  for l:quickfix_item in getqflist()
+    let l:buffer_numbers[l:quickfix_item['bufnr'] ] = bufname(l:quickfix_item['bufnr'])
+  endfor
+  return join(map(values(l:buffer_numbers), 'fnameescape(v:val)'))
+endfunction
+
+" run command on each file in quickfix
+" to save changes, run :argdo update
+nnoremap <expr> <leader>r InputOrCancel('Qargs<bar>:argdo %', '[execute]\|q: ', '') . '<cr>'
+
+function! SynStack()
+  if !exists('*synstack')
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+" list all syntax symbols at cursor. useful for setting highlight groups
+" obsoleted by treesitter-playground
+nnoremap <leader>. :call SynStack()<cr>
+
 ]])
 
 -- LSP bindings (see lsp_on_attach for bindings only set after LSP server is attached to buffer)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, {noremap=true, silent=true})
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, {noremap=true, silent=true})
-vim.keymap.set('n', '[e', '<cmd>vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>', {noremap=true, silent=true})
+vim.keymap.set('n', '[e', '<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>', {noremap=true, silent=true})
 vim.keymap.set('n', ']e', '<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<CR>', {noremap=true, silent=true})
 vim.keymap.set('n', '<leader>te', vim.diagnostic.open_float, {noremap=true, silent=true})
 vim.keymap.set('n', '<leader>tE', vim.diagnostic.setloclist, {noremap=true, silent=true})
 
-
--- autocmds
-
--- vim.api.nvim_create_autocmd("
+vim.keymap.set('n', '<leader>to', '<cmd>SymbolsOutline<CR>')
 
 -- statusline
 vim.opt.statusline = ''
@@ -727,3 +861,17 @@ vim.opt.statusline = ''
 .. '%l:%v '  -- row:col
 .. '%p%% '  -- row %
 -- .. '%P  '                      -- Modified? Readonly? Top/bot.
+
+-- Additional plugin configuration
+vim.cmd([[
+let g:ackprg = 'ag --nogroup --nocolor --column --hidden --path-to-ignore ' . $HOME . '.config/ag/.ignore'
+]])
+
+-- Unsued
+--[[
+--neotags/ctags
+-- add IDF headers to path
+if isdirectory($IDF_PATH)
+    set path+=$IDF_PATH/components/**1/include
+endif
+--]]
