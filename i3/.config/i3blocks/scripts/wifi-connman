@@ -12,8 +12,8 @@ from subprocess import check_output
 if "BLOCK_BUTTON" in os.environ and os.environ["BLOCK_BUTTON"] == '1':
     check_output(['i3-msg', 'exec', 'cmst -d'])
 
-long_format = "<span color='{}'><span font='FontAwesome'>\uf1eb</span>{}[{}]</span>"
-short_format = "<span color='{}'><span font='FontAwesome'>\uf1eb</span>{}</span>"
+long_format = "<span color='{}'><span font='FontAwesome'>{}</span>{}[{}]</span>"
+short_format = "<span color='{}'><span font='FontAwesome'>{}</span>{}</span>"
 
 def get_service_property(service_details, property_name):
     for service_property in service_details:
@@ -32,6 +32,8 @@ if not status:
 else:
     service_name = ""
     service_id = ""
+    service_type = ""
+    service_icon = "\uf1eb"
     service_strength = ""
     services = status.split("\n")
     for service in services:
@@ -41,15 +43,18 @@ else:
             service_name = " ".join(service_parts[1:-1])
             service_id = service_parts[-1]
             service_details = check_output(['connmanctl', 'services', service_id], universal_newlines=True)
+            service_type = get_service_property(service_details.split("\n"), "Type")
             service_strength = get_service_property(service_details.split("\n"), "Strength")
+            if service_type == 'ethernet':
+                service_icon = "\uf796"
             break;
 
     if service_name:
         color = "#ffffff"
         strength_str = service_strength + "% " if service_strength else " "
-        print(long_format.format(color, " "  + strength_str, service_name))
-        print(short_format.format(color, " " + strength_str, service_name))
+        print(long_format.format(color,service_icon, " "  + strength_str, service_name))
+        print(short_format.format(color,service_icon, " " + strength_str, service_name))
     else:
         color = "#a0a0a0"
-        print(long_format.format(color, "", len(services)))
-        print(short_format.format(color, "", len(services)))
+        print(long_format.format(color, service_icon, "", len(services)))
+        print(short_format.format(color, service_icon, "", len(services)))

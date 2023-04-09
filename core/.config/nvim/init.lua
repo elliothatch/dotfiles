@@ -44,22 +44,6 @@ vim.opt.colorcolumn = '81'
 vim.opt.lazyredraw = true
 vim.opt.termguicolors = true
 
-vim.cmd([[
-colorscheme burgundy
-
-hi ScrollView guifg=#f2c9db guibg=#4a1027 guisp=#4a1027 gui=NONE ctermfg=224 ctermbg=237 cterm=NONE
-hi FocusedSymbol gui=bold,italic cterm=bold,italic
-
-" hi WildMenu guifg=#f7f7f7 guibg=#611835 guisp=#611835 gui=NONE ctermfg=15 ctermbg=52 cterm=NONE
-" hi LineNr guifg=#9e0c46 guibg=#240d19 guisp=#240d19 gui=NONE ctermfg=125 ctermbg=235 cterm=NONE
-
-hi link TSProperty Normal
-hi link TSParameter Normal
-" hi link TSConstructor Identifier
-" hi link TSConstructor Function
-" hi link TSVariableBuiltin Identifier
-]])
-
 -- autocmds
 
 vim.cmd([[
@@ -77,7 +61,7 @@ augroup myautocmds
 	" skip quickfix list on :bn
 	autocmd FileType qf set nobuflisted
 	" use spaces instead of tabs in certain filetypes
-	" autocmd FileType typescript execute 'setl expandtab'
+	autocmd FileType typescript execute 'setl expandtab'
 	" don't add preview window buffers to buffer list
 	autocmd BufEnter * call RemoveBufferIfPreview()
 
@@ -89,6 +73,13 @@ augroup myautocmds
 	" autocmd FileType Outline execute 'hi Comment gui=NONE cterm=NONE'
 	"  autocmd FileType Outline execute 'hi Folded guifg=#f2ead7 guibg=#1a0a16 guisp=#1a0a16 gui=NONE ctermfg=230 ctermbg=234 cterm=NONE'
 	" autocmd FileType Outline execute 'setl foldlevel=1|setl foldexpr=FoldOutline(v:lnum)|setl foldmethod=expr'
+augroup END
+
+augroup ft_vim
+    au!
+    au FileType vim setlocal foldmethod=marker keywordprg=:help
+    au FileType help setlocal textwidth=78
+	au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
 augroup END
 ]])
 
@@ -572,6 +563,36 @@ dap.configurations.python = {
 	},
 }
 
+dap.adapters.node2 = {
+  type = 'executable',
+  command = 'node',
+  args = {'/usr/lib/vscode-node-debug2/out/src/nodeDebug.js'},
+}
+dap.configurations.javascript = {
+  {
+    name = 'Launch',
+    type = 'node2',
+    request = 'launch',
+    program = '${file}',
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+  },
+  {
+    -- For this to work you need to make sure the node process is started with the `--inspect` flag.
+    name = 'Attach to process',
+    type = 'node2',
+    request = 'attach',
+    processId = require'dap.utils'.pick_process,
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+  },
+}
+
+dap.configurations.typescript = dap.configurations.javascript
+
 -- " nvim-dap-ui
 local dapui = require("dapui")
 dapui.setup({
@@ -864,7 +885,7 @@ vim.opt.statusline = ''
 
 -- Additional plugin configuration
 vim.cmd([[
-let g:ackprg = 'ag --nogroup --nocolor --column --hidden --path-to-ignore ' . $HOME . '.config/ag/.ignore'
+let g:ackprg = 'ag --nogroup --nocolor --column --hidden --path-to-ignore ' . $HOME . '/.config/ag/.ignore'
 ]])
 
 -- Unsued
@@ -875,3 +896,23 @@ if isdirectory($IDF_PATH)
     set path+=$IDF_PATH/components/**1/include
 endif
 --]]
+
+-- Colors
+-- must be defined after tree-sitter setup so it doesn't override links in our colorscheme
+vim.cmd([[
+colorscheme burgundy
+
+hi ScrollView guifg=#f2c9db guibg=#4a1027 guisp=#4a1027 gui=NONE ctermfg=224 ctermbg=237 cterm=NONE
+hi FocusedSymbol gui=bold,italic cterm=bold,italic
+
+" hi WildMenu guifg=#f7f7f7 guibg=#611835 guisp=#611835 gui=NONE ctermfg=15 ctermbg=52 cterm=NONE
+" hi LineNr guifg=#9e0c46 guibg=#240d19 guisp=#240d19 gui=NONE ctermfg=125 ctermbg=235 cterm=NONE
+
+hi link TSProperty Normal
+hi link TSParameter Normal
+" hi link TSConstructor Identifier
+" hi link TSConstructor Function
+" hi link TSVariableBuiltin Identifier
+
+]])
+
