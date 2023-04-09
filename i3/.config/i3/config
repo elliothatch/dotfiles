@@ -44,14 +44,14 @@ for_window [instance="fzfmenu"] floating enable, resize set 400 200, move positi
 
 ### Workspace configuration
 # nvidia drivers
-# workspace "1" output DP-0
-# workspace "2" output DP-0
-# workspace "3" output DVI-D-0
+workspace "1" output DP-0
+workspace "2" output DP-0
+workspace "3" output DVI-D-0
 
 # nouveau
-workspace "1" output DP-3
-workspace "2" output DP-3
-workspace "3" output DVI-D-1
+# workspace "1" output DP-3
+# workspace "2" output DP-3
+# workspace "3" output DVI-D-1
 
 for_window [class="Slack"] move container workspace 3
 for_window [class="discord"] move container workspace 3
@@ -246,23 +246,23 @@ client.background #1a0a16
 # font pango:sans-serif 12, FontAwesome 12
 # font pango:DejaVuSans 10
 # nvidia
-# font pango:sans-serif 12
+font pango:sans-serif 12
 # nouveau
-font pango:sans-serif 11
+# font pango:sans-serif 11
 
 #
 # Status Bar:
 bar {
     position top
     # nvidia
-    # font pango:sans-serif, FontAwesome 12
+    font pango:sans-serif, FontAwesome 12
     # nouveau
-    font pango:sans-serif, FontAwesome 11
+    # font pango:sans-serif, FontAwesome 11
 
 	# nvidia drivers
-	#tray_output DP-0
+	tray_output DP-0
 	# nouveau
-	tray_output DP-3
+	# tray_output DP-3
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
