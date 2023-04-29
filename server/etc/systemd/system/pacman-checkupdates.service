@@ -1,0 +1,5 @@
+[Unit]
+Description=update pacman checkupdates database for motd
+[Service]
+Type=oneshot
+ExecStart=checkupdates

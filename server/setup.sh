@@ -60,3 +60,9 @@ sudo systemctl enable ngingx
 
 # link custom scripts
 $DIR/link.sh
+
+# setup motd
+sudo cp $DIR/etc/systemd/system/pacman-checkupdates.service /etc/systemd/system
+sudo cp $DIR/etc/systemd/system/pacman-checkupdates.timer /etc/systemd/system
+# sudo $DIR/etc/pam.d/system-login cp /etc/pam.d/system-login
+sudo systemctl enable pacman-checkupdates.timer
