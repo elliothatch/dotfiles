@@ -8,7 +8,12 @@ KERNEL=`uname -r`
 CPU=`awk -F '[ :][ :]+' '/^model name/ { print $2; exit; }' /proc/cpuinfo`
 ARCH=`uname -m`
 PACMAN=`checkupdates --nosync | wc -l`
-DISC=`df -h | grep /dev/sda1 | head -n 1 | awk '{print $5 }'`
+DISKUSE=`df -h | grep /dev/sda1 | head -n 1 | awk '{print $3 }'`
+DISKTOTAL=`df -h | grep /dev/sda1 | head -n 1 | awk '{print $2 }'`
+DISKPCT=`df -h | grep /dev/sda1 | head -n 1 | awk '{print $5 }'`
+DISK2USE=`df -h | grep /dev/sdd2 | head -n 1 | awk '{print $3 }'`
+DISK2TOTAL=`df -h | grep /dev/sdd2 | head -n 1 | awk '{print $2 }'`
+DISK2PCT=`df -h | grep /dev/sdd2 | head -n 1 | awk '{print $5 }'`
 MEMORY1=`free -t -h | grep "Mem" | awk '{print $6;}'`
 MEMORY2=`free -t -h | grep "Mem" | awk '{print $2;}'`
 
@@ -58,14 +63,15 @@ echo -e "$G---------------------------------------------------------------"
 echo -e "$W   Good $TIME$A. The time is $(date '+%r %Z')"
 echo -e "$W   $(date '+%A, %B %-d, %Y')"
 echo -e "$G---------------------------------------------------------------"
-echo -e "$B    KERNEL $G:$W $KERNEL $ARCH                                 "
-echo -e "$B       CPU $G:$W $CPU                                          "
-echo -e "$B    MEMORY $G:$W $MEMORY1 / $MEMORY2                           "
-echo -e "$B      DISK $G:$W $DISC                          	          "
+echo -e "$B    KERNEL $G:$W $KERNEL $ARCH"
+echo -e "$B       CPU $G:$W $CPU"
+echo -e "$B    MEMORY $G:$W $MEMORY1 / $MEMORY2"
+echo -e "$B DATA DISK $G:$W $DISKUSE / $DISKTOTAL ($DISKPCT)"
+echo -e "$B   OS DISK $G:$W $DISK2USE / $DISK2TOTAL ($DISK2PCT)"
 echo -e "$G---------------------------------------------------------------"
-echo -e "$B  LOAD AVG $G:$W $LOAD1, $LOAD5, $LOAD15		          "
-echo -e "$B    UPTIME $G:$W $upDays days $upHours hours $upMins minutes $upSecs seconds "
+echo -e "$B  LOAD AVG $G:$W $LOAD1, $LOAD5, $LOAD15"
+echo -e "$B    UPTIME $G:$W $upDays days $upHours hours $upMins minutes $upSecs seconds"
 #echo -e "$B PROCESSES $G:$W You are running $PSU of $PSA processes        "
-echo -e "$B    PACMAN $G:$W $PACMAN packages can be updated               "
-echo -e "$B     USERS $G:$W `users | wc -w` users logged in 	          "
+echo -e "$B    PACMAN $G:$W $PACMAN packages can be updated"
+echo -e "$B     USERS $G:$W `users | wc -w` users logged in"
 echo -e "$G---------------------------------------------------------------"
