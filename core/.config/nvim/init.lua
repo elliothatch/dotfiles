@@ -93,6 +93,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-commentary'
+Plug 'ggandor/lightspeed.nvim'
 
 " LSP
 Plug 'williamboman/mason.nvim'
@@ -146,6 +147,27 @@ Plug 'vim-scripts/headerguard'
 
 call plug#end()
 ]])
+
+--  ggandor/lightspeed.nvim
+require'lightspeed'.setup {
+	ignore_case = true
+}
+
+vim.cmd([[
+	" disable ft repeat (DOESN'T WORK')
+    " augroup lightspeed_active
+    " autocmd!
+	" autocmd User LightspeedFtEnter normal <ESC>
+    " augroup end
+    " just unbind ft instead
+    noremap f f
+    noremap F F
+    noremap t t
+    noremap T T
+    noremap ; ;
+    noremap , ,
+]])
+
 
 -- hrsh7th/nvim-cmp (auto completion)
 local cmp = require'cmp'
@@ -223,7 +245,7 @@ require("mason-lspconfig").setup {
 		'jsonls',            -- JSON
 		'jdtls',             -- Java
 		'texlab',            -- LaTeX
-		'sumneko_lua',       -- Lua
+		'lua_ls',       -- Lua
 		'zk',                -- Markdown
 		'openscad_lsp',      -- OpenSCAD
 		-- 'phpactor',          -- PHP
@@ -233,7 +255,7 @@ require("mason-lspconfig").setup {
 		-- 'r_language_server', -- R
 		-- 'solargraph',        -- Ruby
 		'rust_analyzer',     -- Rust
-		'sqls',              -- SQL
+		'sqlls',              -- SQL
 		'taplo',             -- TOML
 		'tsserver',          -- TypeScript
 		'vimls',             -- VimL

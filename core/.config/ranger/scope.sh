@@ -65,15 +65,15 @@ handle_extension() {
             exit 1;;
 		csv)
 			exit 2;;
-        ## PDF
-        pdf)
-            ## Preview as text conversion
-            pdftotext -l 10 -nopgbrk -q -- "${FILE_PATH}" - | \
-              fmt -w "${PV_WIDTH}" && exit 5
-            mutool draw -F txt -i -- "${FILE_PATH}" 1-10 | \
-              fmt -w "${PV_WIDTH}" && exit 5
-            exiftool "${FILE_PATH}" && exit 5
-            exit 1;;
+			## PDF (disabled, high memory and CPU usage)
+        ## pdf)
+        ##     ## Preview as text conversion
+        ##     pdftotext -l 10 -nopgbrk -q -- "${FILE_PATH}" - | \
+        ##       fmt -w "${PV_WIDTH}" && exit 5
+        ##     mutool draw -F txt -i -- "${FILE_PATH}" 1-10 | \
+        ##       fmt -w "${PV_WIDTH}" && exit 5
+        ##     exiftool "${FILE_PATH}" && exit 5
+        ##     exit 1;;
 
         ## BitTorrent
         torrent)
@@ -275,13 +275,13 @@ handle_mime() {
             catdoc -- "${FILE_PATH}" && exit 5
             exit 1;;
 
-        ## DOCX, ePub, FB2 (using markdown)
+		## DOCX, ePub, FB2 (using markdown) (disabled, high cpu and memory usage)
         ## You might want to remove "|epub" and/or "|fb2" below if you have
         ## uncommented other methods to preview those formats
-        *wordprocessingml.document|*/epub+zip|*/x-fictionbook+xml)
-            ## Preview as markdown conversion
-            pandoc -s -t markdown -- "${FILE_PATH}" && exit 5
-            exit 1;;
+        ## *wordprocessingml.document|*/epub+zip|*/x-fictionbook+xml)
+        ##     ## Preview as markdown conversion
+        ##     pandoc -s -t markdown -- "${FILE_PATH}" && exit 5
+        ##     exit 1;;
 
         ## XLS
         *ms-excel)

@@ -2,8 +2,12 @@ You must make the following config changes when switching from Nouveau drivers t
 
 Necessary:
  - `/etc/X11/xorg.conf.d/20-nouveau.conf`: delete so nvidia driver can be used by xorg
+ - `/usr/lib/modprobe.d/nvidia-utils.conf`: uncomment blacklist nouveau
  - `/boot/loader/entries/arch.conf`: Add `nomodeset` kernel parameter to end of `options` line to prevent hang on boot (uevents)
  - `mkinitcpio -p linux`: Regenerate kernel if driver installation status has changed
  - `~/.xprofile`: Update xrandr to use correct monitor settings
  - `~/.config/picom/picom.conf`: comment out nouveau config (backend selection, etc.)
  - `~/.config/i3/config`: Switch workspace and font settings
+
+ Optional:
+  - Firefox: in `about:config`, set `gfx.webrender.all: true` to fix lag issues?

@@ -23,6 +23,12 @@ exec --no-startup-id udiskie
 exec --no-startup-id xmousepasteblock
 exec --no-startup-id signal-desktop
 
+# don't focus startup applications
+# doesn't work
+# no_focus [class="Slack"]
+# no_focus [class="discord"]
+# no_focus [class="Signal"]
+
 ### Idle configuration
 # unfortunately, xautolock doesn't detect if you are watching video, etc, so it is disabled for now
 # exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
@@ -44,19 +50,26 @@ for_window [instance="fzfmenu"] floating enable, resize set 400 200, move positi
 
 ### Workspace configuration
 # nvidia drivers
-workspace "1" output DP-0
-workspace "2" output DP-0
-workspace "3" output DVI-D-0
+# workspace "1" output DP-0
+# workspace "2" output DP-0
+# workspace "3" output DVI-D-0
 
 # nouveau
-# workspace "1" output DP-3
-# workspace "2" output DP-3
-# workspace "3" output DVI-D-1
+workspace "1" output DP-3
+workspace "2" output DP-3
+workspace "3" output DVI-D-1
 
-for_window [class="Slack"] move container workspace 3
-for_window [class="discord"] move container workspace 3
-for_window [class="vlc"] move container workspace 3
-for_window [class="signal"] move container workspace 3
+#for_window [class="Slack"] move container workspace 3
+#for_window [class="discord"] move container workspace 3
+#for_window [class="vlc"] move container workspace 3
+#for_window [class="Signal"] move container workspace 3
+
+assign [class="Slack"] 3
+assign [class="discord"] 3
+assign [class="vlc"] 3
+assign [class="Signal"] 3
+
+for_window [workspace="3"] layout stacking
 
 ### Key bindings
 #
@@ -246,23 +259,23 @@ client.background #1a0a16
 # font pango:sans-serif 12, FontAwesome 12
 # font pango:DejaVuSans 10
 # nvidia
-font pango:sans-serif 12
+# font pango:sans-serif 12
 # nouveau
-# font pango:sans-serif 11
+font pango:sans-serif 11
 
 #
 # Status Bar:
 bar {
     position top
     # nvidia
-    font pango:sans-serif, FontAwesome 12
+    # font pango:sans-serif, FontAwesome 12
     # nouveau
-    # font pango:sans-serif, FontAwesome 11
+    font pango:sans-serif, FontAwesome 11
 
 	# nvidia drivers
-	tray_output DP-0
+	# tray_output DP-0
 	# nouveau
-	# tray_output DP-3
+	tray_output DP-3
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
