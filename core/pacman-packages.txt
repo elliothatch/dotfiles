@@ -50,6 +50,7 @@ pulseaudio-alsa
 gimp
 imagemagick
 imv
+inkscape
 vlc
 
 # printer

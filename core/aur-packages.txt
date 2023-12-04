@@ -1,5 +1,6 @@
 bpytop
 cmst
+dragon-drop
 dug-git
 fnm-bin
 nvimpager

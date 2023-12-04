@@ -528,6 +528,8 @@ require'nvim-treesitter.configs'.setup {
 	}
 }
 
+vim.treesitter.language.register('glimmer', 'handlebars')
+
 -- nvim-dap
 local dap = require('dap')
 
