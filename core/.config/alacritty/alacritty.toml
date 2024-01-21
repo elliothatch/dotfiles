@@ -1,0 +1,37 @@
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black = "#b2aa97"
+blue = "#ed8d7c"
+cyan = "#f76c9a"
+green = "#ffa8b5"
+magenta = "#991667"
+red = "#d6154f"
+white = "#e2dac7"
+yellow = "#ff8e2b"
+
+[colors.normal]
+black = "#1a0a16"
+blue = "#f29edd"
+cyan = "#ffabab"
+green = "#8bf792"
+magenta = "#e3006a"
+red = "#d11b2d"
+white = "#f2ead7"
+yellow = "#f2b600"
+
+[colors.primary]
+background = "#1a0a16"
+foreground = "#f2ead7"
+
+[font]
+size = 9
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "Return"
+mods = "Control|Shift"
+
+[window]
+dynamic_title = true
