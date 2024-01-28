@@ -49,12 +49,17 @@ hi Structure guifg=#f76c9a guibg=NONE guisp=NONE gui=bold ctermfg=204 ctermbg=NO
 hi Typedef guifg=#c9265a guibg=NONE guisp=NONE gui=bold ctermfg=1 ctermbg=NONE cterm=bold
 hi Special guifg=#ff8e2b guibg=NONE guisp=NONE gui=NONE ctermfg=208 ctermbg=NONE cterm=NONE
 hi SpecialChar guifg=#ff8e2b guibg=NONE guisp=NONE gui=NONE ctermfg=208 ctermbg=NONE cterm=NONE
-hi Tag guifg=#c763a4 guibg=NONE guisp=NONE gui=NONE ctermfg=169 ctermbg=NONE cterm=NONE
+hi Tag guifg=#d6154f guibg=NONE guisp=NONE gui=NONE ctermfg=161 ctermbg=NONE cterm=NONE
 hi Delimiter guifg=#f2b600 guibg=NONE guisp=NONE gui=NONE ctermfg=214 ctermbg=NONE cterm=NONE
 hi SpecialComment guifg=#991667 guibg=NONE guisp=NONE gui=NONE ctermfg=89 ctermbg=NONE cterm=NONE
 hi Debug guifg=#c9265a guibg=NONE guisp=NONE gui=NONE ctermfg=1 ctermbg=NONE cterm=NONE
 
 hi Underlined guifg=#e3006a guibg=NONE guisp=NONE gui=underline ctermfg=161 ctermbg=NONE cterm=underline
+
+" tree sitter (WIP)
+hi! link @tag.delimiter Delimiter
+hi! link @tag.attribute Special
+hi! link @property Special
 
 "ignore
 hi Error guifg=#ffcfcf guibg=#7d0d05 guisp=#7d0d05 gui=NONE ctermfg=224 ctermbg=3 cterm=NONE
@@ -110,6 +115,21 @@ hi PMenuSel guifg=#f7f7f7 guibg=#611835 guisp=#611835 gui=NONE ctermfg=15 ctermb
 hi PMenuThumb guifg=NONE guibg=#4d152b guisp=#4d152b gui=NONE ctermfg=NONE ctermbg=52 cterm=NONE
 
 hi Directory guifg=#f2b600 guibg=NONE guisp=NONE gui=bold ctermfg=214 ctermbg=NONE cterm=bold
+
+hi LspDiagnosticsDefaultError guifg=#d11b2d guibg=#240d19 guisp=NONE gui=NONE ctermfg=160 ctermbg=235 cterm=NONE
+hi LspDiagnosticsSignError guifg=#d11b2d guibg=#240d19 guisp=NONE gui=NONE ctermfg=160 ctermbg=235 cterm=NONE
+
+hi LspDiagnosticsDefaultWarning guifg=#f2b600 guibg=#240d19 guisp=NONE gui=NONE ctermfg=214 ctermbg=235 cterm=none
+hi LspDiagnosticsDefaultHint guifg=#f2b600 guibg=#240d19 guisp=NONE gui=NONE ctermfg=214 ctermbg=235 cterm=none
+hi LspDiagnosticsDefaultInfo guifg=#f2ead7 guibg=#240d19 guisp=#1a0a16 gui=NONE ctermfg=230 ctermbg=235 cterm=NONE
+
+" LSP highligh symbols on hover
+hi LspReferenceRead gui=bold cterm=bold
+" not sure when these two highglight groups are used
+hi LspReferenceWrite gui=bold cterm=bold
+hi LspReferenceText gui=bold cterm=bold
+
+
 
 "hi user1 guifg=#00ff8b guibg=#3e3e5e guisp=#3e3e5e gui=NONE ctermfg=48 ctermbg=60 cterm=NONE
 "hi user2 guifg=#7070a0 guibg=#3e3e5e guisp=#3e3e5e gui=NONE ctermfg=103 ctermbg=60 cterm=NONE

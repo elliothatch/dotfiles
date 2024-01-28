@@ -1,0 +1,51 @@
+# extra non-crucial packages that generally can be installed as needed
+
+awstats
+audacity
+azure-cli
+azure-functions-core-tools-bin
+blender
+# ccls
+# dotnet-runtime
+# dotnet-sdk
+filezilla
+# friture
+# go
+# godot
+# google-chrome
+kicad
+krita
+libreoffice-fresh
+# llvm
+# love
+# make
+# man-db
+# man-pages
+minicom
+# netctl
+nmap
+obs-studio
+# okular
+# openboard
+# openscad
+# openssl-1.1
+# perl
+# perl-geoip
+# pgadmin4
+prusa-slicer
+# python-build
+# python-debugpy
+# python-lxml
+# python-pandas
+# python-pip
+# python-psutil
+# rust
+# rxvt-unicode
+# sonic-visualiser
+# strace
+# tmsu-bin
+# trash-cli
+# twine
+# universal-ctags-git
+# wine
+# wine-mono

@@ -1,4 +1,7 @@
 #nvidia
+intel-ucode
 mesa
 lib32-mesa
 xf86-video-nouveau
+
+xf86-input-wacom

@@ -1,25 +1,39 @@
-alacritty
-atool
+# base: these should already be installed by pacstrap/initial install
+base-devel
 connman
 dialog
+git
+intel-ucode
+linux
+linux-firmware
+wpa_supplicant
+zsh
+
+# core
+alacritty
+atool
 exfat-utils
 firefox
 flameshot
 fzf
 gdm
-git
 highlight
 htop
+httpie
 ncdu
 neofetch
 neovim
 nftables
 openssh
 p7zip
-pacman-contrib
+#pacman-contrib
+peek
 python-virtualenv
+ranger
+reflector
 rsync
 smbclient
+syncthing
 sysstat
 the_silver_searcher
 trash-cli
@@ -27,9 +41,7 @@ udiskie
 udisks2
 unzip
 w3m
-wpa_supplicant
 zip
-zsh
 
 # fonts
 noto-fonts
@@ -66,6 +78,11 @@ yarn
 
 # aur
 namcap
+
+# communication
+discord
+signal-desktop
+zoom
 
 # other
 # bluez

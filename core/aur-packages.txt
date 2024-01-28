@@ -4,8 +4,6 @@ dragon-drop
 dug-git
 fnm-bin
 nvimpager
-ranger-git
-signal-desktop
 slack-desktop
 syncthingtray
 
