@@ -247,7 +247,7 @@ require("mason-lspconfig").setup {
 		'texlab',            -- LaTeX
 		'lua_ls',       -- Lua
 		'zk',                -- Markdown
-		'openscad_lsp',      -- OpenSCAD
+		-- 'openscad_lsp',      -- OpenSCAD
 		-- 'phpactor',          -- PHP
 		'perlnavigator',     -- Perl
 		-- 'powershell_es',     -- Powershell

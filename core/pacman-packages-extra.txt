@@ -2,8 +2,6 @@
 
 awstats
 audacity
-azure-cli
-azure-functions-core-tools-bin
 blender
 # ccls
 # dotnet-runtime

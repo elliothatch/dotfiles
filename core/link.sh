@@ -1,3 +1,4 @@
+#!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 mkdir -p $HOME/.config
 mkdir -p $HOME/.local/bin

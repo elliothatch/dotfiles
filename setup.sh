@@ -1,4 +1,5 @@
 #!/bin/sh
+trap "exit" INT
 # setup.sh is meant to be run once you have completed Arch Linux installation and are booted into the actual OS on disk for the first time as the root user
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
@@ -24,27 +25,37 @@ reflector --verbose --fastest 10 --country 'US,' --download-timeout 60 --save /e
 # useful initial packages, these are now included in pre-install pacstrap
 # pacman -S base-devel connman dialog git wpa_supplicant zsh
 
+pacman -Syu
+
 # install packages
-./$DIR/install-pacman.sh $DIR/core/pacman-packages.txt 
+/$DIR/install-pacman.sh $DIR/core/pacman-packages.txt 
 
 # install other packages as appropriate (example for desktop)
-./$DIR/install-pacman.sh $DIR/desktop/pacman-packages.txt 
-./$DIR/install-pacman.sh $DIR/i3/pacman-packages.txt 
-./$DIR/install-pacman.sh $DIR/core/pacman-packages-extra.txt 
+$DIR/install-pacman.sh $DIR/desktop/pacman-packages.txt 
+$DIR/install-pacman.sh $DIR/i3/pacman-packages.txt 
+$DIR/install-pacman.sh $DIR/core/pacman-packages-extra.txt 
 
 # additional setup
 # fonts
-cp ./$DIR/core/etc/fonts/local.conf /etc/fonts/local.conf
+cp $DIR/core/etc/fonts/local.conf /etc/fonts/local.conf
 # old nvim config with no plugins for sudo
-cp ./$DIR/core/etc/xdg/nvim/colors /etc/xdg/nvim/colors
-cp ./$DIR/core/etc/xdg/nvim/init.vim /etc/xdg/nvim/init.vim
+cp -R $DIR/core/etc/xdg/nvim/colors /etc/xdg/nvim/colors
+cp $DIR/core/etc/xdg/nvim/init.vim /etc/xdg/nvim/init.vim
 
 # graphics drivers and input
-cp ./$DIR/desktop/etc/X11/xorg.conf.d/20-nouveau.conf /etc/X11/xorg.conf.d/20-nouveau.conf
-cp ./$DIR/desktop/etc/X11/xorg.conf.d/50-mouse-acceleration.conf /etc/X11/xorg.conf.d/50-mouse-acceleration.conf
+#cp $DIR/desktop/etc/X11/xorg.conf.d/20-nouveau.conf /etc/X11/xorg.conf.d/20-nouveau.conf
+cp $DIR/desktop/etc/X11/xorg.conf.d/50-mouse-acceleration.conf /etc/X11/xorg.conf.d/50-mouse-acceleration.conf
 
 # set up yubikey https://support.yubico.com/support/solutions/articles/15000006449-using-your-u2f-yubikey-with-linux
-curl https://raw.githubusercontent.com/Yubico/libu2f-host/master/70-u2f.rules > /etc/udev/rules.d/70-u2f.rules
+#curl https://raw.githubusercontent.com/Yubico/libu2f-host/master/70-u2f.rules > /etc/udev/rules.d/70-u2f.rules
+
+# ntp
+# edit /etc/systemd/timesyncd.conf
+#NTP=0.arch.pool.ntp.org 1.arch.pool.ntp.org 2.arch.pool.ntp.org 3.arch.pool.ntp.org
+#FallbackNTP=0.pool.ntp.org 1.pool.ntp.org 0.fr.pool.ntp.org
+
+# verify
+timedatectl show-timesync --all
 
 # enable services
 # ntp
@@ -54,7 +65,7 @@ systemctl enable gdm
 # firewall
 systemctl enable nftables
 # printer
-systemctl enable org.cups.cupsd.service
+systemctl enable cups
 
 # setup hosts
 echo 'Manual setup required:'

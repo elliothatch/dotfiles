@@ -2,7 +2,7 @@
 arandr
 dunst
 feh
-# i3 contains i3-wm, i3lock, i3status
+# i3 contains i3-wm, i3lock, i3status, i3blocks
 i3
 picom
 scrot

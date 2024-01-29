@@ -67,6 +67,7 @@ vlc
 
 # printer
 cups
+cups-pdf
 
 # xorg
 xclip
@@ -82,7 +83,6 @@ namcap
 # communication
 discord
 signal-desktop
-zoom
 
 # other
 # bluez

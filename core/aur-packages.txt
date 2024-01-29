@@ -6,6 +6,7 @@ fnm-bin
 nvimpager
 slack-desktop
 syncthingtray
+zoom
 
 # fonts
 ttf-juliamono
@@ -14,7 +15,7 @@ ttf-juliamono
 simple-mtpfs
 
 # wm
-i3blocks-git
+#i3blocks-git
 
 # screensaver
 pipes.sh
