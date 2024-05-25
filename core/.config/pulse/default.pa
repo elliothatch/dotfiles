@@ -1,0 +1,5 @@
+.include /etc/pulse/default.pa
+
+# audible bell
+load-sample-lazy bell-window-system /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
+load-module module-x11-bell
