@@ -13,7 +13,7 @@ set $right l
 set $term alacritty
 
 # desktop background
-exec --no-startup-id feh --bg-scale ~/Pictures/bg-gradient.jpg
+exec --no-startup-id feh --bg-scale ~/pictures/carina-nebula.png
 
 exec --no-startup-id picom -b
 exec --no-startup-id discord

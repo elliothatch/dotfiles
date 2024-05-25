@@ -1,12 +1,8 @@
 #!/bin/bash
-mkdir -p $HOME/.local/virtualenvs
+python -m venv $HOME/.local/python-venv/neovim
+#python -m venv --system-site-packages $HOME/.local/python-venv/neovim
 
-python3 -m  virtualenv -p $(which python3) ~/.local/virtualenvs/neovim3
-source $HOME/.local/virtualenvs/neovim3/bin/activate
-pip install pynvim
-deactivate
-
-python3 -m  virtualenv -p $(which python2) ~/.local/virtualenvs/neovim2
-source $HOME/.local/virtualenvs/neovim2/bin/activate
-pip install pynvim
+source $HOME/.local/python-venv/neovim/bin/activate
+python -m pip install pynvim
+which python
 deactivate

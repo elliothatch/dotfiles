@@ -12,6 +12,7 @@ zsh
 # core
 alacritty
 atool
+bc
 exfat-utils
 firefox
 flameshot
@@ -20,13 +21,14 @@ gdm
 highlight
 htop
 httpie
+less
+man-db
 ncdu
 neofetch
 neovim
 nftables
 openssh
 p7zip
-#pacman-contrib
 peek
 python-virtualenv
 ranger
@@ -40,7 +42,9 @@ trash-cli
 udiskie
 udisks2
 unzip
+usbutils
 w3m
+wget
 zip
 
 # fonts
@@ -87,6 +91,9 @@ signal-desktop
 # other
 # bluez
 # openvpn
+
+# python modules
+python-pynvim
 
 # Debug Adapter Protocol
 python-debugpy

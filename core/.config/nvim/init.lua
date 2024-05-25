@@ -24,6 +24,8 @@ vim.opt.grepprg = 'ack -k'
 vim.opt.updatetime = 300
 
 vim.g.python3_host_prog = '/bin/python'
+-- using the global python install is fine
+-- vim.g.python3_host_prog = '/home/ellioth/.local/python-venv/neovim/bin/python'
 
 
 -- Visual settings
