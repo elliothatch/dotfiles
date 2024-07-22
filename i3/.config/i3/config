@@ -29,6 +29,8 @@ exec --no-startup-id signal-desktop
 # no_focus [class="discord"]
 # no_focus [class="Signal"]
 
+default_floating_border normal 5
+
 ### Idle configuration
 # unfortunately, xautolock doesn't detect if you are watching video, etc, so it is disabled for now
 # exec --no-startup-id xautolock -time 5 -locker "$SHELL -c lockscreen"
@@ -39,14 +41,14 @@ exec --no-startup-id signal-desktop
 
 bindsym $mod+x exec $term --class "lockscreen" -t "Lockscreen" -e "$SHELL" -c 'lockscreen'
 for_window [instance="lockscreen"] floating enable, move scratchpad
-for_window [instance="screensaver"] floating enable, fullscreen toggle global
+for_window [instance="screensaver"] floating enable, fullscreen toggle global, border normal 5
 
 # process manager
 bindsym $mod+Escape exec exec-toggle "processmanager" $term --class "processmanager" -t "Process Manager" -e "$SHELL" -c 'bpytop'
-for_window [instance="processmanager"] floating enable, resize set 1080 720
+for_window [instance="processmanager"] floating enable, resize set 1080 720, border normal 5
 
 # fzf context menus
-for_window [instance="fzfmenu"] floating enable, resize set 400 200, move position 2220 30
+for_window [instance="fzfmenu"] floating enable, resize set 400 200, move position 2220 30, border normal 5
 
 ### Workspace configuration
 # nvidia drivers
@@ -83,8 +85,9 @@ for_window [workspace="3"] layout stacking
 
     # start your launcher
     # todo: just start launcher program
-    bindsym $mod+d exec $term --class "launcher" -t "Launch application" -e "$SHELL" -c 'execs | fzf | xargs i3-msg exec'
-    for_window [instance="launcher"] floating enable
+    #bindsym $mod+d exec $term --class "launcher" -t "Launch application" -e "$SHELL" -c 'execs | fzf | xargs i3-msg exec'
+    #for_window [instance="launcher"] floating enable, border normal 5
+    bindsym $mod+d exec rofi -show drun -show-icons
 
     # launch screenshot tool
     bindsym $mod+Shift+s exec flameshot gui
@@ -198,7 +201,7 @@ for_window [workspace="3"] layout stacking
     bindsym $mod+minus scratchpad show
 
     # show the file manager scratchpad
-    for_window [instance="filemanager"] floating enable, resize set 1080 720, move scratchpad
+    for_window [instance="filemanager"] floating enable, resize set 1080 720, move scratchpad, border normal 5
     exec $term --class "filemanager" -t "Files" -e "$SHELL" -c ranger
 
     bindsym $mod+z [instance="filemanager"] scratchpad show
@@ -206,6 +209,10 @@ for_window [workspace="3"] layout stacking
 
 # i3bar widgets
 for_window [instance="calendar-widget"] floating enable, resize set 170 180, move position mouse, border pixel 1
+
+# calculator
+for_window [instance="qalculate-qt"] floating enable, resize set 520 520, move position center, border normal 5
+
 
 # Resizing containers:
 #

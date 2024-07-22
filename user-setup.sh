@@ -27,6 +27,8 @@ systemctl enable syncthing@ellioth
 #$DIR/nvim-python-setup.py
 
 # setup node fnm
+fnm install $(fnm ls-remote | tail -1)
+npm install -g neovim
 
 # esp32 setup
 

@@ -11,6 +11,7 @@ xautolock
 xclip
 xdotool
 xorg-xinput
+xorg-server
 # xorg-xprop
 
 # lockscreen

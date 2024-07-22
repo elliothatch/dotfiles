@@ -30,16 +30,30 @@
 
 # check locale. should list Locale as LANG=en_US.UTF-8
 localectl
+# if it's not, you can check the available layouts with `localectl list-keymaps`, and then load your chosen one with e.g. `loadkeys en_US`
 
 # optional set HiDPI font
 setfont ter-132b
 
 # verify boot mode
-# should be 32 or 64 for UEFI
+# should be 32 or 64 for UEFI. if the file/directory doesn't exist, partition with BIOS (MBR) table
 cat /sys/firmware/efi/fw_platform_size
 
 # check network connection
 ip link
+
+# wifi setup. 
+iwctl
+# device list
+# replace wlan0 if it is not your adapter name
+## you may not need the following 2 commands
+# device wlan0 set-property Powered on
+# adapter wlan0 set-property Powered on
+# station wlan0 scan
+# station wlan0 get-networks
+# station wlan0 connect _SSID_
+
+# test internet
 ping archlinux.org
 
 # check system clock
@@ -47,6 +61,14 @@ timedatectl
 
 # partition disks
 fdisk -l
+
+# for arch-only installation, replace the partition table with GPT and create a 1GiB boot partition
+fdisk /dev/sda
+g
+n
+# primary, partiion 1, default first sector, for last sector use '+1G'
+
+# for old systems, set up with BIOS/DOS (MBR) instead of GPT (UEFI) by using 'o' instead of 'g'. you do not need to create a boot partition, but make a 4GiB swap partition (ID 82) at the beginning of the disk instead
 
 # for dual boot we are assuming we already partitioned the disks during windows setup, leaving empty space for the linux partitions we will now set up
 fdisk /dev/sda
@@ -67,7 +89,7 @@ mount /dev/sdbU /mnt/boot
 mount /dev/sdaD /mnt/data
 
 # install packages
-pacstrap -K /mnt base linux linux-firmware base-devel connman dialog git neovim wpa_supplicant zsh
+pacstrap -K /mnt base linux linux-firmware base-devel connman iwd dialog git neovim wpa_supplicant zsh
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
@@ -87,12 +109,35 @@ locale-gen
 # create /etc/hostname
 # yourhostname
 
+# network configuration
+# check that your network interfaces show up
+ip link
+
+# if your wireless interface does not appear, but worked before pacstrap, determine drivers needed
+# exit chroot, then run:
+lspci -k
 # complete network configuration...
+# connman
+# TODO: config network and options
+systemctl enable connman
+systemctl start connman
+
+# OR iwd
+# /etc/iwd/main.conf
+# [General]
+# EnableNetworkConfiguration=true
+#
+# [Network]
+# NameResolvingService=systemd
+
+ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+systemctl enable iwd --now
+systemctl enable systemd-resolved --now
 
 # set root password
 passwd
 
-# install bootloader (systemd-boot)
+# install UEFI bootloader (systemd-boot). see below for BIOS setup
 # check that UEFI variables are accessible
 efivar --list
 ls /sys/firmware/efi/efivars
@@ -125,6 +170,12 @@ ls -l /dev/disk/by-uuid
 # initrd  /initramfs-linux-fallback.img
 # options root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw
 
+# systemd-boot does not support BIOS, instead, set up GRUB (MBR)
+pacman -S grub
+grub-install --target=i386-pc /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+
+
 # install microcode
 pacman -S intel-ucode
 
@@ -132,3 +183,9 @@ pacman -S intel-ucode
 exit
 umount -R /mnt
 reboot
+
+# log into root account and start setup
+# if the wifi interface is missing, but worked in the install media, you might need to install the `broadcom-wl` package
+
+# download and run the install scripts
+git clone https://github.com/elliothatch/dotfiles.git

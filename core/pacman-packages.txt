@@ -4,6 +4,7 @@ connman
 dialog
 git
 intel-ucode
+iwd
 linux
 linux-firmware
 wpa_supplicant
@@ -31,8 +32,10 @@ openssh
 p7zip
 peek
 python-virtualenv
+qalculate-qt
 ranger
 reflector
+rofi
 rsync
 smbclient
 syncthing
