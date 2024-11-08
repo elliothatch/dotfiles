@@ -124,7 +124,7 @@ Plug 'mileszs/ack.vim'
 Plug 'nelstrom/vim-markdown-folding'
 
 " visual
-Plug 'elliothatch/burgundy.vim'
+Plug 'elliothatch/burgundy.vim', { 'branch': 'treesitter-revamp' }
 Plug 'machakann/vim-highlightedyank'
 Plug 'dstein64/nvim-scrollview'
 
@@ -143,6 +143,7 @@ Plug 'simrat39/symbols-outline.nvim'
 " debug
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
+Plug 'nvim-neotest/nvim-nio'
 
 " c
 Plug 'vim-scripts/headerguard'

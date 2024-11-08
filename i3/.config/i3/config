@@ -213,6 +213,8 @@ for_window [instance="calendar-widget"] floating enable, resize set 170 180, mov
 # calculator
 for_window [instance="qalculate-qt"] floating enable, resize set 520 520, move position center, border normal 5
 
+# godot game window
+for_window [instance="Godot_Engine"] floating enable, move position center, border normal 5
 
 # Resizing containers:
 #
