@@ -88,8 +88,10 @@ mount /dev/sdbR /mnt
 mount /dev/sdbU /mnt/boot
 mount /dev/sdaD /mnt/data
 
+# update installer keyring
+pacman -Sy archlinux-keyring
 # install packages
-pacstrap -K /mnt base linux linux-firmware base-devel connman iwd dialog git neovim wpa_supplicant zsh
+pacstrap -K /mnt base linux linux-firmware base-devel less iwd dialog git neovim wpa_supplicant zsh
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
@@ -116,11 +118,12 @@ ip link
 # if your wireless interface does not appear, but worked before pacstrap, determine drivers needed
 # exit chroot, then run:
 lspci -k
+# then reenter chroot
 # complete network configuration...
 # connman
 # TODO: config network and options
-systemctl enable connman
-systemctl start connman
+#systemctl enable connman
+#systemctl start connman
 
 # OR iwd
 # /etc/iwd/main.conf
@@ -130,9 +133,9 @@ systemctl start connman
 # [Network]
 # NameResolvingService=systemd
 
-ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-systemctl enable iwd --now
-systemctl enable systemd-resolved --now
+#ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+systemctl enable iwd
+systemctl enable systemd-resolved
 
 # set root password
 passwd
@@ -140,6 +143,7 @@ passwd
 # install UEFI bootloader (systemd-boot). see below for BIOS setup
 # check that UEFI variables are accessible
 efivar --list
+# or
 ls /sys/firmware/efi/efivars
 
 bootctl install
@@ -159,25 +163,48 @@ ls -l /dev/disk/by-uuid
 # /boot/loader/entries/arch.conf
 # title   Arch Linux
 # linux   /vmlinuz-linux
-# initrd  /intel-ucode.img
+## initrd  /intel-ucode.img
+# initrd  /amd-ucode.img
 # initrd  /initramfs-linux.img
 # options root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw
 
-# esp/loader/entries/arch-fallback.conf
+# tip: in vim, insert the UUID into the buffer
+# :r!ls -l /dev/disk/by-uuid
+
+cp /boot/loader/entries/arch.conf /boot/loader/entries/arch-fallback.conf
+# /boot/loader/entries/arch-fallback.conf
 # title   Arch Linux (fallback initramfs)
 # linux   /vmlinuz-linux
-# initrd  /intel-ucode.img
+## initrd  /intel-ucode.img
+# initrd  /amd-ucode.img
 # initrd  /initramfs-linux-fallback.img
 # options root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw
 
-# systemd-boot does not support BIOS, instead, set up GRUB (MBR)
-pacman -S grub
-grub-install --target=i386-pc /dev/sda
-grub-mkconfig -o /boot/grub/grub.cfg
+# if systemd-boot doesn't run or show up in the BIOS boot menu, bootctl may have failed to add the boot entry
+# view the boot entries
+efibootmgr --unicode
+# if there is no "Linux Boot Manager" entry, you can add it manually. it will be put first in the boot order
+efibootmgr --create --disk /dev/nvme0n1 --part 1 --loader '\EFI\systemd\systemd-bootx64.efi' --label 'Linux Boot Manager' --unicode
 
+# potentially useful output for debugging boot issues
+blkid
+
+
+# LEGACY: if you need to use BIOS instead of UEFI
+# systemd-boot does not support BIOS, instead, set up GRUB (MBR)
+#pacman -S grub
+#grub-install --target=i386-pc /dev/sda
+#grub-mkconfig -o /boot/grub/grub.cfg
 
 # install microcode
-pacman -S intel-ucode
+#pacman -S intel-ucode
+pacman -S amd-ucode
+
+# set system-wide environment variables
+# /etc/profile.d/editor.sh
+# #!/bin/sh
+# export EDITOR=nvim
+# export VISUAL=nvim
 
 # reboot
 exit
@@ -187,5 +214,24 @@ reboot
 # log into root account and start setup
 # if the wifi interface is missing, but worked in the install media, you might need to install the `broadcom-wl` package
 
-# download and run the install scripts
+# create user
+useradd --create-home ellioth
+passwd ellioth
+chsh ellioth -s /bin/zsh
+
+# setup hosts
+# Add "ellioth" to sudoers
+visudo
+# add line (after root ALL=(ALL:ALL) ALL)
+ellioth ALL=(ALL:ALL) ALL
+
+# modify line (keeps your default editor while in sudo)
+# Defaults env_keep!visudo += "SUDO_EDITOR EDITOR VISUAL"
+Defaults env_keep += "SUDO_EDITOR EDITOR VISUAL"
+
+# log into the user account and clone this repo to run install scripts
 git clone https://github.com/elliothatch/dotfiles.git
+
+cd dotfiles
+sudo ./setup.sh
+./user-setup.sh

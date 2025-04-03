@@ -3,12 +3,6 @@ trap "exit" INT
 # setup.sh is meant to be run once you have completed Arch Linux installation and are booted into the actual OS on disk for the first time as the root user
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-# user setup
-echo 'Create user "ellioth"'
-useradd --create-home ellioth
-passwd ellioth
-chsh ellioth -s /bin/zsh
-
 # setup swapfile
 dd if=/dev/zero of=/swapfile bs=1M count=2k status=progress
 chmod 0600 /swapfile
@@ -67,9 +61,6 @@ systemctl enable cups
 # setup hosts
 echo 'Manual setup required:'
 echo ''
-echo 'Add "ellioth" to sudoers'
-echo '   visudo'
-echo '      ellioth ALL=(ALL) ALL'
 echo 'vim /etc/hosts'
 echo '   Add icebox hosts'
 echo 'vim /etc/fstab'
