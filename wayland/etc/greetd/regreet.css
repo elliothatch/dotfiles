@@ -1,0 +1,54 @@
+window {
+	color: #f2ead7;
+	background: #1a0a16;
+}
+
+frame {
+	color: #f2ead7;
+	background: #1a0a16;
+	border: 2px solid #9e0c46;
+}
+
+button {
+	color: #f2ead7;
+	background: #30111d;
+	border: 2px solid #9e0c46;
+}
+
+entry {
+	color: #f2ead7;
+	background: #30111d;
+}
+
+*:focus-within {
+	outline-color: #ed8d7c;
+}
+
+popover contents {
+	color: #f2ead7;
+	background: #30111d;
+}
+
+modelbutton {
+	color: #1a0a16;
+	background: #ed8d7c;
+}
+
+revealer box {
+	color: #f2ead7;
+	background: #30111d;
+	border-color: #9e0c46;
+}
+
+
+image {
+	color: #ffabab;
+}
+
+image:hover {
+	color: #f76c9a;
+}
+
+image:active {
+	color: #ff8e2b;
+}

@@ -1,0 +1,6 @@
+gdm
+flameshot
+peek
+rofi
+
+xclip

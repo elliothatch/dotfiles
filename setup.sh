@@ -11,7 +11,7 @@ swapon /swapfile
 
 # pick fastest package mirrors
 pacman -S reflector rsync
-reflector --verbose --latest 10 --sort rate --country US, --download-timeout 60 --save /etc/pacman.d/mirrorlist
+reflector --verbose --latest 25 --sort rate --country US, --download-timeout 60 --save /etc/pacman.d/mirrorlist
 
 # useful initial packages, these are now included in pre-install pacstrap
 # pacman -S base-devel connman dialog git wpa_supplicant zsh

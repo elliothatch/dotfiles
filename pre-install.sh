@@ -84,9 +84,9 @@ mkfs.ext4 /dev/sdbR
 
 # mount the file systems
 # where sdbU is the UEFI boot partition
-mount /dev/sdbR /mnt
-mount /dev/sdbU /mnt/boot
-mount /dev/sdaD /mnt/data
+mount --mkdir /dev/sdbR /mnt
+mount --mkdir=0700 /dev/sdbU /mnt/boot -o fmask=0077,dmask=0077
+mount --mkdir /dev/sdaD /mnt/data
 
 # update installer keyring
 pacman -Sy archlinux-keyring

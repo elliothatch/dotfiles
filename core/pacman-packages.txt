@@ -1,13 +1,11 @@
 # base: these should already be installed by pacstrap/initial install
 base-devel
-connman
 dialog
 git
-intel-ucode
 iwd
 linux
 linux-firmware
-wpa_supplicant
+neovim
 zsh
 
 # core
@@ -16,32 +14,27 @@ atool
 bc
 exfat-utils
 firefox
-flameshot
 fzf
-gdm
 highlight
 htop
 httpie
 less
+lf
 man-db
 ncdu
 neofetch
-neovim
 nftables
 openssh
 p7zip
-peek
 python-virtualenv
 qalculate-qt
-ranger
 reflector
-rofi
 rsync
-smbclient
-syncthing
 sysstat
 the_silver_searcher
 trash-cli
+tree-sitter
+tree-sitter-cli
 udiskie
 udisks2
 unzip
@@ -60,10 +53,11 @@ ttf-bitstream-vera
 ttf-font-awesome
 
 # audio
-alsa-utils
-pavucontrol
-pulseaudio
-pulseaudio-alsa
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+qpwgraph
 
 # media
 gimp
@@ -75,9 +69,6 @@ vlc
 # printer
 cups
 cups-pdf
-
-# xorg
-xclip
 
 # nodejs
 nodejs
@@ -93,10 +84,10 @@ signal-desktop
 
 # other
 # bluez
-# openvpn
 
 # python modules
 python-pynvim
 
-# Debug Adapter Protocol
-python-debugpy
+# accessibility
+speech-dispatcher
+espeakup

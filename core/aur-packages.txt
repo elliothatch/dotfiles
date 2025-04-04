@@ -1,11 +1,7 @@
 bpytop
-cmst
-dragon-drop
 dug-git
 fnm-bin
 nvimpager
-slack-desktop
-syncthingtray
 zoom
 
 # fonts
@@ -13,9 +9,3 @@ ttf-juliamono
  
 # mtp
 simple-mtpfs
-
-# wm
-#i3blocks-git
-
-# screensaver
-pipes.sh

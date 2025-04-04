@@ -1,0 +1,4 @@
+alsa-utils
+pavucontrol
+pulseaudio
+pulseaudio-alsa

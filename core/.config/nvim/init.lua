@@ -23,9 +23,9 @@ vim.opt.grepprg = 'ack -k'
 
 vim.opt.updatetime = 300
 
+-- Use system installs for plugin hosts
+vim.g.node_host_prog = '/usr/bin/node'
 vim.g.python3_host_prog = '/bin/python'
--- using the global python install is fine
--- vim.g.python3_host_prog = '/home/ellioth/.local/python-venv/neovim/bin/python'
 
 
 -- Visual settings
@@ -260,7 +260,7 @@ require("mason-lspconfig").setup {
 		'rust_analyzer',     -- Rust
 		'sqlls',              -- SQL
 		'taplo',             -- TOML
-		'tsserver',          -- TypeScript
+		'ts_ls',          -- TypeScript
 		'vimls',             -- VimL
 		'lemminx',           -- XML
 		'yamlls',            -- YAML
@@ -412,7 +412,7 @@ require('lsp-status').register_progress()
 
 function _G.lsp_current_function()
 	local current_function = vim.b.lsp_current_function
-	if #vim.lsp.buf_get_clients() > 0 and current_function and current_function ~= '' then
+	if #vim.lsp.get_clients({bufnr = 0}) > 0 and current_function and current_function ~= '' then
 		return '(' .. current_function .. ')'
 	end
 
@@ -420,7 +420,7 @@ function _G.lsp_current_function()
 end
 
 function _G.lsp_status_diagnostics()
-	if #vim.lsp.buf_get_clients() <= 0 then
+	if #vim.lsp.get_clients({bufnr = 0}) <= 0 then
 		return ''
 	end
 
