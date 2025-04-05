@@ -1,4 +1,4 @@
-exec "regreet; swaymsg exit"
+exec "XDG_DATA_DIRS=/usr/local/share/:/usr/local/share/:/usr/share/ regreet; swaymsg exit"
 
 bindsym Mod4+shift+e exec swaynag \
 -t warning \

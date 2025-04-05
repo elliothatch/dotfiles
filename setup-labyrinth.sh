@@ -6,3 +6,4 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 $DIR/core/setup.sh
 $DIR/wayland/setup.sh
 $DIR/icebox-client/setup.sh
+$DIR/applications/setup.sh

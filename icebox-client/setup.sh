@@ -20,7 +20,12 @@ sudo mkdir -p /etc/samba/credentials
 echo -e 'username=ellioth\npassword=' | sudo tee /etc/samba/credentials/icebox
 sudo chmod 600 /etc/samba/credentials/icebox
 
-sudo systemctl enable syncthing@ellioth
+systemctl --user enable syncthing.service --now
+
+mkdir $HOME/sync
+
+rmdir Documents && ln -s $HOME/sync/icebox-ellioth/documents Documents
+rmdir Public && ln -s $HOME/sync/icebox-public Public
 
 echo ''
 echo 'Manual setup required:'

@@ -49,9 +49,6 @@ sudo systemctl enable nftables
 # printer
 sudo systemctl enable cups
 
-# make firefox default browser
-xdg-settings set default-web-browser firefox.desktop
-
 # system neovim config
 sudo cp -R $DIR/etc/xdg/nvim/colors /etc/xdg/nvim/colors
 sudo cp $DIR/etc/xdg/nvim/init.vim /etc/xdg/nvim/init.vim
@@ -63,9 +60,15 @@ sudo npm install -g neovim
 fnm install $(fnm list-remote | tail -1)
 
 # user config
+mkdir -p $HOME/.zsh
 mkdir -p $HOME/.config
 
 ln -svirn $DIR/.config/* $HOME/.config
 ln -svirn $DIR/dotfiles/.* $HOME
 
 
+# xdg
+# make firefox default browser
+xdg-settings set default-web-browser firefox.desktop
+
+xdg-user-dirs-update

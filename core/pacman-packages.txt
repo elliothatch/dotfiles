@@ -41,6 +41,7 @@ unzip
 usbutils
 w3m
 wget
+xdg-user-dirs
 zip
 
 # fonts

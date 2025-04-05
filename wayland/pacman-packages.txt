@@ -17,6 +17,7 @@ greetd-regreet
 rofi-wayland
 # fuzzel
 
+grim
 flameshot
 kooha
 
