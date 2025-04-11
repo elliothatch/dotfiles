@@ -112,6 +112,16 @@ locale-gen
 # yourhostname
 
 # network configuration
+# set up networks with systemd-networkd
+mkdir -p /etc/systemd/network
+# copy files
+# ./core/etc/systemd/network/20-ethernet.network
+# ./core/etc/systemd/network/25-wlan.network
+# ./core/etc/systemd/network/30-wwan.networt
+systemctl enable systemd-networkd
+systemctl enable systemd-resolved
+
+# wireless setup
 # check that your network interfaces show up
 ip link
 
@@ -120,12 +130,8 @@ ip link
 lspci -k
 # then reenter chroot
 # complete network configuration...
-# connman
-# TODO: config network and options
-#systemctl enable connman
-#systemctl start connman
 
-# OR iwd
+# iwd
 # /etc/iwd/main.conf
 # [General]
 # EnableNetworkConfiguration=true
@@ -135,7 +141,6 @@ lspci -k
 
 #ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 systemctl enable iwd
-systemctl enable systemd-resolved
 
 # set root password
 passwd

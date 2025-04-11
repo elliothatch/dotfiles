@@ -12,6 +12,7 @@ filezilla
 # godot
 # google-chrome
 kicad
+kpat
 krita
 libreoffice-fresh
 # llvm

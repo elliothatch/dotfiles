@@ -18,6 +18,7 @@ fzf
 highlight
 htop
 httpie
+jq
 less
 lf
 man-db

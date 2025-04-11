@@ -24,10 +24,18 @@ systemctl --user enable syncthing.service --now
 
 mkdir $HOME/sync
 
-rmdir Documents && ln -s $HOME/sync/icebox-ellioth/documents Documents
-rmdir Public && ln -s $HOME/sync/icebox-public Public
+rmdir $HOME/Documents && ln -s $HOME/sync/icebox-ellioth/documents $HOME/Documents
+rmdir $HOME/Public && ln -s $HOME/sync/icebox-public $HOME/Public
+ln -s $HOME/sync/icebox-ellioth/workspace $HOME/workspace
 
 echo ''
 echo 'Manual setup required:'
+echo 'Add icebox to hosts'
+echo '   192.168.86.30 icebox'
 echo 'Add Samba credentials'
 echo '   /etc/samba/credentials/icebox'
+echo 'Syncthing:'
+echo '   configure syncthing default folder to ~/sync'
+echo '   add icebox to remote devices'
+echo '   Add samba-ellioth to ~/sync/icebox-ellioth'
+echo '   Add icebox-public to ~/sync/icebox-public'

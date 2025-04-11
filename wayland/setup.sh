@@ -10,3 +10,5 @@ sudo cp -i $DIR/usr/local/bin/* /usr/local/bin
 
 sudo mkdir -p /usr/local/share/wayland-sessions
 sudo cp -i $DIR/usr/local/share/wayland-sessions/* /usr/local/share/wayland-sessions
+
+ln -svirn $DIR/.config/* $HOME/.config
