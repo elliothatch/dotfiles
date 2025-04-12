@@ -7,9 +7,10 @@
     "spacing": 0, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": [
+    	"custom/launcher",
         "sway/workspaces",
-        "sway/mode"
-        // "sway/scratchpad",
+        "sway/mode",
+        "sway/scratchpad",
     ],
     "modules-center": [
         "sway/window"
@@ -29,11 +30,16 @@
         "battery",
         "battery#bat2",
         "tray",
-        "clock",
         "privacy",
+        "clock",
         "custom/power"
     ],
     // Modules configuration
+    "custom/launcher": {
+        "format" : "〉",
+		"tooltip-format": "Launch application (Super+d)",
+		"on-click": "rofi -show drun -show-icons"
+	},
     // "sway/workspaces": {
     //     "disable-scroll": true,
     //     "all-outputs": true,
@@ -210,17 +216,19 @@
 		"format": "{icon} {volume}%",
         "format-muted": " {volume}%",
 		"on-click": "qpwgraph",
+		"on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "format-icons": {
             "default": [" ", "", "","", "", "", ""]
         },
 	},
     "custom/power": {
         "format" : "⏻",
-		"tooltip": false,
+		"tooltip-format": "Power options",
 		"menu": "on-click",
 		"menu-file": "$HOME/.config/waybar/custom_modules/power_menu.xml", // Menu file in resources folder
 		"menu-actions": {
 			"lock": "swaylock -f -c 1a0a16",
+			"sleep": "systemctl suspend",
 			"logout": "swaymsg exit",
 			"shutdown": "shutdown",
 			"reboot": "reboot",

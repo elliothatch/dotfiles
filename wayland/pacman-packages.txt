@@ -19,6 +19,8 @@ greetd-regreet
 rofi-wayland
 # fuzzel
 
+mako
+
 xdg-desktop-portal
 xdg-desktop-portal-wlr
 grim

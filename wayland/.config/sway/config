@@ -27,6 +27,15 @@ workspace 1 output DP-2
 workspace 2 output DP-2
 workspace 3 output DP-1
 
+for_window [workspace="3"] layout stacking
+assign [app_id="discord"] workspace 3
+assign [app_id="vesktop"] workspace 3
+assign [app_id="com.obsproject.Studio"] workspace 3
+
+# startup applications
+exec mako
+exec vesktop
+
 #
 # Example configuration:
 #
@@ -39,6 +48,10 @@ workspace 3 output DP-1
 input type:pointer {
 	accel_profile flat
 	pointer_accel 0.1
+}
+
+input type:keyboard {
+	xkb_numlock enabled
 }
 
 #
@@ -55,11 +68,13 @@ input type:pointer {
 # Read `man 5 sway-input` for more information about this section.
 
 focus_on_window_activation smart
+# focus_on_window_activation focus
 
 ### Idle configuration
+# TODO: screensaver after 300 seconds
 exec swayidle -w \
-         timeout 300 'swaylock -f -c 1a0a16' \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         timeout 900 'systemctl suspend' \
          before-sleep 'swaylock -f -c 1a0a16'
 
 bindsym $mod+x exec swaylock -f -c 1a0a16
@@ -240,20 +255,21 @@ bindsym $mod+r mode "resize"
 #bindsym $mod+Escape exec 'if swaymsg -t get_tree | jq --exit-status '"'"'.. | ((.nodes? // empty) + (.floating_nodes? // empty))[] | select(.app_id == "processmanager")'"'"' > /dev/null; then swaymsg '"'"'[app_id="processmanager"] kill'"'"' > /dev/null; else swaymsg '"'"'exec $term --class "processmanager" -e "bpytop"'"'"' > /dev/null; fi'
 # if swaymsg -t get_tree | jq --exit-status '.. | ((.nodes? // empty) + (.floating_nodes? // empty))[] | select(.app_id == "processmanager")'; then swaymsg '[app_id="processmanager"] kill'; else; swaymsg 'exec $term --class "processmanager" -e "bpytop"'; fi
 bindsym $mod+Escape exec swaymsg [app_id="processmanager"] kill > /dev/null || exec $term --class "processmanager" -e "bpytop" > /dev/null
-for_window [app_id="processmanager"] floating enable, resize set 1080px 720px, mark processmanager
+for_window [app_id="processmanager"] floating enable, resize set 1080px 720px, border normal 4, mark processmanager
+
+bindsym $mod+c exec swaymsg [app_id="io.github.Qalculate.qalculate-qt" title="Calculator"] scratchpad show > /dev/null || exec qalculate-qt --title="Calculator" > /dev/null
+for_window [app_id="io.github.Qalculate.qalculate-qt" title="Calculator"] floating enable, resize set 480px 720px, border normal 4, mark calculator, move scratchpad, layout tabbed, scratchpad show
 
 # file manager
-bindsym $mod+z exec swaymsg [app_id="filemanager"] scratchpad show > /dev/null || exec $term --class "filemanager" --title "lf" -e "lf" > /dev/null
-for_window [app_id="filemanager"] floating enable, resize set 1080px 720px, mark filemanager, move scratchpad, layout tabbed, scratchpad show
-
-#bindsym $mod+z exec swaymsg [app_id="filemanager" workspace="^(?!.*__i3_scratch.*$)"] move scratchpad || exec swaymsg [app_id="filemanager"] scratchpad show || exec $term --class "filemanager" --title "lf" -e "lf"
-
-#bindsym $mod+Shift+z exec $term --class "filemanager-2" --title "lf" -e "lf" > /dev/null, move to filemanager
-
-#for_window [app_id="filemanager"] floating enable, resize set 1080px 720px, mark filemanager, layout tabbed
+bindsym $mod+z exec swaymsg [app_id="^filemanager$"] scratchpad show > /dev/null || exec $term --class "filemanager" --title "lf" -e "lf" > /dev/null
+for_window [app_id="^filemanager$"] floating enable, resize set 1080px 720px, border normal 4, move scratchpad, scratchpad show, splitv, layout tabbed, mark filemanager
+for_window [app_id="^filemanager-tab$"] border normal 4
 
 # Look
-default_floating_border normal 5
+default_border normal 2
+default_floating_border normal 4
+
+for_window [shell="xwayland"] mark --add xwayland
 
 client.focused #9e0c46 #9e0c46 #f2ead7 #d11b2d #9e0c46 
 client.focused_inactive #9e0c46 #2c0d1a #e3006a #d11b2d #9e0c46 

@@ -1,7 +1,7 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: FontAwesome, sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     border: none;
     border-radius: 0;
     min-height: 0;
@@ -14,9 +14,6 @@ window#waybar {
     border-bottom: 3px solid #ed8d7c;
     transition-property: color, background-color;
     transition-duration: .5s;
-}
-
-tooltip {
 }
 
 /*
@@ -51,7 +48,7 @@ button:hover {
 tooltip {
     background-color: #240d19;
     color: #f2ead7;
-    border: 1px solid #9e0c46;
+    border: 2px solid #9e0c46;
 }
 
 tooltip label {
@@ -62,21 +59,32 @@ tooltip label {
 menu {
     background-color: #240d19;
     color: #f2ead7;
-    border: 1px solid #9e0c46;
+    border: 2px solid #9e0c46;
 }
 
 menuitem {
-    border-bottom: 1px solid #ed8d7c;
+    border-top: 1px solid #ed8d7c;
+    padding: 5px;
+    margin: 0 2px;
 }
 
-menuitem:last-child {
-    border-bottom: none;
+menuitem:first-child {
+    border-top: none;
 }
 
 menuitem:hover {
     background-color: #9e0c46;
     color: #ffffff;
 }
+
+separator {
+    border-top: 4px solid #ed8d7c;
+}
+
+separator+menuitem {
+	border-top: none;
+}
+
 
 #workspaces {
     margin: 0 4px;
@@ -126,11 +134,25 @@ menuitem:hover {
     margin-right: 0;
 }
 
+#custom-launcher {
+	font-size: 18px;
+	background-color: #ed8d7c;
+    color: #240d19;
+	padding-left: 8px;
+	padding-right: 5px;
+	/* border-right: 1px solid red; */
+	margin-right: 10px;
+}
+
 #mode {
     background-color: #d11b2d;
     color: #ffffff;
     padding: 0 10px;
     border-bottom: 3px solid #ffffff;
+}
+
+#scratchpad {
+	padding-left: 10px
 }
 
 #systemd-failed-units {
@@ -142,6 +164,10 @@ menuitem:hover {
 }
 
 #custom-power {
+	padding: 0 6px;
 	font-size: 20px;
+	background-color: #ed8d7c;
+    color: #240d19;
+    border-left: none;
 
 }

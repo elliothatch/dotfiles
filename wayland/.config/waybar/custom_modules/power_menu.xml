@@ -7,17 +7,22 @@
         </object>
     </child>
     <child>
+        <object class="GtkMenuItem" id="sleep">
+			<property name="label">Sleep</property>
+        </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="delimiter1"/>
+    </child>
+    <child>
         <object class="GtkMenuItem" id="logout">
 			<property name="label">Log out</property>
         </object>
     </child>
     <child>
         <object class="GtkMenuItem" id="shutdown">
-			<property name="label">Shutdown</property>
+			<property name="label">Shut down</property>
         </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="delimiter1"/>
     </child>
     <child>
 		<object class="GtkMenuItem" id="reboot">

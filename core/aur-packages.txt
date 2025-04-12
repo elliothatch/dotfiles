@@ -1,4 +1,5 @@
 bpytop
+dragon-drop
 dug-git
 fnm-bin
 nvimpager

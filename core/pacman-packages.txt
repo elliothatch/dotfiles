@@ -27,6 +27,7 @@ neofetch
 nftables
 openssh
 p7zip
+perl-file-mimeinfo
 python-virtualenv
 qalculate-qt
 reflector
