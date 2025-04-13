@@ -3,6 +3,7 @@ dragon-drop
 dug-git
 fnm-bin
 nvimpager
+pistol-bin
 zoom
 
 # fonts

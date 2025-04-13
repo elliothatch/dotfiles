@@ -1,9 +1,7 @@
 # TODO:
-# - tabs
 # - chown
 # - apack
 # - aunpack
-# - image preview
 # - colors and icons
 
 # interpreter for shell commands
@@ -31,6 +29,8 @@ set scrolloff 10
 
 # Use the `dim` attribute instead of underline for the cursor in the preview pane
 set cursorpreviewfmt "\033[7;2m"
+
+# set drawbox
 
 set incfilter
 
@@ -152,8 +152,8 @@ map x $$f
 map X !$f
 
 # dedicated keys for file opener actions
-map o $mimeopen $f
-map O $mimeopen --ask $f
+map o $mimeopen $fx
+map O $mimeopen --ask $fx
 
 # define a custom 'open' command
 # This command is called when current file is not a directory. You may want to
@@ -162,7 +162,8 @@ map O $mimeopen --ask $f
 cmd open &{{
     case $(file --mime-type -Lb $f) in
         text/*) lf -remote "send $id \$$EDITOR \$fx";;
-        *) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
+        *) mimeopen $fx;;
+        #*) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
     esac
 }}
 
@@ -237,3 +238,10 @@ cmd zip ${{
     zip -r $1.zip $1
     rm -rf $1
 }}
+
+# file previews
+# set previewer ~/.config/lf/previewer
+
+# or use alacritty-sixel-git and chafa
+set previewer ~/.config/lf/previewer-sixel
+set sixel

@@ -1,0 +1,13 @@
+#!/bin/sh
+case "$(file -Lb --mime-type -- "$1")" in
+	image/*)
+		# chafa -f sixel -s "$2x$3" --animate off --polite on "$1"
+		# subtract one from height to avoid overflow bug which breaks UI
+		# not needed if drawbox is enabled
+		chafa -f sixel -s "$2x$(echo "$3 - 1" | bc)" --animate off --polite on "$1"
+		exit 1
+		;;
+	*)
+		pistol "$1"
+		;;
+esac

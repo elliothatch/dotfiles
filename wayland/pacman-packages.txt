@@ -21,12 +21,13 @@ rofi-wayland
 
 mako
 
-xdg-desktop-portal
-xdg-desktop-portal-wlr
+# flameshot # doesn't work right now
 grim
-flameshot
+slurp
 hyprpicker
 kooha
+xdg-desktop-portal
+xdg-desktop-portal-wlr
 
 # obs-studio
 # wlrobs

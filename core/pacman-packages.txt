@@ -96,3 +96,5 @@ python-pynvim
 # accessibility
 speech-dispatcher
 espeakup
+
+# xdg-desktop-portal-gtk

@@ -107,6 +107,14 @@ bindsym $mod+x exec swaylock -f -c 1a0a16
     bindsym $mod+d exec $menu
 
     # bindsym $mod+Shift+s exec flameshot gui
+    # screenshot region
+    bindsym $mod+Shift+s exec grim -g "$(slurp)"
+    # screenshot window
+    bindsym $mod+Shift+Ctrl+s exec 'grim -g "$(swaymsg -t get_tree | jq -r '"'"'.. | select(.pid? and .visible?) | \"\(.rect.x+.window_rect.x),\(.rect.y+.window_rect.y) \(.window_rect.width)x\(.window_rect.height)\"'"'"' | slurp)"'
+
+# grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | "\(.rect.x+.window_rect.x),\(.rect.y+.window_rect.y) \(.window_rect.width)x\(.window_rect.height)"' | slurp)"
+
+
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
