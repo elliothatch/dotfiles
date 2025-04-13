@@ -13,10 +13,10 @@
         "sway/scratchpad",
     ],
     "modules-center": [
-        "sway/window"
+        // "sway/window",
+        "mpd",
     ],
     "modules-right": [
-        "mpd",
         // "power-profiles-daemon",
         // "temperature",
         // "backlight",
@@ -70,16 +70,17 @@
     	"format": "{nr_failed} systemd units failed"
 	},
     "mpd": {
-        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+        "format": "{stateIcon}  {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})    ⸨{songPosition}|{queueLength}⸩ {volume}%",
         "format-disconnected": "Disconnected ",
         "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
         "unknown-tag": "N/A",
-        "interval": 5,
+        "interval": 1,
+        "on-click": "cantata",
+        "on-click-right": "mpc toggle",
         "consume-icons": {
             "on": " "
         },
         "random-icons": {
-            "off": "<span color=\"#f53c3c\"></span> ",
             "on": " "
         },
         "repeat-icons": {
@@ -130,11 +131,20 @@
     "cpu": {
         "interval": 1,
         "format": "CPU {usage}%",
-        "tooltip": false
+        "tooltip": true,
+        "states": {
+        	"warning": 50,
+        	"critical": 80
+		}
     },
     "memory": {
     	"interval": 1,
-        "format": "MEM {used:0.1f}G/{total:0.1f}G ({percentage}%)"
+        "format": "MEM {used:0.1f}G/{total:0.1f}G ({percentage}%)",
+        "tooltip": false,
+        "states": {
+        	"warning": 70,
+        	"critical": 90
+		}
     },
     "temperature": {
         // "thermal-zone": 2,
@@ -230,7 +240,7 @@
 			"lock": "swaylock -f -c 1a0a16",
 			"sleep": "systemctl suspend",
 			"logout": "swaymsg exit",
-			"shutdown": "shutdown",
+			"shutdown": "shutdown now",
 			"reboot": "reboot",
 		}
     },

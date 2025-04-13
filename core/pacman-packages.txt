@@ -62,11 +62,13 @@ pipewire-pulse
 pipewire-jack
 qpwgraph
 
+mpc
+mpd
+timidity++
+
 # media
-gimp
 imagemagick
 imv
-inkscape
 vlc
 
 # printer

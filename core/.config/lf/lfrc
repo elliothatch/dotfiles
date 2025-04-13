@@ -34,6 +34,11 @@ set cursorpreviewfmt "\033[7;2m"
 
 set incfilter
 
+# use enter for shell commands
+map <enter> shell
+map W $swaymsg "exec $TERMCMD --working-directory \"$PWD\""
+
+
 # filter files as you type, then press enter to select
 map f filter
 cmap <enter> &{{
@@ -59,8 +64,16 @@ cmap <a-p> &{{
     fi
 }}
 
-# use enter for shell commands
-map <enter> shell
+# follow symlink
+cmd follow-link %{{
+  lf -remote "send $id select \"$(readlink -- "$f" | sed 's/\\/\\\\/g;s/"/\\"/g')\""
+}}
+
+map gl follow-link
+
+# jump bindings
+map <c-o> jump-prev
+map <tab> jump-next
 
 cmd yank-basename %basename -a -- $fx | head -c-1 | wl-copy 2>/dev/null; wl-paste | tr '\n' ','
 cmd yank-paths %printf '%s' "$fx" | wl-copy 2>/dev/null; wl-paste | tr '\n' ','
@@ -69,6 +82,23 @@ map y
 map yy :copy
 map yn :yank-basename
 map yp :yank-paths
+
+cmd sudopaste ${{
+    set -- $(cat ~/.local/share/lf/files)
+    mode="$1"
+    shift
+    if [ "$#" -lt 1 ]; then
+        lf -remote "send $id echoerr no files to paste"
+        exit
+    fi
+    case "$mode" in
+        copy) sudo cp -rn -- "$@" .;;
+        move)
+            sudo mv -n -- "$@" .
+            lf -remote "send clear"
+            ;;
+    esac
+}}
 
 cmd link %{{
     set -- $(cat ~/.local/share/lf/files)
@@ -108,12 +138,11 @@ cmd link-relative %{{
     esac
 }}
 
-map P :link
-
 map p
-map pp :paste
-map pl :link
-map pL :link-relative
+map pp paste
+map pP sudopaste
+map pl link
+map pL link-relative
 
 # show the result of execution of previous commands
 map ` !true
@@ -163,6 +192,11 @@ map d
 map dd cut
 map dD trash
 map <delete> trash
+
+cmd sudoedit $sudoedit "$f"
+map E sudoedit
+
+map g/ select /
 
 map <c-d> &dragon-drop $fx
 

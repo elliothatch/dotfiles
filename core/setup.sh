@@ -31,23 +31,28 @@ $DIR/../install-yay.sh $DIR/aur-packages.txt
 
 sudo mandb -c
 
+# profile.d
+sudo cp $DIR/etc/profile.d/* /etc/profile.d/
+
+# systemd environment
+
 # fonts
 sudo cp $DIR/etc/fonts/local.conf /etc/fonts/local.conf
 
 # speech-dispatcher
 sudo cp $DIR/etc/speech-dispatcher/speechd.conf /etc/speech-dispatcher/speechd.conf
-sudo systemctl enable espeakup.service
+sudo systemctl enable espeakup.service --now
 
 # ntp
-sudo systemctl enable systemd-timesyncd
+sudo systemctl enable systemd-timesyncd --now
 # verify time
 #sudo timedatectl show-timesync --all
 
 # firewall
-sudo systemctl enable nftables
+sudo systemctl enable nftables --now
 
 # printer
-sudo systemctl enable cups
+sudo systemctl enable cups --now
 
 # system neovim config
 sudo cp -R $DIR/etc/xdg/nvim/colors /etc/xdg/nvim/colors
@@ -65,6 +70,13 @@ mkdir -p $HOME/.config
 
 ln -svirn $DIR/.config/* $HOME/.config
 ln -svirn $DIR/dotfiles/.* $HOME
+
+# mpd
+mkdir -p $HOME/.local/share/mpd
+mkdir -p $HOME/.local/share/mpd/playlists
+mkdir -p $HOME/.local/state/mpd
+
+systemctl --user enable mpd.service --now
 
 
 # xdg

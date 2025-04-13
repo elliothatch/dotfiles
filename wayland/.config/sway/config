@@ -28,9 +28,20 @@ workspace 2 output DP-2
 workspace 3 output DP-1
 
 for_window [workspace="3"] layout stacking
-assign [app_id="discord"] workspace 3
-assign [app_id="vesktop"] workspace 3
-assign [app_id="com.obsproject.Studio"] workspace 3
+
+# assign [app_id="discord"] workspace 3
+# assign [app_id="vesktop"] workspace 3
+# assign [app_id="cantata"] workspace 3
+# assign [app_id="com.obsproject.Studio"] workspace 3
+
+# move any new windows/apps that were opened in the filemanager tabbed container to the workspace
+for_window [app_id="^(?!filemanager)" tiling] move workspace current
+
+# with the above rule, normal "assign" rules don't work anymore, we need to explicitly move the container
+for_window [app_id="discord"] move workspace 3
+for_window [app_id="vesktop"] move workspace 3
+for_window [app_id="cantata"] move workspace 3
+for_window [app_id="com.obsproject.Studio"] move workspace 3
 
 # startup applications
 exec mako
@@ -236,14 +247,21 @@ bindsym $mod+r mode "resize"
 #
 # Utilities:
 #
-    # Special keys to adjust volume via PulseAudio
+    # adjust volume via PulseAudio
     bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
     bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
     bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
     bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
-    # Special keys to adjust brightness via brightnessctl
+    # adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+# Media player controls (mpd)
+	bindsym XF86AudioPlay exec mpc toggle
+	bindsym XF86AudioPause exec mpc toggle
+	bindsym XF86AudioStop exec mpc stop
+	bindsym XF86AudioNext exec mpc next
+	bindsym XF86AudioPrev exec mpc prev
+
     # Special key to take a screenshot with grim
     bindsym Print exec grim
 
@@ -262,7 +280,9 @@ for_window [app_id="io.github.Qalculate.qalculate-qt" title="Calculator"] floati
 
 # file manager
 bindsym $mod+z exec swaymsg [app_id="^filemanager$"] scratchpad show > /dev/null || exec $term --class "filemanager" --title "lf" -e "lf" > /dev/null
-for_window [app_id="^filemanager$"] floating enable, resize set 1080px 720px, border normal 4, move scratchpad, scratchpad show, splitv, layout tabbed, mark filemanager
+bindsym $mod+Shift+z exec $term --class "filemanager-tab" --title "lf" -e "lf"
+
+for_window [app_id="^filemanager$"] floating enable, resize set 1080px 720px, border normal 4, move scratchpad, scratchpad show, splitv, layout tabbed, focus parent, mark filemanager
 for_window [app_id="^filemanager-tab$"] border normal 4
 
 # Look
