@@ -4,6 +4,12 @@ trap "exit" INT
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 $DIR/core/setup.sh
+# amd
+sudo pacman -S amd-ucode
+# radeon
+sudo pacman -S mesa vulkan-radeon xf86-video-amdgpu
+
+
 $DIR/wayland/setup.sh
 $DIR/icebox-client/setup.sh
 $DIR/applications/setup.sh

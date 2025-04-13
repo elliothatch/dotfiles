@@ -1,43 +1,43 @@
 # dotfiles
 configuration and scripts for arch linux
 
-# overview
+## overview
  - shell: zsh
  - text editor: neovim
- - code search: ag (the silver searcher)
- - fuzzy finder: fzf
- - file manager: ranger
- - terminal emulator: alacritty
- - window manager: i3-gaps
- - status bar: i3blocks
- - notifications: dunst
+ - file manager: lf
  - process manager: bpytop
 
-Previously, when using sway:
+### graphics
+ - window manager: sway
+ - login manager: greetd + regreet
+ - terminal emulator: alacritty
+ - status bar: waybar
  - notifications: mako
+ - launcher: rofi
 
-See packages files for details.
+### audio
+ - framework: pipewire
+ - patchbay: qpwgraph
+ - music: mpd + cantata
 
-Also, my .gitconfig includes aliases that make some common git commands (add, checkout, diff, reset) interactive, using fzf.
+See components for details.
 
-# setup
-These directories are "packages" containing configuration files and standardized setup scripts
+.gitconfig includes aliases that make some common git commands (add, checkout, diff, reset) interactive, using fzf.
+
+## setup
+When installing Arch, manually follow the instructions in `pre-install.sh`. Then log into the user account and run the setup file for target machine (`./setup-labyrinth.sh`).
+
+### components
+Each of these directories is a "component" that contains configuration data and setup instructions for a part of the system.
  - `core`: basic system utilities and core applications
- - `i3`: desktop environment, status bar
- - `desktop`: monitors, peripherals
- - `laptop`: touchpad, screen brightness, battery
- - `server`: icebox
+ - `wayland`: wayland compositor, login manager, and desktop environment
+ - `icebox-client`: remote filesystem and syncthing setup for the icebox
+ - `server`: configuration of the icebox itself
 
-Packages may contain any of the following files:
+Components can have any of the standard files:
+ - `setup.sh`: A setup script that can be run (in user mode) to install packages, copy/link configuration files, enable services, and perform any other setup
  - `pacman-packages.txt`: line-separated list of pacman packages, lines starting with `#` are ignored. install all packages with pacman by running `install-pacman.sh {path/to/pacman-packages.txt}`
  - `aur-packages.txt`: like `pacman-packages.txt`, but for packages in the AUR. install packages with yay by running `install-yay.sh {path/to/aur-packages.txt}`
- - `link.sh`: script that symlinks all configuration files to their appropriate locations in your `$HOME`. sometimes these add a broken link to a file called `*` because i'm bad at bash.
 
-Configuration files are usually located in `etc`, `.config`, and `.dotfiles`.
-Scripts to install to your system are usually located in `/usr`, `.local`
-
-`nvim-python-setup.py` creates python virtual environments for python2 and python3 providers
-
-# first time arch setup
-`setup.sh` contains commands you should manually run one at a time to install the system after a fresh Arch install.  
-then install the `core` and additional packages
+System files are usually located in `etc` and `usr`, and are copied into the system on setup.
+User files are usually located in `.config`, `.local`, and `dotfiles`, and are symlinked into the user's directories on setup.

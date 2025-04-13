@@ -194,7 +194,6 @@ efibootmgr --create --disk /dev/nvme0n1 --part 1 --loader '\EFI\systemd\systemd-
 # potentially useful output for debugging boot issues
 blkid
 
-
 # LEGACY: if you need to use BIOS instead of UEFI
 # systemd-boot does not support BIOS, instead, set up GRUB (MBR)
 #pacman -S grub
@@ -211,14 +210,6 @@ pacman -S amd-ucode
 # export EDITOR=nvim
 # export VISUAL=nvim
 
-# reboot
-exit
-umount -R /mnt
-reboot
-
-# log into root account and start setup
-# if the wifi interface is missing, but worked in the install media, you might need to install the `broadcom-wl` package
-
 # create user
 useradd --create-home ellioth
 passwd ellioth
@@ -234,9 +225,17 @@ ellioth ALL=(ALL:ALL) ALL
 # Defaults env_keep!visudo += "SUDO_EDITOR EDITOR VISUAL"
 Defaults env_keep += "SUDO_EDITOR EDITOR VISUAL"
 
-# log into the user account and clone this repo to run install scripts
+# reboot
+exit
+umount -R /mnt
+reboot
+
+# log into user account and start setup
+# if the wifi interface is missing, but worked in the install media, you might need to install the `broadcom-wl` or `wpa_supplicant` package
+
 git clone https://github.com/elliothatch/dotfiles.git
 
 cd dotfiles
-sudo ./setup.sh
-./user-setup.sh
+# run the setup script for this machine
+# e.g.
+./setup-labyrinth.sh
