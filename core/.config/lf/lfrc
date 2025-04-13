@@ -1,8 +1,6 @@
 # TODO:
 # - chown
-# - apack
-# - aunpack
-# - colors and icons
+# - chmod
 
 # interpreter for shell commands
 set shell zsh
@@ -26,6 +24,9 @@ set ifs "\n"
 
 # leave some space at the top and the bottom of the screen
 set scrolloff 10
+
+set info size
+set icons
 
 # Use the `dim` attribute instead of underline for the cursor in the preview pane
 set cursorpreviewfmt "\033[7;2m"
@@ -152,8 +153,33 @@ map x $$f
 map X !$f
 
 # dedicated keys for file opener actions
-map o $mimeopen $fx
-map O $mimeopen --ask $fx
+cmd fileopen ${{
+	set -f
+    case $(file --mime-type -Lb $f) in
+		# manually handle archive files for bettter i/o handling and directory reload
+		application/x-brotli) ;&
+        application/gzip) ;&
+        application/x-7z-compressed) ;&
+        application/x-bzip2) ;&
+        application/x-gtar) ;&
+        application/x-lzma) ;&
+        application/x-rar-compressed) ;&
+        application/x-snappy-framed) ;&
+        application/x-tar) ;&
+        application/x-xz) ;&
+        application/zip) ;&
+        application/zstd) lf -remote "send $id \$ouch decompress \$fx"; lf -remote "send $id reload";;
+        *) mimeopen $fx;;
+        #*) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+cmd fileopen-ask ${{
+	set -f
+	mimeopen --ask $fx
+}}
+map o :fileopen
+map O :fileopen-ask
 
 # define a custom 'open' command
 # This command is called when current file is not a directory. You may want to
@@ -162,6 +188,19 @@ map O $mimeopen --ask $fx
 cmd open &{{
     case $(file --mime-type -Lb $f) in
         text/*) lf -remote "send $id \$$EDITOR \$fx";;
+		# manually handle archive files for bettter i/o handling and directory reload
+		application/x-brotli) ;&
+        application/gzip) ;&
+        application/x-7z-compressed) ;&
+        application/x-bzip2) ;&
+        application/x-gtar) ;&
+        application/x-lzma) ;&
+        application/x-rar-compressed) ;&
+        application/x-snappy-framed) ;&
+        application/x-tar) ;&
+        application/x-xz) ;&
+        application/zip) ;&
+        application/zstd) lf -remote "send $id \$ouch decompress \$fx"; lf -remote "send $id reload";;
         *) mimeopen $fx;;
         #*) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
     esac
@@ -206,38 +245,46 @@ map <c-f> $lf -remote "send $id :select $(fzf)"
 # spawn another instance, useful for opening multiple tabs
 map S $swaymsg "exec $TERMCMD --class filemanager-tab --title lf -e lf \"$PWD\""
 
+cmd archive %{{
+	set -f
+    printf "Archive name> \n"
+    read ans
+    ouch compress $fx $ans
+}}
+
+map Z :archive; unselect; reload
 
 # extract the current file with the right command
 # (xkcd link: https://xkcd.com/1168/)
-cmd extract ${{
-    set -f
-    case $f in
-        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
-        *.tar.gz|*.tgz) tar xzvf $f;;
-        *.tar.xz|*.txz) tar xJvf $f;;
-        *.zip) unzip $f;;
-        *.rar) unrar x $f;;
-        *.7z) 7z x $f;;
-    esac
-}}
-
-# compress current file or selected files with tar and gunzip
-cmd tar ${{
-    set -f
-    mkdir $1
-    cp -r $fx $1
-    tar czf $1.tar.gz $1
-    rm -rf $1
-}}
-
-# compress current file or selected files with zip
-cmd zip ${{
-    set -f
-    mkdir $1
-    cp -r $fx $1
-    zip -r $1.zip $1
-    rm -rf $1
-}}
+# cmd extract ${{
+#     set -f
+#     case $f in
+#         *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+#         *.tar.gz|*.tgz) tar xzvf $f;;
+#         *.tar.xz|*.txz) tar xJvf $f;;
+#         *.zip) unzip $f;;
+#         *.rar) unrar x $f;;
+#         *.7z) 7z x $f;;
+#     esac
+# }}
+# 
+# # compress current file or selected files with tar and gunzip
+# cmd tar ${{
+#     set -f
+#     mkdir $1
+#     cp -r $fx $1
+#     tar czf $1.tar.gz $1
+#     rm -rf $1
+# }}
+# 
+# # compress current file or selected files with zip
+# cmd zip ${{
+#     set -f
+#     mkdir $1
+#     cp -r $fx $1
+#     zip -r $1.zip $1
+#     rm -rf $1
+# }}
 
 # file previews
 # set previewer ~/.config/lf/previewer

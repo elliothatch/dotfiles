@@ -10,7 +10,7 @@ zsh
 
 # core
 alacritty
-atool
+#atool
 bc
 exfat-utils
 firefox
@@ -26,6 +26,7 @@ ncdu
 neofetch
 nftables
 openssh
+ouch
 p7zip
 perl-file-mimeinfo
 python-virtualenv
