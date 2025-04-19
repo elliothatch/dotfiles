@@ -138,7 +138,7 @@ Plug 'chrisbra/Colorizer'
 " Plug 'mustache/vim-mustache-handlebars'
 
 " tags
-Plug 'simrat39/symbols-outline.nvim'
+Plug 'hedyhli/outline.nvim'
 
 " debug
 Plug 'mfussenegger/nvim-dap'
@@ -450,20 +450,26 @@ function _G.lsp_status_diagnostics()
 	return ' ' .. indicator_ok .. ' '
 end
 
--- simrat39/symbols-outline.nvim
-require('symbols-outline').setup({
-	auto_preview = true;
-	autofold_depth = 2;
-	fold_markers = { "▸", "▾" };
+-- hedyhli/outline.nvim
+require('outline').setup({
+	symbol_folding = {
+		autofold_depth = 2,
+		markers = { "▸", "▾" },
+	},
+	preview_window = {
+		auto_preview = true,
+	},
 	symbols = {
-		Component = { icon = "C" },
-		Constant = { icon = "C" },
-		Constructor = { icon = "C" },
-		File = { icon = "🗎" },
-		Fragment = { icon = "F" },
-		Interface = { icon = "I" },
-		Module = { icon = 'M' },
-		Variable = { icon = "V" },
+		icons = {
+			Component = { icon = "C" },
+			Constant = { icon = "C" },
+			Constructor = { icon = "C" },
+			File = { icon = "🗎" },
+			Fragment = { icon = "F" },
+			Interface = { icon = "I" },
+			Module = { icon = 'M' },
+			Variable = { icon = "V" },
+		}
 	}
 })
 
@@ -889,7 +895,7 @@ vim.keymap.set('n', ']e', '<cmd>lua vim.diagnostic.goto_next({severity = vim.dia
 vim.keymap.set('n', '<leader>te', vim.diagnostic.open_float, {noremap=true, silent=true})
 vim.keymap.set('n', '<leader>tE', vim.diagnostic.setloclist, {noremap=true, silent=true})
 
-vim.keymap.set('n', '<leader>to', '<cmd>SymbolsOutline<CR>')
+vim.keymap.set('n', '<leader>to', '<cmd>Outline<CR>')
 
 -- statusline
 vim.opt.statusline = ''
