@@ -11,3 +11,6 @@ ttf-juliamono
  
 # mtp
 simple-mtpfs
+
+# network
+iwgtk

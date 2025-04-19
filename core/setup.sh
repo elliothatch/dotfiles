@@ -65,6 +65,8 @@ sudo npm install -g neovim
 fnm install $(fnm list-remote | tail -1)
 
 # user config
+sudo gpasswd -a $USER network
+
 mkdir -p $HOME/.zsh
 mkdir -p $HOME/.config
 

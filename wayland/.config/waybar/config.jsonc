@@ -70,9 +70,11 @@
     	"format": "{nr_failed} systemd units failed"
 	},
     "mpd": {
-        "format": "{stateIcon}  {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})    ⸨{songPosition}|{queueLength}⸩ {volume}%",
-        "format-disconnected": "Disconnected ",
-        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+		// music icon: 
+		// music icon 2: ♫
+        "format": "{stateIcon}  {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ♫ ⸨{songPosition}|{queueLength}⸩ {volume}%",
+        "format-disconnected": "Disconnected ♫",
+        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ♫",
         "unknown-tag": "N/A",
         "interval": 1,
         "on-click": "cantata",
@@ -195,7 +197,7 @@
         "tooltip-format": "{ifname} via {gwaddr} ",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "on-click": "iwgtk"
     },
     "network#bandwidth": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
@@ -225,8 +227,9 @@
     "wireplumber": {
 		"format": "{icon} {volume}%",
         "format-muted": " {volume}%",
-		"on-click": "qpwgraph",
+		"on-click": "pavucontrol",
 		"on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"on-click-middle": "qpwgraph",
         "format-icons": {
             "default": [" ", "", "","", "", "", ""]
         },

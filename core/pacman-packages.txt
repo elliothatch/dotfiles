@@ -62,6 +62,8 @@ pipewire-alsa
 pipewire-pulse
 pipewire-jack
 qpwgraph
+# pavucontrol works fine, there are no pipewire gui mixer alternatives
+pavucontrol
 
 mpc
 mpd
