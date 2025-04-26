@@ -38,7 +38,7 @@ command=[ $(yay -Qua | wc -l) -gt 0 ] && echo $(yay -Qua | wc -l) AUR updates
 interval=43200 # 12 hours
 
 [bandwidth]
-instance=wlp1s0
+instance=wlan0
 interval=1
 
 # Disk I/O
@@ -92,11 +92,11 @@ interval=2
 # interval=10
 # separator=false
 
-[wifi-connman]
+# [wifi-connman]
 #INTERFACE=wlp3s0
-markup=pango
+# markup=pango
 # label=wifi:
-interval=2
+# interval=2
 # separator=false
 
 # [bandwidth]
@@ -108,10 +108,10 @@ interval=2
 # interval=10
 
 # Volume indicator
-[volume-pulseaudio]
-markup=pango
-interval=persist
-SUBSCRIBE=1
+# [volume-pulseaudio]
+# markup=pango
+# interval=persist
+# SUBSCRIBE=1
 
 [battery2]
 markup=pango

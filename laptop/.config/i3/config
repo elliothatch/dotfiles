@@ -13,14 +13,15 @@ set $right l
 set $term alacritty
 
 # desktop background
-exec --no-startup-id feh --bg-scale ~/Pictures/bg-gradient-laptop.jpg
+#exec --no-startup-id feh --bg-scale ~/Pictures/bg-gradient-laptop.jpg
 
-exec --no-startup-id picom -b --experimental-backends --backend glx
-exec --no-startup-id discord
+exec --no-startup-id snixembed --fork
+exec --no-startup-id picom -b
 exec --no-startup-id syncthingtray
-exec --no-startup-id slack
 exec --no-startup-id udiskie
 exec --no-startup-id xmousepasteblock
+exec --no-startup-id volumeicon
+exec --no-startup-id iwgtk -i
 
 ### Idle configuration
 # unfortunately, xautolock doesn't detect if you are watching video, etc, so it is disabled for now
@@ -36,7 +37,7 @@ for_window [instance="screensaver"] floating enable, fullscreen toggle global
 
 # process manager
 bindsym $mod+Escape exec exec-toggle "processmanager" $term --class "processmanager" -t "Process Manager" -e "$SHELL" -c 'bpytop'
-for_window [instance="processmanager"] floating enable, resize set 1620 1080, move position center
+for_window [instance="processmanager"] floating enable, resize set 800 600, move position center
 
 # fzf context menus
 for_window [instance="fzfmenu"] floating enable, resize set 800 400, move position 130 55
@@ -59,8 +60,10 @@ for_window [class="vlc"] move container workspace 3
     bindsym $mod+Shift+q kill
 
     # start your launcher
-    bindsym $mod+d exec $term --class "launcher" -t "Launch application" -e "$SHELL" -c 'execs | fzf | xargs i3-msg exec'
-    for_window [instance="launcher"] floating enable
+    # bindsym $mod+d exec $term --class "launcher" -t "Launch application" -e "$SHELL" -c 'execs | fzf | xargs i3-msg exec'
+    # for_window [instance="launcher"] floating enable
+    bindsym $mod+d exec rofi -show drun -show-icons
+
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -167,14 +170,14 @@ for_window [class="vlc"] move container workspace 3
     bindsym $mod+minus scratchpad show
 
     # show the file manager scratchpad
-    for_window [instance="filemanager"] floating enable, resize set 1620 1080, move position center, move scratchpad
+    for_window [instance="filemanager"] floating enable, resize set 800 600, move position center, move scratchpad
     exec $term --class "filemanager" -t "Files" -e "$SHELL" -c ranger
 
     bindsym $mod+z [instance="filemanager"] scratchpad show
     bindsym $mod+Shift+z exec $term --class "filemanager" -t "Files" -e "$SHELL" -c ranger #; [instance="filemanager"] scratchpad show
 
 # i3bar widgets
-for_window [instance="calendar-widget"] floating enable, resize set 300 320, move position mouse, border pixel 1
+for_window [instance="calendar-widget"] floating enable, resize set 170 180, move position mouse, border pixel 1
 
 # Resizing containers:
 #

@@ -141,6 +141,7 @@ Plug 'chrisbra/Colorizer'
 Plug 'simrat39/symbols-outline.nvim'
 
 " debug
+Plug 'nvim-neotest/nvim-nio'
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
 
