@@ -78,3 +78,10 @@ ln -svirn $DIR/dotfiles/.* $HOME
 xdg-settings set default-web-browser firefox.desktop
 
 xdg-user-dirs-update
+
+# mpd
+mkdir -p $HOME/.local/share/mpd
+mkdir -p $HOME/.local/share/mpd/playlists
+mkdir -p $HOME/.local/state/mpd
+
+systemctl --user enable mpd.service --now

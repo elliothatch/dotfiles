@@ -121,6 +121,13 @@ curl https://raw.githubusercontent.com/elliothatch/dotfiles/refs/heads/master/co
 # ./core/etc/systemd/network/20-ethernet.network
 # ./core/etc/systemd/network/25-wlan.network
 # ./core/etc/systemd/network/30-wwan.network
+
+# edit wait-online to complete on first successful connection
+systemctl edit systemd-networkd-wait-online.service
+# [Service]
+# ExecStart=
+# ExecStart=/usr/lib/systemd/systemd-networkd-wait-online --any
+
 systemctl enable systemd-networkd
 systemctl enable systemd-resolved
 
