@@ -91,7 +91,7 @@ mount --mkdir /dev/sdaD /mnt/data
 # update installer keyring
 pacman -Sy archlinux-keyring
 # install packages
-pacstrap -K /mnt base linux linux-firmware base-devel less iwd dialog git neovim wpa_supplicant zsh
+pacstrap -K /mnt base linux linux-firmware base-devel less iwd dialog git neovim zsh
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
@@ -115,9 +115,12 @@ locale-gen
 # set up networks with systemd-networkd
 mkdir -p /etc/systemd/network
 # copy files
+curl https://raw.githubusercontent.com/elliothatch/dotfiles/refs/heads/master/core/etc/systemd/network/20-ethernet.network > /etc/systemd/network/20-ethernet.network
+curl https://raw.githubusercontent.com/elliothatch/dotfiles/refs/heads/master/core/etc/systemd/network/25-wlan.network > /etc/systemd/network/25-wlan.network
+curl https://raw.githubusercontent.com/elliothatch/dotfiles/refs/heads/master/core/etc/systemd/network/30-wwan.network > /etc/systemd/network/30-wwan.network
 # ./core/etc/systemd/network/20-ethernet.network
 # ./core/etc/systemd/network/25-wlan.network
-# ./core/etc/systemd/network/30-wwan.networt
+# ./core/etc/systemd/network/30-wwan.network
 systemctl enable systemd-networkd
 systemctl enable systemd-resolved
 
@@ -131,6 +134,7 @@ lspci -k
 # then reenter chroot
 # complete network configuration...
 
+mkdir /etc/iwd
 # iwd
 # /etc/iwd/main.conf
 # [General]
@@ -144,6 +148,11 @@ systemctl enable iwd
 
 # set root password
 passwd
+
+# install microcode
+#pacman -S intel-ucode
+pacman -S amd-ucode
+
 
 # install UEFI bootloader (systemd-boot). see below for BIOS setup
 # check that UEFI variables are accessible
@@ -199,10 +208,6 @@ blkid
 #pacman -S grub
 #grub-install --target=i386-pc /dev/sda
 #grub-mkconfig -o /boot/grub/grub.cfg
-
-# install microcode
-#pacman -S intel-ucode
-pacman -S amd-ucode
 
 # set system-wide environment variables
 # /etc/profile.d/editor.sh

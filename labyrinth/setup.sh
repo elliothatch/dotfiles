@@ -13,3 +13,12 @@ sudo pacman -S mesa vulkan-radeon xf86-video-amdgpu
 $DIR/wayland/setup.sh
 $DIR/icebox-client/setup.sh
 $DIR/applications/setup.sh
+
+# mpd
+mkdir -p $HOME/.local/share/mpd
+mkdir -p $HOME/.local/share/mpd/playlists
+mkdir -p $HOME/.local/state/mpd
+
+ln -svirn $DIR/.config/mpd $HOME/.config/mpd
+
+systemctl --user enable mpd.service --now

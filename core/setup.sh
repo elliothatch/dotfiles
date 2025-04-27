@@ -16,7 +16,7 @@ sudo pacman -S reflector rsync
 sudo reflector --verbose --latest 25 --sort rate --country US, --download-timeout 60 --save /etc/pacman.d/mirrorlist
 
 # install core packages
-pacman -Syu
+sudo pacman -Syu
 sudo $DIR/../install-pacman.sh $DIR/pacman-packages.txt
 
 # aur setup
@@ -72,14 +72,6 @@ mkdir -p $HOME/.config
 
 ln -svirn $DIR/.config/* $HOME/.config
 ln -svirn $DIR/dotfiles/.* $HOME
-
-# mpd
-mkdir -p $HOME/.local/share/mpd
-mkdir -p $HOME/.local/share/mpd/playlists
-mkdir -p $HOME/.local/state/mpd
-
-systemctl --user enable mpd.service --now
-
 
 # xdg
 # make firefox default browser

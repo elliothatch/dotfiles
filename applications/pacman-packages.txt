@@ -51,3 +51,7 @@ prusa-slicer
 # universal-ctags-git
 # wine
 # wine-mono
+
+# communication
+# discord
+signal-desktop

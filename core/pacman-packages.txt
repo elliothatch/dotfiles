@@ -86,10 +86,6 @@ yarn
 # aur
 namcap
 
-# communication
-discord
-signal-desktop
-
 # other
 # bluez
 

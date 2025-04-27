@@ -1,2 +1,5 @@
 # azure-cli
 # azure-functions-core-tools-bin
+
+# communication
+# vesktop-bin
