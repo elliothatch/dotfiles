@@ -10,7 +10,8 @@ filezilla
 # friture
 gimp
 # go
-# godot
+godot
+godot-mono
 # google-chrome
 inkscape
 kicad

@@ -45,7 +45,7 @@ for_window [app_id="com.obsproject.Studio"] move workspace 3
 
 # startup applications
 exec mako
-exec syncthingtray
+exec syncthingtray-qt6 --wait
 exec vesktop
 
 #

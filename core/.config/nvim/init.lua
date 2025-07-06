@@ -98,8 +98,8 @@ Plug 'tpope/vim-commentary'
 Plug 'ggandor/lightspeed.nvim'
 
 " LSP
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'mason-org/mason.nvim'
+Plug 'mason-org/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp-status.nvim'
 
@@ -148,6 +148,8 @@ Plug 'nvim-neotest/nvim-nio'
 " c
 Plug 'vim-scripts/headerguard'
 
+Plug 'nvim-tree/nvim-tree.lua'
+
 call plug#end()
 ]])
 
@@ -184,7 +186,7 @@ cmp.setup({
 		['<C-f>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space>'] = cmp.mapping.complete(),
 		-- ['<C-e>'] = cmp.mapping.abort(),
-		['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		-- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 		['<Tab>'] = cmp.mapping.select_next_item(),
 		['<S-Tab>'] = cmp.mapping.select_prev_item(),
 	}),
@@ -315,43 +317,72 @@ local lsp_on_attach = function(client, bufnr)
 	require('lsp-status').on_attach(client, bufnr)
 end
 
-require('mason-lspconfig').setup_handlers {
-	-- default handler
-	function (server_name) -- default handler (optional)
-		require('lspconfig')[server_name].setup {
-			on_attach = lsp_on_attach,
-			capabilities = capabilities,
-			flags = {
-				debounce_text_changes = 150,
-			}
-		}
-	end,
-	-- dedicated handlers
-	['pylsp'] = function ()
-		require('lspconfig')['pylsp'].setup {
-			on_attach = lsp_on_attach,
-			capabilities = capabilities,
-			settings = {
-				pylsp = {
-					plugins = {
-						mccabe = {
-							enabled = false
-						},
-						pycodestyle = {
-							ignore = {
-								"E501", -- line exceeds max line length
-								"E226", -- missing whitespace around arithmetic operator
-								"E241", -- multiple spaces after ':'
-								"W503", -- line break before binary operator. this will soon be considered best practice
-								"E741", -- ambiguous variable name
-							}
-						}
+vim.lsp.config('*', {
+	-- on_attach = lsp_on_attach,
+	capabilities = capabilities,
+	flags = {
+		debounce_text_changes = 150,
+	}
+})
+
+vim.lsp.config.pylsp = {
+	-- on_attach = lsp_on_attach,
+	capabilities = capabilities,
+	settings = {
+		pylsp = {
+			plugins = {
+				mccabe = {
+					enabled = false
+				},
+				pycodestyle = {
+					ignore = {
+						"E501", -- line exceeds max line length
+						"E226", -- missing whitespace around arithmetic operator
+						"E241", -- multiple spaces after ':'
+						"W503", -- line break before binary operator. this will soon be considered best practice
+						"E741", -- ambiguous variable name
 					}
 				}
 			}
 		}
-	end
+	}
 }
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('my.lsp', {}),
+  callback = function(args)
+	local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+	lsp_on_attach(client, args.buf)
+
+	--[[
+	if client:supports_method('textDocument/implementation') then
+	  -- Create a keymap for vim.lsp.buf.implementation ...
+	end
+
+	-- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
+	if client:supports_method('textDocument/completion') then
+	  -- Optional: trigger autocompletion on EVERY keypress. May be slow!
+	  -- local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
+	  -- client.server_capabilities.completionProvider.triggerCharacters = chars
+
+	  vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
+	end
+
+	-- Auto-format ("lint") on save.
+	-- Usually not needed if server supports "textDocument/willSaveWaitUntil".
+	if not client:supports_method('textDocument/willSaveWaitUntil')
+		and client:supports_method('textDocument/formatting') then
+	  vim.api.nvim_create_autocmd('BufWritePre', {
+		group = vim.api.nvim_create_augroup('my.lsp', {clear=false}),
+		buffer = args.buf,
+		callback = function()
+		  vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+		end,
+	  })
+	end
+  ]]
+  end,
+})
 
 vim.fn.sign_define("LspDiagnosticsSignError", {text = "✖"})
 vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "❗"})
@@ -703,6 +734,24 @@ dap.listeners.after['event_exited']['on_exit'] = function()
 	dapui.close(2)
 	dapui.open(3)
 end
+
+-- nvim-tree/nvim-tree.lua
+require("nvim-tree").setup({
+	renderer = {
+		icons = {
+			show = {
+				file = false,
+				folder = false
+			},
+			glyphs = {
+				folder = {
+					arrow_open = '-',
+					arrow_closed = '+'
+				}
+			}
+		}
+	}
+})
 
 -- Bindings
 vim.cmd([[
