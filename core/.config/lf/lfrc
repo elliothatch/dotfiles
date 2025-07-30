@@ -238,7 +238,7 @@ map E sudoedit
 
 map g/ select /
 
-map <c-d> &dragon-drop $fx
+map D &dragon-drop $fx
 
 map <c-f> $lf -remote "send $id :select $(fzf)"
 

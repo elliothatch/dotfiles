@@ -97,3 +97,14 @@ speech-dispatcher
 espeakup
 
 # xdg-desktop-portal-gtk
+
+# new cli
+bat
+dua-cli
+dust
+eza
+fd
+fish
+git-delta
+ripgrep
+ripgrep-all

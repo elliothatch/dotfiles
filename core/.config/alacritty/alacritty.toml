@@ -6,20 +6,23 @@ black = "#1a0a16"
 blue = "#f29edd"
 cyan = "#ffabab"
 green = "#8bf792"
-magenta = "#e3006a"
-red = "#d11b2d"
+magenta = "#a82676"
+red = "#fc4b4e"
 white = "#f2ead7"
-yellow = "#f2b600"
+yellow = "#ff8e2b"
 
 [colors.bright]
-black = "#b2aa97"
+black = "#9e0c46"
 blue = "#ed8d7c"
 cyan = "#f76c9a"
-green = "#ffa8b5"
-magenta = "#991667"
-red = "#d6154f"
-white = "#e2dac7"
-yellow = "#ff8e2b"
+green = "#ffa8c3"
+magenta = "#e3006a"
+red = "#ff0000"
+white = "#ffffff"
+yellow = "#f2b600"
+
+#ffa8b5
+# truer bright green that doesn't match the palette #28ed35
 
 [colors.primary]
 background = "#1a0a16"
