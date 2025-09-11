@@ -152,10 +152,19 @@ map ` !true
 map x $$f
 map X !$f
 
+cmd udiskie-umount %{{
+    set -f
+    printf "Unmount $(printf '%s' "$fx" | tr '\n' ',')? [Y/n]\n"
+    read ans
+    ([[ "$ans" = "y" || "$ans" = "" ]] && udiskie-umount -- $fx && printf "Unmounted '$fx'.\n") || printf "Cancelled.\n"
+}}
+
 # dedicated keys for file opener actions
 cmd fileopen ${{
 	set -f
-    case $(file --mime-type -Lb $f) in
+    # case $(file --mime-type -Lb $f) in
+    # mimetype detects inode/mount-point, while file only lists inode/directory
+    case $(mimetype -b $f) in
 		# manually handle archive files for bettter i/o handling and directory reload
 		application/x-brotli) ;&
         application/gzip) ;&
@@ -169,6 +178,7 @@ cmd fileopen ${{
         application/x-xz) ;&
         application/zip) ;&
         application/zstd) lf -remote "send $id \$ouch decompress \$fx"; lf -remote "send $id reload";;
+        inode/mount-point) lf -remote "send $id :udiskie-umount";;
         *) mimeopen $fx;;
         #*) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
     esac
@@ -186,7 +196,9 @@ map O :fileopen-ask
 # use either file extensions and/or mime types here. Below uses an editor for
 # text files and a file opener for the rest.
 cmd open &{{
-    case $(file --mime-type -Lb $f) in
+    # case $(file --mime-type -Lb $f) in
+    # mimetype detects inode/mount-point, while file only lists inode/directory
+    case $(mimetype -b $f) in
         text/*) lf -remote "send $id \$$EDITOR \$fx";;
 		# manually handle archive files for bettter i/o handling and directory reload
 		application/x-brotli) ;&
@@ -243,7 +255,7 @@ map D &dragon-drop $fx
 map <c-f> $lf -remote "send $id :select $(fzf)"
 
 # spawn another instance, useful for opening multiple tabs
-map S $swaymsg "exec $TERMCMD --class filemanager-tab --title lf -e lf \"$PWD\""
+#map S $swaymsg "exec $TERMCMD --class filemanager-tab --title lf -e lf \"$PWD\""
 
 cmd archive %{{
 	set -f

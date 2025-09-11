@@ -51,6 +51,8 @@ zip
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
+noto-fonts-extra
+otf-font-awesome
 otf-latin-modern
 otf-latinmodern-math
 ttf-bitstream-vera
@@ -108,3 +110,5 @@ fish
 git-delta
 ripgrep
 ripgrep-all
+yazi
+zellij

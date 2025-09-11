@@ -12,6 +12,7 @@ wl-clipboard
 wl-clip-persist
 
 waybar
+libayatana-appindicator 
 
 greetd
 greetd-regreet

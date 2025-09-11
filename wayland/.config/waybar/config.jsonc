@@ -193,9 +193,9 @@
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
+        "format-ethernet": "{ipaddr}/{cidr}  ",
+        "tooltip-format": "{ifname} via {gwaddr}  ",
+        "format-linked": "{ifname} (No IP)  ",
         "format-disconnected": "Disconnected ⚠",
         "on-click": "iwgtk"
     },
@@ -231,7 +231,7 @@
 		"on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
 		"on-click-middle": "qpwgraph",
         "format-icons": {
-            "default": [" ", "", "","", "", "", ""]
+            "default": [" ", " ", " "," ", "", "", ""]
         },
 	},
     "custom/power": {
