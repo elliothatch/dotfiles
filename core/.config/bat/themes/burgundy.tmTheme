@@ -364,6 +364,17 @@
 			</dict>
 			<dict>
 				<key>name</key>
+				<string>Json key</string>
+				<key>scope</key>
+				<string>meta.mapping.key.json string.quoted.double.json</string>
+				<key>settings</key>
+				<dict>
+					<key>foreground</key>
+					<string>#ff8e2b</string>
+				</dict>
+			</dict>
+			<dict>
+				<key>name</key>
 				<string>Variable: punctuation</string>
 				<key>scope</key>
 				<string>punctuation.definition.variable</string>
