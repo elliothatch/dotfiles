@@ -1,0 +1,6 @@
+--glob=!.cache/
+--glob=!.git/*
+--glob=!.mozilla/
+--glob=!Debug/
+--glob=!build/
+--glob=!node_modules/
