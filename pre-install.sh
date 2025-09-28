@@ -78,6 +78,8 @@ n
 fdisk /dev/sdb
 n
 
+# for RAID you may need to configure partitions on the bios or with `mdadm`. format the /dev/md0 and /dev/md1 paritions instead of /dev/sda or /dev/sdb
+
 # format the partitions, where R is the root partition number and D is the data parition (on HDD)
 mkfs.ext4 /dev/sdaD
 mkfs.ext4 /dev/sdbR
@@ -91,7 +93,7 @@ mount --mkdir /dev/sdaD /mnt/data
 # update installer keyring
 pacman -Sy archlinux-keyring
 # install packages
-pacstrap -K /mnt base linux linux-firmware base-devel less iwd dialog git neovim zsh
+pacstrap -K /mnt base fish linux linux-firmware base-devel less iwd dialog git neovim
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
@@ -103,12 +105,14 @@ ln -sf /usr/share/zoneinfo/US/Mountain /etc/localtime
 hwclock --systohc
 
 # edit /etc/locale.gen to uncomment en_US.UTF-8 UTF-8
+nvim /etc/locale.gen
+
 locale-gen
 
-# create /etc/locale.conf with:
+nvim /etc/locale.conf
 # LANG=en_US.UTF-8
 
-# create /etc/hostname
+nvim /etc/hostname
 # yourhostname
 
 # network configuration
@@ -141,9 +145,9 @@ lspci -k
 # then reenter chroot
 # complete network configuration...
 
-mkdir /etc/iwd
 # iwd
-# /etc/iwd/main.conf
+mkdir /etc/iwd
+nvim /etc/iwd/main.conf
 # [General]
 # EnableNetworkConfiguration=true
 #
@@ -170,7 +174,7 @@ ls /sys/firmware/efi/efivars
 bootctl install
 
 # bootloader configuration
-# /boot/loader/loader.conf
+nvim /boot/loader/loader.conf
 # default  arch.conf
 # timeout  3
 # console-mode max
@@ -181,7 +185,7 @@ bootctl install
 # add arch loader
 # use UUID of the linux root filesystem
 ls -l /dev/disk/by-uuid
-# /boot/loader/entries/arch.conf
+nvim /boot/loader/entries/arch.conf
 # title   Arch Linux
 # linux   /vmlinuz-linux
 ## initrd  /intel-ucode.img
@@ -193,13 +197,29 @@ ls -l /dev/disk/by-uuid
 # :r!ls -l /dev/disk/by-uuid
 
 cp /boot/loader/entries/arch.conf /boot/loader/entries/arch-fallback.conf
-# /boot/loader/entries/arch-fallback.conf
+nvim /boot/loader/entries/arch-fallback.conf
 # title   Arch Linux (fallback initramfs)
 # linux   /vmlinuz-linux
 ## initrd  /intel-ucode.img
 # initrd  /amd-ucode.img
 # initrd  /initramfs-linux-fallback.img
 # options root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw
+
+# if using intel/fake RAID
+pacman -S mdadm
+
+# save raid configuration
+mdadm --detail --scan >> /etc/mdadm.conf
+
+# add mdadm_udev to mkinitcpio HOOKS
+nvim /etc/mkinitcpio.conf
+# HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block mdadm_udev filesystems fsck)
+
+# regenerate initramfs
+mkinitcpio -P
+
+# end fake RAID
+
 
 # if systemd-boot doesn't run or show up in the BIOS boot menu, bootctl may have failed to add the boot entry
 # view the boot entries
@@ -217,15 +237,18 @@ blkid
 #grub-mkconfig -o /boot/grub/grub.cfg
 
 # set system-wide environment variables
-# /etc/profile.d/editor.sh
+nvim /etc/profile.d/editor.sh
 # #!/bin/sh
 # export EDITOR=nvim
 # export VISUAL=nvim
 
+# source so visudo will work later
+source /etc/profile.d/editor.sh
+
 # create user
 useradd --create-home ellioth
 passwd ellioth
-chsh ellioth -s /bin/zsh
+chsh ellioth -s /bin/fish
 
 # setup hosts
 # Add "ellioth" to sudoers
@@ -237,6 +260,9 @@ ellioth ALL=(ALL:ALL) ALL
 # Defaults env_keep!visudo += "SUDO_EDITOR EDITOR VISUAL"
 Defaults env_keep += "SUDO_EDITOR EDITOR VISUAL"
 
+# give user permisson to manage wifi
+gpasswd -a ellioth network
+
 # reboot
 exit
 umount -R /mnt
@@ -245,9 +271,15 @@ reboot
 # log into user account and start setup
 # if the wifi interface is missing, but worked in the install media, you might need to install the `broadcom-wl` or `wpa_supplicant` package
 
+# optionally, connect to wifi
+# iwctl
+# station wlan0 scan
+# station wlan0 get-networks
+# station wlan0 connect _SSID_
+
 git clone https://github.com/elliothatch/dotfiles.git
 
 cd dotfiles
 # run the setup script for this machine
 # e.g.
-./setup-labyrinth.sh
+./labyrinth/setup.sh
