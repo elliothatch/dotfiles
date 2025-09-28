@@ -75,6 +75,9 @@ rm -R $HOME/.config/fish
 ln -svirn $DIR/.config/* $HOME/.config
 ln -svirn $DIR/dotfiles/.* $HOME
 
+# ssh agent
+systemctl --user enable ssh-agent.service --now
+
 # xdg
 # make firefox default browser
 xdg-settings set default-web-browser firefox.desktop
