@@ -111,8 +111,7 @@ Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'hrsh7th/nvim-cmp'
 
 " treesitter
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/playground'
+Plug 'nvim-treesitter/nvim-treesitter', { 'branch': 'main', 'do': ':TSUpdate'}
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -505,70 +504,20 @@ require('outline').setup({
 })
 
 -- Treesitter
-require'nvim-treesitter.configs'.setup {
-	highlight = {
-		enable = true,
-		-- additional_vim_regex_highlighting = false,
-	},
-	indent = {
-		enable = true
-	},
-	incremental_selection = {
-		enable = true,
-	},
-	-- custom_captures = {
-	-- remove the "constructor" highlight capture because nvim-treesitter annoyingly assumes any identifier starting with a capital letter is a constructor
-	-- this doesn't seem to work, so I removed the @constructor and @constant queries by invoking :TSEditQuery highlights and commenting out the relevant lines from ECMA
-	-- this hopefully won't be necessary after this issue is merged https://github.com/nvim-treesitter/nvim-treesitter/pull/1556
-	--['constructor'] = nil
-	-- },
-	ensure_installed = 'all',
-	--{
-	-- 'bash',
-	-- 'c',
-	-- 'c_sharp',
-	-- 'clojure',
-	-- 'cmake',
-	-- 'cpp',
-	-- 'css',
-	-- 'dockerfile',
-	-- 'gdscript'
-	-- 'go',
-	-- 'gomod',
-	-- 'haskell',
-	-- 'html',
-	-- 'java',
-	-- 'javascript',
-	-- 'jsdoc',
-	-- 'json',
-	-- 'jsonc',
-	-- 'latex',
-	-- 'lua',
-	-- 'php',
-	-- 'python',
-	-- 'r',
-	-- 'regex',
-	-- 'ruby',
-	-- 'rust',
-	-- 'scss',
-	-- 'tsx',
-	-- 'typescript',
-	-- 'yaml',
+require'nvim-treesitter'.install('all')
 
-	-- 'comment',
-	-- 'commonlisp',
-	-- 'elixir',
-	-- 'graphql',
-	-- 'ocaml',
-	-- 'Tree-sitter query language',
-	-- 'swift'
-	--}
-	playground = {
-		enable = true,
-	}
-}
+vim.api.nvim_create_autocmd('FileType', {
+	callback = function(args)
+		local lang = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype)
+		if vim.treesitter.language.add(lang) then
+			vim.treesitter.start()
+			vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+			vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+		end
+	end,
+})
 
-vim.treesitter.language.register('glimmer', 'handlebars')
+-- vim.treesitter.language.register('html', 'handlebars')
 
 -- nvim-dap
 local dap = require('dap')
@@ -922,17 +871,6 @@ endfunction
 " run command on each file in quickfix
 " to save changes, run :argdo update
 nnoremap <expr> <leader>r InputOrCancel('Qargs<bar>:argdo %', '[execute]\|q: ', '') . '<cr>'
-
-function! SynStack()
-  if !exists('*synstack')
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
-" list all syntax symbols at cursor. useful for setting highlight groups
-" obsoleted by treesitter-playground
-nnoremap <leader>. :call SynStack()<cr>
 
 ]])
 

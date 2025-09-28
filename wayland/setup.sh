@@ -16,3 +16,6 @@ sudo mkdir -p /usr/local/share/wayland-sessions
 sudo cp -i $DIR/usr/local/share/wayland-sessions/* /usr/local/share/wayland-sessions
 
 ln -svirn $DIR/.config/* $HOME/.config
+rm $HOME/.config/sway
+mkdir $HOME/.config/sway
+ln -svirn $DIR/.config/sway/config $HOME/.config/sway/config

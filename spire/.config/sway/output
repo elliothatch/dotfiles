@@ -1,0 +1,22 @@
+# vim: set filetype=swayconfig:
+
+### Output configuration
+output eDP-1 mode 2560x1440@59.951Hz
+
+set $processmanager_width 1080px
+set $processmanager_height 640px
+
+set $calculator_width 480px
+set $calculator_height 620px
+
+set $filemanager_width 1080px
+set $filemanager_height 640px
+
+for_window [workspace="2"] layout tabbed
+for_window [workspace="3"] layout tabbed
+
+assign [app_id="firefox"] workspace 2
+assign [app_id="discord"] workspace 3
+assign [class="vesktop"] workspace 3
+assign [app_id="cantata"] workspace 3
+assign [app_id="com.obsproject.Studio"] workspace 3

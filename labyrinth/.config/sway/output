@@ -1,0 +1,28 @@
+# vim: set filetype=swayconfig:
+
+### Output configuration
+output DP-2 mode 3440x1440@59.973Hz
+output DP-1 mode 1680x1050@59.954Hz
+
+output DP-2 position 0 0
+output DP-1 position 3440 250
+
+set $processmanager_width 1080px
+set $processmanager_height 640px
+
+set $calculator_width 480px
+set $calculator_height 620px
+
+set $filemanager_width 1080px
+set $filemanager_height 640px
+
+workspace 1 output DP-2
+workspace 2 output DP-2
+workspace 3 output DP-1 DP-2
+
+for_window [workspace="3"] layout stacking
+
+assign [app_id="discord"] workspace 3
+assign [class="vesktop"] workspace 3
+assign [app_id="cantata"] workspace 3
+assign [app_id="com.obsproject.Studio"] workspace 3

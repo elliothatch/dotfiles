@@ -70,6 +70,8 @@ sudo gpasswd -a $USER network
 mkdir -p $HOME/.zsh
 mkdir -p $HOME/.config
 
+rm -R $HOME/.config/fish
+
 ln -svirn $DIR/.config/* $HOME/.config
 ln -svirn $DIR/dotfiles/.* $HOME
 

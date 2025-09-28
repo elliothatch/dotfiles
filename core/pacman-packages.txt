@@ -13,6 +13,7 @@ alacritty
 #atool
 bc
 exfat-utils
+fastfetch
 firefox
 fzf
 highlight
@@ -23,7 +24,6 @@ less
 lf
 man-db
 ncdu
-neofetch
 nftables
 openssh
 ouch
