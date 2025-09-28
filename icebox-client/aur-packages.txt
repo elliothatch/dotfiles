@@ -1,1 +1,1 @@
-syncthingtray
+syncthingtray-qt6
