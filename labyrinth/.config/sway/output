@@ -1,11 +1,17 @@
 # vim: set filetype=swayconfig:
 
+# swaymsg -t get_outputs
+
 ### Output configuration
-output DP-2 mode 3440x1440@59.973Hz
+output DP-2 mode 3840x2160@240.016Hz
 output DP-1 mode 1680x1050@59.954Hz
 
+output DP-2 scale 1.25
+
 output DP-2 position 0 0
-output DP-1 position 3440 250
+# output DP-1 position 3840 640
+# adjusted for scale factor: 3840/1.25
+output DP-1 position 3072 480
 
 set $processmanager_width 1080px
 set $processmanager_height 640px

@@ -144,10 +144,12 @@ Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'nvim-neotest/nvim-nio'
 
+" utilities
+Plug 'max397574/colortils.nvim'
+Plug 'nvim-tree/nvim-tree.lua'
+
 " c
 Plug 'vim-scripts/headerguard'
-
-Plug 'nvim-tree/nvim-tree.lua'
 
 call plug#end()
 ]])
@@ -346,6 +348,16 @@ vim.lsp.config.pylsp = {
 		}
 	}
 }
+
+-- vim.lsp.config.rust_analyzer = {
+-- 	-- on_attach = lsp_on_attach,
+-- 	capabilities = capabilities,
+-- 	settings = {
+-- 		["rust-analyzer"] = {
+
+-- 		}
+-- 	}
+-- }
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my.lsp', {}),
@@ -702,6 +714,9 @@ require("nvim-tree").setup({
 	}
 })
 
+-- max397574/colortils.nvim
+require("colortils").setup()
+
 -- Bindings
 vim.cmd([[
 
@@ -871,6 +886,10 @@ endfunction
 " run command on each file in quickfix
 " to save changes, run :argdo update
 nnoremap <expr> <leader>r InputOrCancel('Qargs<bar>:argdo %', '[execute]\|q: ', '') . '<cr>'
+
+" max397574/colortils.nvim
+nnoremap <expr> <leader>ih ':ColorHighlight' . '<cr>'
+nnoremap <expr> <leader>ip ':Colortils picker' . '<cr>'
 
 ]])
 

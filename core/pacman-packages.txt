@@ -71,10 +71,12 @@ mpc
 mpd
 timidity++
 
+
 # media
 imagemagick
 imv
 vlc
+vlc-plugin-ffmpeg
 
 # printer
 cups

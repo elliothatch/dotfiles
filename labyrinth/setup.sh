@@ -10,6 +10,9 @@ sudo pacman -S amd-ucode
 # radeon
 sudo pacman -S mesa vulkan-radeon xf86-video-amdgpu
 
+# multilib
+sudo pacman -S lib32-mesa lib32-vulkan-radeon steam
+
 $DIR/../wayland/setup.sh
 ln -svirn $DIR/.config/sway/output $HOME/.config/sway/output
 
