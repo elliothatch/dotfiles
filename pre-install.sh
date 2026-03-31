@@ -263,6 +263,9 @@ Defaults env_keep += "SUDO_EDITOR EDITOR VISUAL"
 # give user permisson to manage wifi
 gpasswd -a ellioth network
 
+# give user permission to access serial ports and devices
+gpasswd -a ellioth uucp
+
 # reboot
 exit
 umount -R /mnt

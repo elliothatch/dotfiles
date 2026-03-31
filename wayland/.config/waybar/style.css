@@ -120,6 +120,12 @@ separator+menuitem {
     padding: 0 8px;
 }
 
+
+.bar-minimal .modules-center {
+	border-left: none;
+	border-right: none;
+}
+
 .modules-center > widget > label, .modules-center > widget > box {
 	margin-bottom: 3px;
 	padding: 0 10px;
