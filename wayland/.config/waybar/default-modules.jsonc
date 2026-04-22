@@ -33,7 +33,8 @@
         "tooltip-format": "{app}: {title}"
     },
     "systemd-failed-units": {
-    	"format": "{nr_failed} systemd units failed"
+    	"format": "{nr_failed} systemd units failed",
+    	"hide-on-ok": true
 	},
     "mpd": {
 		// music icon: 

@@ -6,4 +6,8 @@ bindsym Mod4+shift+e exec swaynag \
 -b 'Poweroff' 'systemctl poweroff' \
 -b 'Reboot' 'systemctl reboot'
 
+exec swayidle -w \
+         timeout 60 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         timeout 300 'systemctl suspend'
+
 include /etc/sway/config.d/*
