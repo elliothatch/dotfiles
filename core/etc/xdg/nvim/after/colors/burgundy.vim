@@ -1,5 +1,5 @@
 " Vim color file - burgundy
-" elliot hatch - 2017
+" elliot hatch - 2024
 set background=dark
 if version > 580
 	hi clear
@@ -56,11 +56,6 @@ hi Debug guifg=#c9265a guibg=NONE guisp=NONE gui=NONE ctermfg=1 ctermbg=NONE cte
 
 hi Underlined guifg=#e3006a guibg=NONE guisp=NONE gui=underline ctermfg=161 ctermbg=NONE cterm=underline
 
-" tree sitter (WIP)
-hi! link @tag.delimiter Delimiter
-hi! link @tag.attribute Special
-hi! link @property Special
-
 "ignore
 hi Error guifg=#ffcfcf guibg=#7d0d05 guisp=#7d0d05 gui=NONE ctermfg=224 ctermbg=3 cterm=NONE
 hi Todo guifg=#f2ead7 guibg=#782963 guisp=#782963 gui=NONE ctermfg=230 ctermbg=89 cterm=NONE
@@ -116,22 +111,84 @@ hi PMenuThumb guifg=NONE guibg=#4d152b guisp=#4d152b gui=NONE ctermfg=NONE cterm
 
 hi Directory guifg=#f2b600 guibg=NONE guisp=NONE gui=bold ctermfg=214 ctermbg=NONE cterm=bold
 
-hi LspDiagnosticsDefaultError guifg=#d11b2d guibg=#240d19 guisp=NONE gui=NONE ctermfg=160 ctermbg=235 cterm=NONE
-hi LspDiagnosticsSignError guifg=#d11b2d guibg=#240d19 guisp=NONE gui=NONE ctermfg=160 ctermbg=235 cterm=NONE
+" LSP
+hi link TSProperty Normal
+hi link TSParameter Normal
 
-hi LspDiagnosticsDefaultWarning guifg=#f2b600 guibg=#240d19 guisp=NONE gui=NONE ctermfg=214 ctermbg=235 cterm=none
-hi LspDiagnosticsDefaultHint guifg=#f2b600 guibg=#240d19 guisp=NONE gui=NONE ctermfg=214 ctermbg=235 cterm=none
-hi LspDiagnosticsDefaultInfo guifg=#f2ead7 guibg=#240d19 guisp=#1a0a16 gui=NONE ctermfg=230 ctermbg=235 cterm=NONE
+" tree sitter (WIP)
+hi! link @tag.delimiter Delimiter
+hi! link @tag.attribute Special
+hi! link @property Special
 
-" LSP highligh symbols on hover
+" markdown
+hi! link @markup.heading Title
+hi! link @markup.heading.1.marker Delimiter
+hi! link @markup.heading.2.marker Delimiter
+hi! link @markup.heading.3.marker Delimiter
+hi! link @markup.heading.4.marker Delimiter
+hi! link @markup.heading.5.marker Delimiter
+hi! link @markup.heading.6.marker Delimiter
+
+hi! @markup.strong gui=bold cterm=bold
+hi! @markup.italic gui=italic cterm=italic
+hi! @markup.strikethrough gui=strikethrough cterm=strikethrough
+
+hi! link @markup.quote String " Number
+
+hi! link @markup.list Delimiter
+
+
+hi! link @markup.raw String
+hi! link @markup.raw.block String
+hi! link @markup.raw.delimiter Delimiter " or Special?
+
+hi! link @markup.link Delimiter " [] and () around links
+hi! link @markup.link.label Identifier
+hi! link @markup.link.url @text.uri
+" annoyingly, there is no capture group currently for the <> delimiters of a simple url <https://test.com>. the markdown parser seems to just include the whole thing as the link
+
+" Overrides to make treesitter typescript highlighting better
+" In the future should rethink the default color associations, since their usage has changed quite a lot
+" e.g. (Identifier and Keyword shouldn't be the same)
+"hi! link @keyword Special
+"hi! link @keyword.conditional Conditional
+"hi! link @keyword.exception Conditional
+"hi! link @keyword.modifier Identifier
+"hi! link @variable Identifier
+"
+"hi! link @lsp.type.property.typescript Identifier
+"hi! link @lsp.typemod.property.declaration.typescript Normal
+"
+"hi! link @lsp.typemod.interface.declaration.typescript Function
+"hi! link @lsp.typemod.class.declaration.typescript Function
+
+hi! link @keyword.conditional Conditional
+hi! link @keyword.exception Conditional
+hi! link @keyword.modifier Identifier
+hi! link @variable Normal
+
+hi! link @lsp.type.property.javascript Normal
+hi! link @lsp.type.property.typescript Normal
+hi! link @lsp.typemod.property.declaration.typescript Normal
+
+hi! link @lsp.typemod.interface.declaration.typescript Function
+hi! link @lsp.typemod.class.declaration.typescript Function
+
+
+" LSP popups
+hi! DiagnosticError guifg=#d11b2d guibg=#240d19 guisp=NONE gui=NONE ctermfg=160 ctermbg=235 cterm=NONE
+hi! DiagnosticWarning guifg=#f2b600 guibg=#240d19 guisp=NONE gui=NONE ctermfg=214 ctermbg=235 cterm=NONE
+hi! DiagnosticHint guifg=#f2ead7 guibg=#240d19 guisp=#1a0a16 gui=NONE ctermfg=230 ctermbg=235 cterm=NONE
+hi! DiagnosticInfo guifg=#f2ead7 guibg=#240d19 guisp=#1a0a16 gui=NONE ctermfg=230 ctermbg=235 cterm=NONE
+
+hi! DiagnosticUnderlineError   guisp=#d11b2d gui=underline cterm=underline
+hi! DiagnosticUnderlineWarning guisp=#f2b600 gui=underline cterm=underline
+hi! DiagnosticUnderlineHint    guisp=#f2ead7 gui=underline cterm=underline
+hi! DiagnosticUnderlineInfo    guisp=#f2ead7 gui=underline cterm=underline
+
+
+" LSP highlight symbols on hover
 hi LspReferenceRead gui=bold cterm=bold
 " not sure when these two highglight groups are used
 hi LspReferenceWrite gui=bold cterm=bold
 hi LspReferenceText gui=bold cterm=bold
-
-
-
-"hi user1 guifg=#00ff8b guibg=#3e3e5e guisp=#3e3e5e gui=NONE ctermfg=48 ctermbg=60 cterm=NONE
-"hi user2 guifg=#7070a0 guibg=#3e3e5e guisp=#3e3e5e gui=NONE ctermfg=103 ctermbg=60 cterm=NONE
-
-"hi lcursor guifg=#404040 guibg=#8fff8b guisp=#8fff8b gui=NONE ctermfg=238 ctermbg=120 cterm=NONE

@@ -44,8 +44,8 @@
         "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ♫",
         "unknown-tag": "N/A",
         "interval": 1,
-        "on-click": "cantata",
-        "on-click-right": "mpc toggle",
+        "on-click": "mpc toggle",
+        "on-click-right": "cantata",
         "consume-icons": {
             "on": " "
         },

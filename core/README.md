@@ -25,3 +25,8 @@ yay -S alacritty-sixel-git
 set previewer ~/.config/lf/previewer-sixel
 set sixel
 ```
+
+## /etc/xdg
+Some system-wide desktop configurations are loaded from `/etc/xdg`. One use of this is to include a basic neovim configuration.
+
+Fun fact: the system-wide colorscheme configuration is placed in `after/`, because colorschemes effectively load in REVERSE order from every other configuration. Configuration files are loaded in 'runtimepath' order (starting with system-wide configurations, then user configs) allowing user configuration to load later and overwrite system defaults. However, when a colorscheme with a given name is loaded, vim ignores all future instances of that colorscheme, meaning that a fallback system-wide colorscheme actually needs to be loaded LAST.
