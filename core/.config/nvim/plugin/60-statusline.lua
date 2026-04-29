@@ -1,16 +1,28 @@
 vim.cmd('highlight StatusLineBold gui=bold cterm=bold')
 
+-- replace a string with an escaped version that can be passed as a verbatim pattern (e.g. to gsub)
+function EscapePattern(s)
+    return (s:gsub('[%-%.%+%[%]%(%)%$%^%%%?%*]','%%%1'))
+	-- return s:gsub("[%(%)%.%%%+%-%*%?%[%^%$%]]", "%%%1")
+end
+
 function FilepathStatus()
 	local winwidth = vim.api.nvim_win_get_width(0)
-	local parentSegment = vim.fn.expand('%:p:h:h')
-	local cwdSegment = vim.fn.fnamemodify(vim.fn.expand('%:h'), ':~:.')
-	local fileSegment = vim.fn.expand('%:t')
+	local fullPath = vim.fn.expand('%:p:~')
+	local nonParentSegment = vim.fn.fnamemodify(fullPath, ':.')
+
+	-- remove nonparent segment from end of file path
+	local parentSegment = string.gsub(fullPath, EscapePattern(nonParentSegment) .. '$', '')
+ 	--
+	-- relative to cwd, remove filename
+	local cwdSegment = vim.fn.fnamemodify(fullPath, ':.:h') .. '/'
+	local fileSegment = vim.fn.fnamemodify(fullPath, ':t')
 
 	if winwidth > 60 then
 		-- print full path, and truncate file path from left, so parent directories are cut off
 		return "%<"
-			.. "%#StatusLineNC#" .. parentSegment .. "/%*"
-			.. cwdSegment .. "/"
+			.. "%#StatusLineNC#" .. parentSegment .. "%*"
+			.. cwdSegment
 			.. "%#StatusLineBold#" .. fileSegment .. "%*"
 			.. "  "
 	else
