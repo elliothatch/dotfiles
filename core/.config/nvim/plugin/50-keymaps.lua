@@ -84,15 +84,20 @@ vim.keymap.set('t', '<C-L>', '<C-\\><C-N><C-W>L', {silent = true})
 vim.keymap.set('t', '<C-H>', '<C-\\><C-N><C-W>H', {silent = true})
 
 -- LSP
-vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR}) end, {silent=true})
-vim.keymap.set('n', ']e', function() vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR}) end, {silent=true})
+vim.keymap.set('n', 'grd', function() vim.lsp.buf.definition() end, {silent=true})
 vim.keymap.set('n', 'gre', function() vim.diagnostic.open_float() end, {silent=true})
 vim.keymap.set('n', 'grE', function() vim.diagnostic.setloclist() end, {silent=true})
 
--- Undotree
-vim.keymap.set('n', '<leader>u', function() vim.cmd('Undotree') end)
+vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR}) end, {silent=true})
+vim.keymap.set('n', ']e', function() vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR}) end, {silent=true})
 
 -- Plugins
+-- nvim.undotree
+-- vim.keymap.set('n', '<leader>u', function() vim.cmd('Undotree') end)
+
+-- bbill/undotree
+vim.keymap.set('n', '<leader>u', function() vim.cmd('UndotreeToggle') end)
+
 -- ibhagwan/fzf-lua
 vim.keymap.set('n', '<C-P>', function() require('fzf-lua').files() end)
 vim.keymap.set('n', '<C-Space>', function() require('fzf-lua').buffers() end)
@@ -106,3 +111,41 @@ vim.keymap.set('n', 'gs', '<Plug>(GrepperOperator)', {remap = true})
 vim.keymap.set('x', 'gs', '<Plug>(GrepperOperator)', {remap = true})
 
 vim.keymap.set('n', '<leader>ss', function() vim.cmd('Grepper') end)
+
+-- andyg/leap.nvim
+vim.keymap.set({'n', 'x', 'o'}, 's', '<Plug>(leap)')
+vim.keymap.set('n', 'S', '<Plug>(leap-from-window)')
+
+-- enahnced f/t motions
+-- leap "add_repeat_mappings" starts the search group from the cursor forward, meaning if you f in the middle of a line, you can't go backward with , (instead, it jumps to the _last_ occurance of the match on the window
+-- not usable with the current configuration
+-- do
+-- 	local function ft(key_specific_args)
+-- 		require('leap').leap(
+-- 			vim.tbl_deep_extend('keep', key_specific_args, {
+-- 				inputlen = 1,
+-- 				inclusive = true,
+-- 				opts = {
+-- 					-- Force autojump.
+-- 					labels = '',
+-- 					-- Match the modes where you don't need labels (`:h mode()`).
+-- 					safe_labels = vim.fn.mode(1):match('o') and '' or nil,
+-- 					keys = {
+-- 						next_target = ';',
+-- 						prev_target = ',',
+-- 					}
+-- 				},
+-- 			})
+-- 		)
+-- 	end
+--
+-- 	vim.keymap.set({'n', 'x', 'o'}, 'f', function() ft {} end)
+-- 	vim.keymap.set({'n', 'x', 'o'}, 'F', function() ft {backward = true} end)
+-- 	vim.keymap.set({'n', 'x', 'o'}, 't', function() ft {offset = -1} end)
+-- 	vim.keymap.set({'n', 'x', 'o'}, 'T', function() ft {backward = true, offset = 1} end)
+--
+-- 	require('leap.user').add_repeat_mappings(';', ',', {
+-- 		relative_directions = true,
+-- 		modes = {'n', 'x', 'o'},
+-- 	})
+-- end

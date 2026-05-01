@@ -68,7 +68,13 @@ require('treesitter-context').setup{
 vim.cmd('highlight TreesitterContext guifg=NONE guibg=#4d152b guisp=#4d152b gui=NONE ctermfg=NONE ctermbg=52 cterm=NONE')
 vim.cmd('highlight TreesitterContextLineNumber guifg=#f7f7f7 guibg=#611835 guisp=#611835 gui=NONE ctermfg=15 ctermbg=52 cterm=NONE')
 
--- ggandor/lightspeed.nvim
-require('lightspeed').setup {
-	ignore_case = true
-}
+require('leap').opts.safe_labels = ''
+-- Skip preview for matches starting with whitespace or an
+-- alphabetic mid-word character: foobar[baaz] = quux
+--                                *    ***  ** * *  *
+require('leap').opts.preview = function(ch0, ch1, ch2)
+  return not (
+    ch1:match('%s')
+    or (ch0:match('%a') and ch1:match('%a') and ch2:match('%a'))
+  )
+end

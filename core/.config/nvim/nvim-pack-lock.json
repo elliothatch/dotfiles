@@ -40,9 +40,9 @@
       "rev": "2e29d5f233defe3c5587df0e4dd29af2bd95a5a7",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
-    "lightspeed.nvim": {
-      "rev": "fcc72d8a4d5f4ebba62d8a3a0660f88f1b5c3b05",
-      "src": "https://github.com/ggandor/lightspeed.nvim"
+    "leap.nvim": {
+      "rev": "156c71aabb68d520c6269db4103c8e5580e3ea67",
+      "src": "https://codeberg.org/andyg/leap.nvim"
     },
     "markdown-preview.nvim": {
       "rev": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee",
@@ -75,6 +75,10 @@
     "oil.nvim": {
       "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "undotree": {
+      "rev": "6fa6b57cda8459e1e4b2ca34df702f55242f4e4d",
+      "src": "https://github.com/mbbill/undotree"
     },
     "vim-fugitive": {
       "rev": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0",

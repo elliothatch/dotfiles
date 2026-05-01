@@ -1,3 +1,31 @@
+-- runtimepath: don't load system configuration, as it can introduce configuration conflicts and unwanted bindings
+vim.opt.runtimepath = ''
+ .. vim.fn.stdpath('config') .. ','
+ .. vim.fn.stdpath('data') .. '/site,'
+ .. vim.fn.expand('$VIMRUNTIME') .. ','
+ .. '/usr/lib/nvim,'
+ .. vim.fn.stdpath('data') .. '/site/after,'
+ .. vim.fn.stdpath('config') .. '/after'
+
+-- for reference, below is a recreation of the default runtimepath
+-- vim.opt.runtimepath = ''
+--  .. vim.fn.stdpath('config') .. ','
+--  .. table.concat(vim.fn.stdpath('config_dirs'), ',') .. ','
+--
+--  .. vim.fn.stdpath('data') .. '/site,'
+--  .. table.concat(vim.fn.stdpath('data_dirs'), '/site,') .. '/site,'
+--
+--  .. vim.fn.expand('$VIMRUNTIME') .. ','
+--  .. '/usr/lib/nvim,'
+--
+--  .. table.concat(vim.fn.stdpath('data_dirs'), '/site/after,') .. '/site/after,'
+--  .. vim.fn.stdpath('data') .. '/site/after,'
+--
+--  .. table.concat(vim.fn.stdpath('config_dirs'), '/after,') .. '/after,'
+--  .. vim.fn.stdpath('config') .. '/after,'
+--  .. '/usr/share/vim/vimfiles,'
+--  .. '/usr/share/vim/vimfiles/after'
+
 -- Editor settings
 vim.opt.shiftwidth = 4
 vim.opt.shiftround = true
@@ -64,7 +92,8 @@ vim.cmd.packadd{'justify', bang = true}
 -- vim.cmd.packadd{'nohlsearch', bang = true}
 vim.cmd.packadd{'termdebug', bang = true}
 vim.cmd.packadd{'nvim.tohtml', bang = true}
-vim.cmd.packadd{'nvim.undotree', bang = true}
+-- nvim.undotree is much worse than mbbill/undotree
+-- vim.cmd.packadd{'nvim.undotree', bang = true}
 
 vim.api.nvim_create_autocmd('PackChanged', { callback = function(ev)
 	local name, kind = ev.data.spec.name, ev.data.kind
@@ -82,6 +111,7 @@ vim.pack.add({
 	'https://github.com/ibhagwan/fzf-lua',
 	'https://github.com/kshenoy/vim-signature',
 	'https://github.com/mhinz/vim-grepper',
+	'https://github.com/mbbill/undotree',
 
 	-- treesitter
 	'https://github.com/nvim-treesitter/nvim-treesitter',
@@ -119,7 +149,7 @@ vim.pack.add({
 	'https://github.com/nvim-treesitter/nvim-treesitter-context',
 
 	-- misc
-	'https://github.com/ggandor/lightspeed.nvim',
+	'https://codeberg.org/andyg/leap.nvim',
 	'https://github.com/max397574/colortils.nvim',
 
 	-- 'https://github.com/vim-scripts/headerguard',
